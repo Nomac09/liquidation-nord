@@ -13,19 +13,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No images provided' }, { status: 400 })
     }
 
-    // Check total size of batch (limit to ~5MB per batch)
-    let totalSize = 0
-    files.forEach(file => {
-      totalSize += file.size
-    })
-    
-    if (totalSize > 5 * 1024 * 1024) { // 5MB limit per batch
-      return NextResponse.json({ 
-        error: 'Batch too large', 
-        details: `Total size ${(totalSize / 1024 / 1024).toFixed(1)}MB exceeds 5MB limit` 
-      }, { status: 413 })
-    }
-
     const results = {
       matched: 0,
       total: files.length,
@@ -54,14 +41,15 @@ export async function POST(request: NextRequest) {
           continue
         }
 
-        // Add placeholder image URL
-        const placeholderUrl = `https://via.placeholder.com/400x300?text=Product+${ean}`
+        // For now, let's use a temporary placeholder that actually works
+        // Later we'll integrate with UploadThing properly
+        const tempImageUrl = `https://via.placeholder.com/400x300.png?text=${ean}`
         
         // Add to product's photos array
         await Product.updateOne(
           { ean },
           { 
-            $push: { photos: placeholderUrl },
+            $push: { photos: tempImageUrl },
             $set: { updatedAt: new Date() }
           }
         )
