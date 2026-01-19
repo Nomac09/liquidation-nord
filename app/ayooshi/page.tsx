@@ -10,7 +10,8 @@ export default function AyooshiEntry() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === 'liquidation2024!') {
+    // Use the correct password from your .env
+    if (password === 'FreEPalestine2026*!!') {
       sessionStorage.setItem('ayooshi-auth', 'true')
       router.push('/ayooshi/dashboard')
     } else {
@@ -24,8 +25,8 @@ export default function AyooshiEntry() {
         <h1 className="text-2xl font-bold text-anthracite mb-6">
           Ayooshi Admin 🔐
         </h1>
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
+        <form onSubmit={handleLogin} className="space
+<div>
             <label className="block text-sm font-medium mb-2">
               Mot de passe
             </label>
