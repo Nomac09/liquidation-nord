@@ -1,5 +1,3 @@
-
-
 import ImageGallery from '@/components/ImageGallery'
 import DeliveryToggle from '@/components/DeliveryToggle'
 import AddToCart from '@/components/AddToCart'
@@ -39,7 +37,7 @@ export default async function ProductPage({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Image Gallery */}
           <div>
-            <ImageGallery photos={product.photos} name={product.name} />
+            <ImageGallery photos={product.photos} productName={product.name} />
           </div>
 
           {/* Product Info */}
@@ -96,7 +94,7 @@ export default async function ProductPage({
             <div className="bg-oak text-white p-4 rounded-lg">
               <p className="font-semibold mb-2">📱 Voir aussi sur Leboncoin</p>
               <a 
-                href={`https://www.leboncoin.fr/recherche?text=${encodeURIComponent(product.name)}`}
+                href={`https://www.leboncoin.fr/recherche?text= ${encodeURIComponent(product.name)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:no-underline"
