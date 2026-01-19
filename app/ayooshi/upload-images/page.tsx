@@ -1,25 +1,27 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
+import { useState } from 'react'
 
 export default function BulkImageUpload() {
   const [uploading, setUploading] = useState(false)
-  const [results, setResults] = useState<{
-    matched: number
-    total: number
-    errors: string[]
-  }>({ matched: 0, total: 0, errors: [] })
+  const [results, setResults] = useState({
+    matched: 0,
+    total: 0,
+    errors: [] as string[]
+  })
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || files.length === 0) return
+
     setUploading(true)
-    setResults({ matched: 0, total: acceptedFiles.length, errors: [] })
+    setResults({ matched: 0, total: files.length, errors: [] })
 
     try {
       const formData = new FormData()
-      acceptedFiles.forEach(file => {
-        formData.append('images', file)
-      })
+      for (let i = 0; i < files.length; i++) {
+        formData.append('images', files[i])
+      }
 
       const response = await fetch('/api/upload-images-bulk', {
         method: 'POST',
@@ -37,28 +39,20 @@ export default function BulkImageUpload() {
       } else {
         setResults({
           matched: 0,
-          total: acceptedFiles.length,
+          total: files.length,
           errors: [data.error || 'Upload failed']
         })
       }
     } catch (error) {
       setResults({
         matched: 0,
-        total: acceptedFiles.length,
+        total: files.length,
         errors: ['Network error during upload']
       })
     } finally {
       setUploading(false)
     }
-  }, [])
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'image/*': ['.jpg', '.jpeg', '.png', '.webp']
-    },
-    multiple: true
-  })
+  }
 
   return (
     <div className="min-h-screen bg-beige p-8">
@@ -68,33 +62,37 @@ export default function BulkImageUpload() {
         </h1>
 
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div
-            {...getRootProps()}
-            className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors
-              ${isDragActive ? 'border-oak bg-oak/5' : 'border-gray-300 hover:border-oak'}`}
-          >
-            <input {...getInputProps()} />
-            {isDragActive ? (
-              <p className="text-lg">Drop the images here...</p>
-            ) : (
-              <div>
-                <p className="text-lg mb-2">Drag & drop your EAN-named images here</p>
-                <p className="text-sm text-gray-600">
-                  or click to select files (e.g., 8718475600800_m.jpg)
-                </p>
-              </div>
-            )}
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
+            <input 
+              type="file" 
+              multiple 
+              accept="image/*" 
+              onChange={handleFileChange}
+              className="hidden"
+              id="image-upload"
+              disabled={uploading}
+            />
+            <label 
+              htmlFor="image-upload" 
+              className={`cursor-pointer inline-block p-4 rounded-lg border-2 border-dashed transition-colors
+                ${uploading ? 'border-gray-200 text-gray-400' : 'border-gray-300 hover:border-oak hover:bg-oak/5'}`}
+            >
+              {uploading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-oak mr-3"></div>
+                  <p>Uploading...</p>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-lg mb-2">Click to select EAN-named images</p>
+                  <p className="text-sm text-gray-600">
+                    or drag & drop files (e.g., 8718475600800_m.jpg)
+                  </p>
+                </div>
+              )}
+            </label>
           </div>
         </div>
-
-        {uploading && (
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <div className="flex items-center">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-oak mr-3"></div>
-              <p>Uploading and matching images...</p>
-            </div>
-          </div>
-        )}
 
         {results.total > 0 && !uploading && (
           <div className="bg-white rounded-lg shadow-sm p-6">
