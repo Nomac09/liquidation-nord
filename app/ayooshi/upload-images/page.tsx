@@ -14,6 +14,7 @@ export default function BulkImageUpload() {
     const files = event.target.files
     if (!files || files.length === 0) return
 
+    console.log(`Selected ${files.length} files`)
     setUploading(true)
     setResults({ matched: 0, total: files.length, errors: [] })
 
@@ -21,22 +22,41 @@ export default function BulkImageUpload() {
       const formData = new FormData()
       for (let i = 0; i < files.length; i++) {
         formData.append('images', files[i])
+        console.log(`Adding file ${i + 1}: ${files[i].name}`)
       }
 
+      console.log('Sending request to /api/upload-images-bulk...')
       const response = await fetch('/api/upload-images-bulk', {
         method: 'POST',
         body: formData
       })
 
-      const data = await response.json()
+      console.log('Response status:', response.status)
+      const responseText = await response.text()
+      console.log('Response text:', responseText)
+
+      let data
+      try {
+        data = JSON.parse(responseText)
+      } catch (e) {
+        console.error('Failed to parse JSON:', e)
+        setResults({
+          matched: 0,
+          total: files.length,
+          errors: [`Invalid response from server: ${responseText.slice(0, 200)}`]
+        })
+        return
+      }
       
       if (data.success) {
+        console.log('Upload successful:', data)
         setResults({
           matched: data.matched,
           total: data.total,
           errors: data.errors
         })
       } else {
+        console.log('Upload failed:', data)
         setResults({
           matched: 0,
           total: files.length,
@@ -44,10 +64,11 @@ export default function BulkImageUpload() {
         })
       }
     } catch (error) {
+      console.error('Network error:', error)
       setResults({
         matched: 0,
         total: files.length,
-        errors: ['Network error during upload']
+        errors: [`Network error: ${error instanceof Error ? error.message : String(error)}`]
       })
     } finally {
       setUploading(false)
