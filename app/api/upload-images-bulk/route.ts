@@ -19,58 +19,46 @@ export async function POST(request: NextRequest) {
       errors: [] as string[]
     }
 
-    // Simple file upload approach using your existing uploadthing setup
+    // Process each file directly
     for (const file of files) {
       try {
-        // Create form data for single file
-        const singleFormData = new FormData()
-        singleFormData.append('file', file)
+        // For now, let's create a simple local upload approach
+        // We'll store file info and create URLs manually
         
-        // Upload to your existing uploadthing endpoint
-        const uploadResponse = await fetch('/api/uploadthing', {
-          method: 'POST',
-          body: singleFormData
-        })
-
-        if (!uploadResponse.ok) {
-          throw new Error(`Upload failed: ${uploadResponse.status}`)
+        // Extract EAN from filename (e.g., "8718475600800_m.jpg" → "8718475600800")
+        const filename = file.name
+        const eanMatch = filename.match(/^(\d{13})/)
+        
+        if (!eanMatch) {
+          results.errors.push(`No valid EAN found in filename: ${filename}`)
+          continue
         }
 
-        const uploadData = await uploadResponse.json()
+        const ean = eanMatch[1]
         
-        if (uploadData.url) {
-          // Extract EAN from filename (e.g., "8718475600800_m.jpg" → "8718475600800")
-          const filename = file.name
-          const eanMatch = filename.match(/^(\d{13})/)
-          
-          if (!eanMatch) {
-            results.errors.push(`No valid EAN found in filename: ${filename}`)
-            continue
-          }
-
-          const ean = eanMatch[1]
-          
-          // Find product and add image URL
-          const product = await Product.findOne({ ean })
-          
-          if (!product) {
-            results.errors.push(`No product found with EAN: ${ean}`)
-            continue
-          }
-
-          // Add image to product's photos array
-          await Product.updateOne(
-            { ean },
-            { 
-              $push: { photos: uploadData.url },
-              $set: { updatedAt: new Date() }
-            }
-          )
-          
-          results.matched++
-        } else {
-          results.errors.push(`No URL returned for ${file.name}`)
+        // Find product 
+        const product = await Product.findOne({ ean })
+        
+        if (!product) {
+          results.errors.push(`No product found with EAN: ${ean}`)
+          continue
         }
+
+        // For now, create a placeholder URL - we'll implement proper file storage next
+        // This allows us to test the matching logic
+        const placeholderUrl = `https://placeholder.com/image/${ean}?text=Image+for+${ean}`
+        
+        // Add placeholder to product's photos array
+        await Product.updateOne(
+          { ean },
+          { 
+            $push: { photos: placeholderUrl },
+            $set: { updatedAt: new Date() }
+          }
+        )
+        
+        results.matched++
+        
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error)
         results.errors.push(`Error processing ${file.name}: ${errorMessage}`)
