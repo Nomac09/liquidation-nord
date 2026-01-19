@@ -3,77 +3,6 @@ import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 import * as XLSX from 'xlsx'
 
-// Category mapping function
-function mapCategory(inputCategory: string): string {
-  const categoryMap: { [key: string]: string } = {
-    // Lighting & electrical → Bricolage
-    'Lighting': 'Bricolage',
-    'Christmas Lighting': 'Bricolage',
-    'Light Ropes & Strings': 'Bricolage',
-    
-    // Christmas items → Bazar
-    'Christmas Trees': 'Bazar',
-    'Holiday Ornaments': 'Bazar',
-    'Christmas Tree Skirts': 'Bazar',
-    'Wreaths & Garlands': 'Bazar',
-    
-    // Furniture → Mobilier
-    'Room Dividers': 'Mobilier',
-    'Wall Shelves & Ledges': 'Mobilier',
-    'Coffee Tables': 'Mobilier',
-    'End Tables': 'Mobilier',
-    'Headboards & Footboards': 'Mobilier',
-    'Beds & Bed Frames': 'Mobilier',
-    'Bedside Tables': 'Mobilier',
-    'Shoe Racks & Organisers': 'Mobilier',
-    'Plant Stands': 'Mobilier',
-    'Rocking Chairs': 'Mobilier',
-    'Arm Chairs, Recliners & Sleeper Chairs': 'Mobilier',
-    'Folding Chairs & Stools': 'Mobilier',
-    'Foot Rests': 'Mobilier',
-    'Chaises Longues': 'Mobilier',
-    'Kitchen & Dining Room Chairs': 'Mobilier',
-    'Table & Bar Stools': 'Mobilier',
-    'Kitchen & Dining Benches': 'Mobilier',
-    'Sofas': 'Mobilier',
-    
-    // Storage → Mobilier
-    'Storage Cabinets & Lockers': 'Mobilier',
-    'Household Storage Boxes': 'Mobilier',
-    'Household Storage Drawers': 'Mobilier',
-    'Buffets & Sideboards': 'Mobilier',
-    'Cabinets & Storage': 'Mobilier',
-    'Closet Organisers & Garment Racks': 'Mobilier',
-    'Media Storage Cabinets & Racks': 'Mobilier',
-    'Bookcases & Standing Shelves': 'Mobilier',
-    
-    // Bathroom → Bricolage
-    'Shower Heads': 'Bricolage',
-    'Bathroom Basins': 'Bricolage',
-    'Bathroom Furniture Sets': 'Bricolage',
-    'Bathroom Vanity Units': 'Bricolage',
-    
-    // Outdoor → Bricolage
-    'Outdoor Furniture Covers': 'Bricolage',
-    'Outdoor Tables': 'Bricolage',
-    'Outdoor Chairs': 'Bricolage',
-    'Outdoor Sofas': 'Bricolage',
-    'Outdoor Umbrellas & Sunshades': 'Bricolage',
-    'Pots & Planters': 'Bricolage',
-    
-    // Textiles → Textile
-    'Rugs': 'Textile',
-    'Blankets': 'Textile',
-    'Curtains & Drapes': 'Textile',
-    'Slipcovers': 'Textile',
-    'Chair & Sofa Cushions': 'Textile',
-    
-    // Default → Bazar
-  }
-  
-  return categoryMap[inputCategory] || 'Bazar'
-}
-
 export async function POST(request: NextRequest) {
   try {
     await connectDB()
@@ -102,7 +31,7 @@ export async function POST(request: NextRequest) {
       try {
         let ean = String((row as any)['EAN'] || '').trim()
         const name = String((row as any)['Name'] || '').trim()
-        const inputCategory = String((row as any)['Category'] || '').trim()
+        const category = String((row as any)['Category'] || 'Bazar').trim()
         const rrpStr = String((row as any)['RRP'] || '0').replace(',', '.')
         const rrp = parseFloat(rrpStr) || 0
         const quantity = parseInt(String((row as any)['Quantity'] || '1')) || 1
@@ -120,13 +49,11 @@ export async function POST(request: NextRequest) {
           continue
         }
 
-        const category = mapCategory(inputCategory)
-
         const productData = {
           ean,
           sku: String((row as any)['SKU'] || '').trim(),
           name,
-          category,
+          category, // Now accepts any category from Excel
           rrp,
           quantity,
           photos: [] as string[],
