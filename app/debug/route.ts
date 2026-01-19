@@ -25,7 +25,7 @@ export async function GET() {
         firstPhoto: p.photos?.[0]
       }))
     })
-  } catch (error) {
+  } catch (error: any) {  // Fixed: added ': any' type
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
