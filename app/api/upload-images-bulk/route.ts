@@ -3,21 +3,27 @@ import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 
 export async function POST(request: NextRequest) {
-  console.log('=== BULK IMAGE UPLOAD STARTED ===')
-  
   try {
-    console.log('Connecting to DB...')
     await connectDB()
-    console.log('DB connected successfully')
     
-    console.log('Parsing form data...')
     const data = await request.formData()
     const files = data.getAll('images') as File[]
-    console.log(`Found ${files.length} files`)
     
     if (!files || files.length === 0) {
-      console.log('No files provided')
       return NextResponse.json({ error: 'No images provided' }, { status: 400 })
+    }
+
+    // Check total size of batch (limit to ~5MB per batch)
+    let totalSize = 0
+    files.forEach(file => {
+      totalSize += file.size
+    })
+    
+    if (totalSize > 5 * 1024 * 1024) { // 5MB limit per batch
+      return NextResponse.json({ 
+        error: 'Batch too large', 
+        details: `Total size ${(totalSize / 1024 / 1024).toFixed(1)}MB exceeds 5MB limit` 
+      }, { status: 413 })
     }
 
     const results = {
@@ -26,46 +32,33 @@ export async function POST(request: NextRequest) {
       errors: [] as string[]
     }
 
-    console.log('Processing files one by one...')
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-      console.log(`Processing file ${i + 1}/${files.length}: ${file.name}`)
-      
+    // Process each file in the batch
+    for (const file of files) {
       try {
         // Extract EAN from filename
         const filename = file.name
-        console.log(`Extracting EAN from: ${filename}`)
-        
         const eanMatch = filename.match(/^(\d{13})/)
-        console.log(`EAN match result:`, eanMatch)
         
         if (!eanMatch) {
-          const error = `No valid EAN found in filename: ${filename}`
-          console.log(error)
-          results.errors.push(error)
+          results.errors.push(`No valid EAN found in filename: ${filename}`)
           continue
         }
 
         const ean = eanMatch[1]
-        console.log(`Found EAN: ${ean}`)
         
         // Find product 
-        console.log(`Looking for product with EAN: ${ean}`)
         const product = await Product.findOne({ ean })
-        console.log(`Product found:`, product ? 'YES' : 'NO')
         
         if (!product) {
-          const error = `No product found with EAN: ${ean}`
-          console.log(error)
-          results.errors.push(error)
+          results.errors.push(`No product found with EAN: ${ean}`)
           continue
         }
 
-        // Add placeholder image
+        // Add placeholder image URL
         const placeholderUrl = `https://via.placeholder.com/400x300?text=Product+${ean}`
-        console.log(`Adding placeholder URL: ${placeholderUrl}`)
         
-        const updateResult = await Product.updateOne(
+        // Add to product's photos array
+        await Product.updateOne(
           { ean },
           { 
             $push: { photos: placeholderUrl },
@@ -73,18 +66,14 @@ export async function POST(request: NextRequest) {
           }
         )
         
-        console.log(`Update result:`, updateResult)
         results.matched++
-        console.log(`✅ File ${i + 1} processed successfully`)
         
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error)
-        console.log(`❌ Error processing file ${i + 1}:`, errorMessage)
         results.errors.push(`Error processing ${file.name}: ${errorMessage}`)
       }
     }
 
-    console.log('=== FINAL RESULTS ===', results)
     return NextResponse.json({
       success: true,
       matched: results.matched,
@@ -93,7 +82,6 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error)
-    console.log('=== MAJOR ERROR ===', errorMessage)
     return NextResponse.json({ 
       error: 'Bulk upload failed', 
       details: errorMessage 

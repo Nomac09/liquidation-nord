@@ -9,62 +9,70 @@ export default function BulkImageUpload() {
     total: 0,
     errors: [] as string[]
   })
+  const [currentBatch, setCurrentBatch] = useState(0)
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
     if (!files || files.length === 0) return
 
-    console.log(`Selected ${files.length} files`)
+    console.log(`Selected ${files.length} files, total size: ${Array.from(files).reduce((sum, file) => sum + file.size, 0) / 1024 / 1024} MB`)
+
     setUploading(true)
     setResults({ matched: 0, total: files.length, errors: [] })
+    setCurrentBatch(0)
 
     try {
-      const formData = new FormData()
-      for (let i = 0; i < files.length; i++) {
-        formData.append('images', files[i])
-        console.log(`Adding file ${i + 1}: ${files[i].name}`)
+      // Process files in batches of 10 to avoid payload size limits
+      const batchSize = 10
+      let totalMatched = 0
+      let totalErrors = [] as string[]
+
+      for (let i = 0; i < files.length; i += batchSize) {
+        const batch = Array.from(files).slice(i, i + batchSize)
+        console.log(`Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(files.length / batchSize)} (${batch.length} files)`)
+        
+        setCurrentBatch(Math.floor(i / batchSize) + 1)
+
+        const formData = new FormData()
+        batch.forEach(file => {
+          formData.append('images', file)
+        })
+
+        const response = await fetch('/api/upload-images-bulk', {
+          method: 'POST',
+          body: formData
+        })
+
+        const responseText = await response.text()
+        
+        if (!response.ok) {
+          if (response.status === 413) {
+            totalErrors.push(`Batch ${Math.floor(i / batchSize) + 1}: Files too large, try smaller batches`)
+          } else {
+            totalErrors.push(`Batch ${Math.floor(i / batchSize) + 1}: HTTP ${response.status} - ${responseText.slice(0, 100)}`)
+          }
+          continue
+        }
+
+        let data
+        try {
+          data = JSON.parse(responseText)
+          if (data.success) {
+            totalMatched += data.matched
+            totalErrors.push(...data.errors)
+          }
+        } catch (e) {
+          totalErrors.push(`Batch ${Math.floor(i / batchSize) + 1}: Invalid response`)
+        }
       }
 
-      console.log('Sending request to /api/upload-images-bulk...')
-      const response = await fetch('/api/upload-images-bulk', {
-        method: 'POST',
-        body: formData
+      setResults({
+        matched: totalMatched,
+        total: files.length,
+        errors: totalErrors
       })
 
-      console.log('Response status:', response.status)
-      const responseText = await response.text()
-      console.log('Response text:', responseText)
-
-      let data
-      try {
-        data = JSON.parse(responseText)
-      } catch (e) {
-        console.error('Failed to parse JSON:', e)
-        setResults({
-          matched: 0,
-          total: files.length,
-          errors: [`Invalid response from server: ${responseText.slice(0, 200)}`]
-        })
-        return
-      }
-      
-      if (data.success) {
-        console.log('Upload successful:', data)
-        setResults({
-          matched: data.matched,
-          total: data.total,
-          errors: data.errors
-        })
-      } else {
-        console.log('Upload failed:', data)
-        setResults({
-          matched: 0,
-          total: files.length,
-          errors: [data.error || 'Upload failed']
-        })
-      }
     } catch (error) {
-      console.error('Network error:', error)
       setResults({
         matched: 0,
         total: files.length,
@@ -72,6 +80,7 @@ export default function BulkImageUpload() {
       })
     } finally {
       setUploading(false)
+      setCurrentBatch(0)
     }
   }
 
@@ -83,6 +92,13 @@ export default function BulkImageUpload() {
         </h1>
 
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+            <p className="text-sm text-yellow-800">
+              💡 <strong>Tip:</strong> Files are processed in batches of 10 to avoid size limits. 
+              Total size: <span id="total-size">0</span> MB
+            </p>
+          </div>
+          
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
             <input 
               type="file" 
@@ -101,13 +117,16 @@ export default function BulkImageUpload() {
               {uploading ? (
                 <div className="flex items-center justify-center">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-oak mr-3"></div>
-                  <p>Uploading...</p>
+                  <p>Processing batch {currentBatch}...</p>
                 </div>
               ) : (
                 <div>
                   <p className="text-lg mb-2">Click to select EAN-named images</p>
                   <p className="text-sm text-gray-600">
                     or drag & drop files (e.g., 8718475600800_m.jpg)
+                  </p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Processing in batches of 10 files
                   </p>
                 </div>
               )}
@@ -130,7 +149,7 @@ export default function BulkImageUpload() {
             {results.errors.length > 0 && (
               <div className="border-t pt-4">
                 <h3 className="font-medium mb-2">Issues:</h3>
-                <ul className="text-sm text-red-600">
+                <ul className="text-sm text-red-600 max-h-40 overflow-y-auto">
                   {results.errors.map((error, i) => (
                     <li key={i}>• {error}</li>
                   ))}
