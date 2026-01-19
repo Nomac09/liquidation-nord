@@ -22,22 +22,40 @@ export default function ProductCard({ product }: ProductCardProps) {
     })
   }
 
+  // Debug: log if product has photos
+  console.log('Product:', product.name, 'Photos:', product.photos?.length || 0)
+
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
       <Link href={`/product/${product.slug}`}>
-        <div className="relative aspect-[4/3]">
-          <Image
-            src={product.photos?.[0] || '/placeholder.png'}
-            alt={product.name}
-            fill
-            className="object-cover"
-          />
+        <div className="relative aspect-[4/3] bg-gray-100">
+          {product.photos?.[0] ? (
+            <>
+              <img
+                src={product.photos[0]}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+              {product.photos.length > 1 && (
+                <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
+                  +{product.photos.length - 1}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center text-gray-400">
+                <div className="text-4xl mb-2">📷</div>
+                <p className="text-sm">Pas d'image</p>
+              </div>
+            </div>
+          )}
         </div>
       </Link>
       
       <div className="p-4">
         <Link href={`/product/${product.slug}`}>
-          <h3 className="font-semibold text-anthracite mb-2 line-clamp-2">
+          <h3 className="font-semibold text-anthracite mb-2 line-clamp-2 hover:text-oak transition-colors">
             {product.name}
           </h3>
         </Link>
@@ -48,6 +66,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
           <span className="text-sm text-warm-gray line-through">
             {product.rrp}€
+          </span>
+          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+            -{Math.round((1 - product.salePrice/product.rrp) * 100)}%
           </span>
         </div>
 

@@ -16,7 +16,8 @@ export async function POST(request: NextRequest) {
     const results = {
       matched: 0,
       total: files.length,
-      errors: [] as string[]
+      errors: [] as string[],
+      uploadedUrls: [] as string[]
     }
 
     // Process each file in the batch
@@ -41,24 +42,25 @@ export async function POST(request: NextRequest) {
           continue
         }
 
-        // For now, let's use a temporary placeholder that actually works
-        // Later we'll integrate with UploadThing properly
-        const tempImageUrl = `https://via.placeholder.com/400x300.png?text=${ean}`
+        // For now, create a data URL from the file
+        const buffer = Buffer.from(await file.arrayBuffer())
+        const base64 = buffer.toString('base64')
+        const dataUrl = `data:${file.type};base64,${base64}`
         
         // Add to product's photos array
         await Product.updateOne(
           { ean },
           { 
-            $push: { photos: tempImageUrl },
+            $push: { photos: dataUrl },
             $set: { updatedAt: new Date() }
           }
         )
         
         results.matched++
+        results.uploadedUrls.push(dataUrl.substring(0, 50) + '...') // For debugging
         
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : String(error)
-        results.errors.push(`Error processing ${file.name}: ${errorMessage}`)
+      } catch (error: any) {
+        results.errors.push(`Error processing ${file.name}: ${error.message}`)
       }
     }
 
@@ -66,13 +68,16 @@ export async function POST(request: NextRequest) {
       success: true,
       matched: results.matched,
       total: results.total,
-      errors: results.errors
+      errors: results.errors,
+      debug: {
+        uploadedCount: results.uploadedUrls.length,
+        sampleUrls: results.uploadedUrls.slice(0, 3)
+      }
     })
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error)
+  } catch (error: any) {
     return NextResponse.json({ 
       error: 'Bulk upload failed', 
-      details: errorMessage 
+      details: error.message 
     }, { status: 500 })
   }
 }

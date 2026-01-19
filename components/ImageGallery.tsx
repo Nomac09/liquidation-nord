@@ -1,73 +1,55 @@
-// components/ImageGallery.tsx
 'use client'
 
-import Image from 'next/image'
 import { useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
 
 interface ImageGalleryProps {
   photos: string[]
-  name: string
+  productName: string
 }
 
-export default function ImageGallery({ photos, name }: ImageGalleryProps) {
-  const [currentIndex, setCurrentIndex] = useState(0)
+export default function ImageGallery({ photos, productName }: ImageGalleryProps) {
+  const [selectedImage, setSelectedImage] = useState(0)
 
-  const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % photos.length)
-  }
-
-  const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length)
-  }
-
-  if (photos.length === 0) {
+  if (!photos || photos.length === 0) {
     return (
-      <div className="aspect-[4/3] bg-beige flex items-center justify-center rounded-lg">
-        <span className="text-warm-gray">Pas d'image disponible</span>
+      <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center">
+        <div className="text-center text-gray-400">
+          <div className="text-6xl mb-4">📷</div>
+          <p className="text-lg">Pas d'image disponible</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="relative">
-      <div className="aspect-[4/3] relative rounded-lg overflow-hidden">
-        <Image
-          src={photos[currentIndex]}
-          alt={`${name} - Image ${currentIndex + 1}`}
-          fill
-          className="object-cover"
+    <div className="space-y-4">
+      {/* Main image */}
+      <div className="aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden">
+        <img
+          src={photos[selectedImage]}
+          alt={`${productName} - Image ${selectedImage + 1}`}
+          className="w-full h-full object-cover"
         />
-        
-        {photos.length > 1 && (
-          <>
-            <button
-              onClick={prevImage}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 p-2 rounded-full hover:bg-opacity-100"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            
-            <button
-              onClick={nextImage}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 p-2 rounded-full hover:bg-opacity-100"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </>
-        )}
       </div>
 
+      {/* Thumbnail gallery */}
       {photos.length > 1 && (
-        <div className="flex gap-2 mt-4 justify-center">
-          {photos.map((_, index) => (
+        <div className="grid grid-cols-4 gap-2">
+          {photos.map((photo, index) => (
             <button
               key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 rounded-full ${
-                index === currentIndex ? 'bg-oak' : 'bg-warm-gray'
-              }`}
-            />
+              onClick={() => setSelectedImage(index)}
+              className={`aspect-square bg-gray-100 rounded overflow-hidden border-2 ${
+                selectedImage === index ? 'border-oak' : 'border-transparent'
+              } hover:border-oak transition-colors`}
+            >
+              <img
+                src={photo}
+                alt={`${productName} - Thumbnail ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </button>
           ))}
         </div>
       )}
