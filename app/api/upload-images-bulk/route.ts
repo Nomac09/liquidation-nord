@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
-import { utapi } from 'uploadthing/server'
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,61 +19,61 @@ export async function POST(request: NextRequest) {
       errors: [] as string[]
     }
 
-    // Upload all images to UploadThing
-    const uploadPromises = files.map(async (file) => {
+    // Simple file upload approach using your existing uploadthing setup
+    for (const file of files) {
       try {
-        const uploadResult = await utapi.uploadFiles(file)
-        if (uploadResult.error) {
-          throw new Error(uploadResult.error.message)
-        }
-        return {
-          originalName: file.name,
-          url: uploadResult.data.url,
-          key: uploadResult.data.key
-        }
-      } catch (error) {
-        results.errors.push(`Failed to upload ${file.name}: ${error}`)
-        return null
-      }
-    })
-
-    const uploadedImages = await Promise.all(uploadPromises)
-    const validImages = uploadedImages.filter(img => img !== null)
-
-    // Match images to products by EAN
-    for (const image of validImages) {
-      try {
-        // Extract EAN from filename (e.g., "8718475600800_m.jpg" → "8718475600800")
-        const filename = image.originalName
-        const eanMatch = filename.match(/^(\d{13})/)
+        // Create form data for single file
+        const singleFormData = new FormData()
+        singleFormData.append('file', file)
         
-        if (!eanMatch) {
-          results.errors.push(`No valid EAN found in filename: ${filename}`)
-          continue
+        // Upload to your existing uploadthing endpoint
+        const uploadResponse = await fetch('/api/uploadthing', {
+          method: 'POST',
+          body: singleFormData
+        })
+
+        if (!uploadResponse.ok) {
+          throw new Error(`Upload failed: ${uploadResponse.status}`)
         }
 
-        const ean = eanMatch[1]
+        const uploadData = await uploadResponse.json()
         
-        // Find product and add image URL
-        const product = await Product.findOne({ ean })
-        
-        if (!product) {
-          results.errors.push(`No product found with EAN: ${ean}`)
-          continue
-        }
-
-        // Add image to product's photos array
-        await Product.updateOne(
-          { ean },
-          { 
-            $push: { photos: image.url },
-            $set: { updatedAt: new Date() }
+        if (uploadData.url) {
+          // Extract EAN from filename (e.g., "8718475600800_m.jpg" → "8718475600800")
+          const filename = file.name
+          const eanMatch = filename.match(/^(\d{13})/)
+          
+          if (!eanMatch) {
+            results.errors.push(`No valid EAN found in filename: ${filename}`)
+            continue
           }
-        )
-        
-        results.matched++
+
+          const ean = eanMatch[1]
+          
+          // Find product and add image URL
+          const product = await Product.findOne({ ean })
+          
+          if (!product) {
+            results.errors.push(`No product found with EAN: ${ean}`)
+            continue
+          }
+
+          // Add image to product's photos array
+          await Product.updateOne(
+            { ean },
+            { 
+              $push: { photos: uploadData.url },
+              $set: { updatedAt: new Date() }
+            }
+          )
+          
+          results.matched++
+        } else {
+          results.errors.push(`No URL returned for ${file.name}`)
+        }
       } catch (error) {
-        results.errors.push(`Error processing ${image.originalName}: ${error}`)
+        const errorMessage = error instanceof Error ? error.message : String(error)
+        results.errors.push(`Error processing ${file.name}: ${errorMessage}`)
       }
     }
 
@@ -85,9 +84,10 @@ export async function POST(request: NextRequest) {
       errors: results.errors
     })
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error)
     return NextResponse.json({ 
       error: 'Bulk upload failed', 
-      details: error.message 
+      details: errorMessage 
     }, { status: 500 })
   }
 }
