@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 import * as XLSX from 'xlsx'
+import { requireAdmin } from '@/lib/adminAuth'
 
 export async function POST(request: NextRequest) {
+  const denied = requireAdmin(request)
+  if (denied) return denied
   try {
     await connectDB()
     

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { adminHeaders } from '@/lib/adminClient'
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null)
@@ -20,6 +21,7 @@ export default function UploadPage() {
     try {
       const response = await fetch('/api/upload-xlsx', {
         method: 'POST',
+        headers: adminHeaders(),
         body: formData,
       })
 

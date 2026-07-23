@@ -1,216 +1,207 @@
-// app/cart/page.tsx
 'use client'
 
-import { useCart } from '@/lib/cart'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Trash2, Plus, Minus } from 'lucide-react'
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { ArrowRight, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react'
+import { useCart } from '@/lib/cart'
+import { formatPrice } from '@/components/Sticker'
+
+const SHIPPING = {
+  pickup: { label: 'Retrait à Bondues', detail: 'Gratuit · Lun–Sam 9h–18h', cost: 0 },
+  relay: { label: 'Point relais', detail: 'Mondial Relay · max 130 kg', cost: 29.99 },
+  home: { label: 'À domicile', detail: 'Cocolis · 3 à 5 jours', cost: 79.99 },
+} as const
+
+type ShippingMethod = keyof typeof SHIPPING
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, total } = useCart()
-  const [shippingMethod, setShippingMethod] = useState<'pickup' | 'relay' | 'home'>('pickup')
+  const [shippingMethod, setShippingMethod] = useState<ShippingMethod>('pickup')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
   const router = useRouter()
-
-  const shippingCosts = {
-    pickup: 0,
-    relay: 29.99,
-    home: 79.99
-  }
 
   const handleCheckout = async () => {
     setIsLoading(true)
-    
+    setError('')
     try {
       const response = await fetch('/api/checkout/create-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map(item => ({
+          items: items.map((item) => ({
             productId: item.productId,
             name: item.name,
             price: item.price,
-            quantity: item.quantity
+            quantity: item.quantity,
           })),
           shippingMethod,
-          shippingCost: shippingCosts[shippingMethod],
-          subtotal: total()
-        })
+          shippingCost: SHIPPING[shippingMethod].cost,
+          subtotal: total(),
+        }),
       })
-
       const { url } = await response.json()
+      if (!url) throw new Error('no-url')
       router.push(url)
-    } catch (error) {
-      console.error('Checkout error:', error)
-      alert('Erreur lors du paiement')
-    } finally {
+    } catch {
+      setError('Le paiement n’a pas pu démarrer. Réessayez, ou contactez-nous.')
       setIsLoading(false)
     }
   }
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-beige py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl font-bold text-anthracite mb-4">
-            Votre panier est vide
-          </h1>
-          <Link 
-            href="/"
-            className="bg-oak text-white px-6 py-3 rounded-lg hover:bg-anthracite transition-colors"
-          >
-            Continuer mes achats
-          </Link>
-        </div>
+      <div className="container mx-auto px-4 py-24 text-center">
+        <ShoppingBag aria-hidden className="mx-auto h-10 w-10 text-gris" />
+        <h1 className="mt-4 font-display text-3xl font-bold text-encre">
+          Votre panier est vide
+        </h1>
+        <p className="mx-auto mt-2 max-w-md text-gris">
+          Les pièces partent vite — chaque article est en un seul exemplaire.
+        </p>
+        <Link
+          href="/"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-bleu px-8 py-3 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep"
+        >
+          Parcourir l’arrivage
+          <ArrowRight aria-hidden className="h-4 w-4" />
+        </Link>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-beige py-8">
-      <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-anthracite mb-8">
-          Mon panier ({items.length} articles)
-        </h1>
+    <div className="container mx-auto px-4 py-10">
+      <h1 className="font-display text-3xl font-bold tracking-tight text-encre">
+        Votre panier
+      </h1>
+      <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-gris">
+        {items.length} article{items.length > 1 ? 's' : ''} réservé
+        {items.length > 1 ? 's' : ''}
+      </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-4">
-            {items.map((item) => (
-              <div key={item.productId} className="bg-white p-6 rounded-lg shadow-sm">
-                <div className="flex gap-4">
-                  <div className="relative w-24 h-24 flex-shrink-0">
-                    <Image
-                      src={item.photo || '/placeholder.png'}
-                      alt={item.name}
-                      fill
-                      className="object-cover rounded-lg"
-                    />
-                  </div>
-                  
-                  <div className="flex-grow">
-                    <h3 className="font-semibold text-anthracite mb-2">{item.name}</h3>
-                    <p className="text-oak font-bold text-lg">{item.price}€</p>
-                  </div>
-
-                  <div className="flex flex-col items-end gap-2">
-                    <button
-                      onClick={() => removeItem(item.productId)}
-                      className="text-warm-gray hover:text-red-500"
-                    >
-                      <Trash2 className="h-5 w-5" />
-                    </button>
-                    
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                        className="p-1 rounded-full bg-beige hover:bg-warm-gray"
-                      >
-                        <Minus className="h-4 w-4" />
-                      </button>
-                      <span className="font-semibold w-8 text-center">{item.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                        className="p-1 rounded-full bg-beige hover:bg-warm-gray"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <ul className="space-y-3 lg:col-span-2">
+          {items.map((item) => (
+            <li
+              key={item.productId}
+              className="flex gap-4 rounded-xl border border-ligne bg-blanc p-4 shadow-carte"
+            >
+              <img
+                src={item.photo || '/placeholder.png'}
+                alt=""
+                className="h-24 w-24 shrink-0 rounded-lg border border-ligne object-cover"
+              />
+              <div className="min-w-0 flex-1">
+                <h2 className="line-clamp-2 font-medium leading-snug text-encre">
+                  {item.name.replace(/^vidaXL\s+/i, '')}
+                </h2>
+                <p className="mt-1 font-mono font-semibold text-encre">
+                  {formatPrice(item.price)} €
+                </p>
+                <div className="mt-3 flex items-center gap-2">
+                  <button
+                    onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                    aria-label="Réduire la quantité"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-ligne text-gris hover:border-bleu hover:text-bleu"
+                  >
+                    <Minus aria-hidden className="h-4 w-4" />
+                  </button>
+                  <span className="w-8 text-center font-mono">{item.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                    aria-label="Augmenter la quantité"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-ligne text-gris hover:border-bleu hover:text-bleu"
+                  >
+                    <Plus aria-hidden className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* Order Summary */}
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold mb-4">Résumé de la commande</h2>
-              
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between">
-                  <span>Sous-total</span>
-                  <span>{total().toFixed(2)}€</span>
-                </div>
-                
-                <div className="border-t pt-3">
-                  <h3 className="font-semibold mb-3">Mode de livraison</h3>
-                  <div className="space-y-2">
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="shipping"
-                        value="pickup"
-                        checked={shippingMethod === 'pickup'}
-                        onChange={(e) => setShippingMethod(e.target.value as any)}
-                        className="text-oak"
-                      />
-                      <div>
-                        <p className="font-medium">Retrait gratuit</p>
-                        <p className="text-sm text-warm-gray">À Bondues (59910)</p>
-                      </div>
-                      <span className="ml-auto font-semibold">0€</span>
-                    </label>
-                    
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="shipping"
-                        value="relay"
-                        checked={shippingMethod === 'relay'}
-                        onChange={(e) => setShippingMethod(e.target.value as any)}
-                        className="text-oak"
-                      />
-                      <div>
-                        <p className="font-medium">Point relais</p>
-                        <p className="text-sm text-warm-gray">Mondial Relay (130kg max)</p>
-                      </div>
-                      <span className="ml-auto font-semibold">29.99€</span>
-                    </label>
-                    
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="shipping"
-                        value="home"
-                        checked={shippingMethod === 'home'}
-                        onChange={(e) => setShippingMethod(e.target.value as any)}
-                        className="text-oak"
-                      />
-                      <div>
-                        <p className="font-medium">Livraison à domicile</p>
-                        <p className="text-sm text-warm-gray">Cocolis (pas de limite)</p>
-                      </div>
-                      <span className="ml-auto font-semibold">79.99€</span>
-                    </label>
-                  </div>
-                </div>
-                
-                <div className="border-t pt-3">
-                  <div className="flex justify-between font-semibold text-lg">
-                    <span>Total</span>
-                    <span>{(total() + shippingCosts[shippingMethod]).toFixed(2)}€</span>
-                  </div>
-                </div>
-              </div>
-
               <button
-                onClick={handleCheckout}
-                disabled={isLoading}
-                className="w-full bg-oak text-white py-3 rounded-lg font-semibold hover:bg-anthracite transition-colors disabled:opacity-50"
+                onClick={() => removeItem(item.productId)}
+                aria-label={`Retirer ${item.name}`}
+                className="self-start p-1.5 text-gris transition-colors hover:text-orange-deep"
               >
-                {isLoading ? 'Chargement...' : 'Procéder au paiement'}
+                <Trash2 aria-hidden className="h-4 w-4" />
               </button>
-            </div>
+            </li>
+          ))}
+        </ul>
 
-            <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-              <p className="text-sm text-warm-gray">
-                Paiement sécurisé par Stripe • TVA non applicable, art. 293B du CGI
+        <div className="space-y-4">
+          <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
+            <h2 className="font-display text-lg font-bold text-encre">Récapitulatif</h2>
+
+            <fieldset className="mt-4">
+              <legend className="tag-label">Comment récupérer vos pièces ?</legend>
+              <div className="mt-3 space-y-2">
+                {(Object.keys(SHIPPING) as ShippingMethod[]).map((key) => {
+                  const opt = SHIPPING[key]
+                  const active = shippingMethod === key
+                  return (
+                    <label
+                      key={key}
+                      className={`flex cursor-pointer items-center justify-between gap-3 rounded-lg border p-3 transition-colors ${
+                        active ? 'border-bleu bg-bleu-pale' : 'border-ligne hover:border-gris'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="shipping"
+                        value={key}
+                        checked={active}
+                        onChange={() => setShippingMethod(key)}
+                        className="sr-only"
+                      />
+                      <span className="min-w-0">
+                        <span className="block text-sm font-semibold text-encre">{opt.label}</span>
+                        <span className="block text-xs text-gris">{opt.detail}</span>
+                      </span>
+                      <span className={`font-mono text-sm font-semibold ${active ? 'text-bleu' : 'text-encre'}`}>
+                        {opt.cost === 0 ? '0 €' : `${formatPrice(opt.cost)} €`}
+                      </span>
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
+
+            <dl className="mt-5 space-y-2 border-t border-ligne pt-4 text-sm">
+              <div className="flex justify-between">
+                <dt className="text-gris">Sous-total</dt>
+                <dd className="font-mono">{formatPrice(total())} €</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt className="text-gris">Livraison</dt>
+                <dd className="font-mono">{formatPrice(SHIPPING[shippingMethod].cost)} €</dd>
+              </div>
+              <div className="flex justify-between border-t border-ligne pt-2 text-base font-semibold">
+                <dt>Total</dt>
+                <dd className="font-mono">
+                  {formatPrice(total() + SHIPPING[shippingMethod].cost)} €
+                </dd>
+              </div>
+            </dl>
+
+            {error && (
+              <p role="alert" className="mt-3 rounded-lg bg-orange-pale px-3 py-2 text-sm text-orange-deep">
+                {error}
               </p>
-            </div>
+            )}
+
+            <button
+              onClick={handleCheckout}
+              disabled={isLoading}
+              className="mt-5 w-full rounded-full bg-bleu py-3.5 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep disabled:opacity-60"
+            >
+              {isLoading ? 'Redirection vers le paiement…' : 'Payer maintenant'}
+            </button>
           </div>
+
+          <p className="text-center font-mono text-[10px] uppercase tracking-widest text-gris">
+            Paiement sécurisé Stripe · TVA non applicable, art. 293 B du CGI
+          </p>
         </div>
       </div>
     </div>

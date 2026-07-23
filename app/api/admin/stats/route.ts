@@ -1,10 +1,13 @@
 // app/api/admin/stats/route.ts
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 import Order from '@/lib/schemas/Order'
+import { requireAdmin } from '@/lib/adminAuth'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const denied = requireAdmin(request)
+  if (denied) return denied
   try {
     await connectDB()
 

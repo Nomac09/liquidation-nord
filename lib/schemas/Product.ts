@@ -40,6 +40,21 @@ const ProductSchema = new mongoose.Schema({
   photos: [{
     type: String
   }],
+  description: {
+    type: String,
+    default: ''
+  },
+  specs: [{
+    type: String
+  }],
+  nameEn: {
+    type: String,
+    default: ''
+  },
+  lot: {
+    type: String,
+    default: ''
+  },
   status: {
     type: String,
     enum: ['sellable', 'unsellable', 'sold'],

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { adminHeaders } from '@/lib/adminClient'
 
 export default function PhotosUpload() {
   const [uploadResults, setUploadResults] = useState<any>(null)
@@ -24,6 +25,7 @@ export default function PhotosUpload() {
     try {
       const response = await fetch('/api/upload-images-bulk', {
         method: 'POST',
+        headers: adminHeaders(),
         body: formData,
       })
 

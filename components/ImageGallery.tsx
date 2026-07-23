@@ -1,57 +1,65 @@
 'use client'
 
 import { useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ImageOff } from 'lucide-react'
 
-interface ImageGalleryProps {
-  photos?: any[]
+export default function ImageGallery({
+  photos = [],
+  productName = 'Produit',
+}: {
+  photos?: string[]
   productName?: string
-  name?: string // Alternative prop name
-}
-
-export default function ImageGallery({ photos = [], productName, name }: ImageGalleryProps) {
-  const [selectedImage, setSelectedImage] = useState(0)
-  const displayName = productName || name || 'Product'
-
-  // Ensure photos is an array
-  const validPhotos = Array.isArray(photos) ? photos.filter(Boolean) : []
+}) {
+  const validPhotos = (Array.isArray(photos) ? photos : []).filter(Boolean)
+  const [selected, setSelected] = useState(0)
+  const reduce = useReducedMotion()
 
   if (validPhotos.length === 0) {
     return (
-      <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center">
-        <div className="text-center text-gray-400">
-          <div className="text-6xl mb-4">📷</div>
-          <p className="text-lg">Pas d'image disponible</p>
-        </div>
+      <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-xl border border-ligne bg-blanc text-gris">
+        <ImageOff aria-hidden className="h-8 w-8" />
+        <span className="font-mono text-[11px] uppercase tracking-widest">
+          Photo à venir — demandez-la nous
+        </span>
       </div>
     )
   }
 
   return (
-    <div className="space-y-4">
-      {/* Main image */}
-      <div className="aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden">
-        <img
-          src={validPhotos[selectedImage]}
-          alt={`${displayName} - Image ${selectedImage + 1}`}
-          className="w-full h-full object-cover"
-        />
+    <div className="space-y-3">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-ligne bg-blanc">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.img
+            key={selected}
+            src={validPhotos[selected]}
+            alt={`${productName} — photo ${selected + 1} sur ${validPhotos.length}`}
+            className="h-full w-full object-contain"
+            initial={reduce ? false : { opacity: 0, scale: 1.02 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={reduce ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          />
+        </AnimatePresence>
       </div>
 
-      {/* Thumbnail gallery */}
       {validPhotos.length > 1 && (
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-5 gap-2 sm:grid-cols-6">
           {validPhotos.map((photo, index) => (
             <button
               key={index}
-              onClick={() => setSelectedImage(index)}
-              className={`aspect-square bg-gray-100 rounded overflow-hidden border-2 ${
-                selectedImage === index ? 'border-oak' : 'border-transparent'
-              } hover:border-oak transition-colors`}
+              onClick={() => setSelected(index)}
+              aria-label={`Voir la photo ${index + 1}`}
+              aria-current={selected === index}
+              className={`aspect-square overflow-hidden rounded-lg border-2 bg-blanc transition-colors ${
+                selected === index ? 'border-bleu' : 'border-ligne hover:border-gris'
+              }`}
             >
               <img
                 src={photo}
-                alt={`${displayName} - Thumbnail ${index + 1}`}
-                className="w-full h-full object-cover"
+                alt=""
+                loading="lazy"
+                className="h-full w-full object-cover"
               />
             </button>
           ))}

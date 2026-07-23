@@ -12,22 +12,35 @@ export default function AdminLayout({
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [checking, setChecking] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    const auth = sessionStorage.getItem('admin-auth')
-    if (auth === 'true') {
+    if (sessionStorage.getItem('admin-password')) {
       setIsAuthenticated(true)
     }
   }, [])
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      sessionStorage.setItem('admin-auth', 'true')
-      setIsAuthenticated(true)
-    } else {
-      setError('Mot de passe incorrect')
+    setChecking(true)
+    setError('')
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      })
+      if (res.ok) {
+        sessionStorage.setItem('admin-password', password)
+        setIsAuthenticated(true)
+      } else {
+        setError('Mot de passe incorrect')
+      }
+    } catch {
+      setError('Erreur de connexion')
+    } finally {
+      setChecking(false)
     }
   }
 
@@ -56,9 +69,10 @@ export default function AdminLayout({
             )}
             <button
               type="submit"
-              className="w-full bg-oak text-white py-2 rounded-lg font-semibold hover:bg-anthracite transition-colors"
+              disabled={checking}
+              className="w-full bg-oak text-white py-2 rounded-lg font-semibold hover:bg-anthracite transition-colors disabled:opacity-60"
             >
-              Connexion
+              {checking ? 'Vérification…' : 'Connexion'}
             </button>
           </form>
         </div>
@@ -81,7 +95,7 @@ export default function AdminLayout({
           </Link>
           <button
             onClick={() => {
-              sessionStorage.removeItem('admin-auth')
+              sessionStorage.removeItem('admin-password')
               router.push('/admin')
             }}
             className="ml-auto hover:text-oak"

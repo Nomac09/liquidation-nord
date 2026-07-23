@@ -6,15 +6,30 @@ import { useRouter } from 'next/navigation'
 export default function AyooshiEntry() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [checking, setChecking] = useState(false)
   const router = useRouter()
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === 'FreEPalestine2026*!!') {
-      sessionStorage.setItem('ayooshi-auth', 'true')
-      router.push('/ayooshi/dashboard')
-    } else {
-      setError('Mot de passe incorrect')
+    setChecking(true)
+    setError('')
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      })
+      if (res.ok) {
+        sessionStorage.setItem('admin-password', password)
+        sessionStorage.setItem('ayooshi-auth', 'true')
+        router.push('/ayooshi/dashboard')
+      } else {
+        setError('Mot de passe incorrect')
+      }
+    } catch {
+      setError('Erreur de connexion')
+    } finally {
+      setChecking(false)
     }
   }
 
@@ -42,9 +57,10 @@ export default function AyooshiEntry() {
           )}
           <button
             type="submit"
-            className="w-full bg-oak text-white py-2 rounded-lg font-semibold hover:bg-anthracite transition-colors"
+            disabled={checking}
+            className="w-full bg-oak text-white py-2 rounded-lg font-semibold hover:bg-anthracite transition-colors disabled:opacity-60"
           >
-            Entrer
+            {checking ? 'Vérification…' : 'Entrer'}
           </button>
         </form>
       </div>

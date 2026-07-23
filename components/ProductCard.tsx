@@ -1,89 +1,87 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart'
+import { useUI } from '@/lib/ui'
+import Sticker from '@/components/Sticker'
+import { ImageOff, Plus } from 'lucide-react'
 
-interface ProductCardProps {
-  product: any
+export interface CatalogProduct {
+  _id: string
+  name: string
+  ean: string
+  category: string
+  rrp: number
+  salePrice: number
+  photos: string[]
+  condition?: string
+  slug: string
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product }: { product: CatalogProduct }) {
   const { addItem } = useCart()
+  const { openCart } = useUI()
+  const photo = product.photos?.[0]
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault()
+  const handleAdd = () => {
     addItem({
       productId: product._id,
       name: product.name,
       price: product.salePrice,
       quantity: 1,
-      photo: product.photos?.[0] || '/placeholder.png'
+      photo: photo || '/placeholder.png',
     })
+    openCart()
   }
 
-  // Debug: log if product has photos
-  console.log('Product:', product.name, 'Photos:', product.photos?.length || 0)
-
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-      <Link href={`/product/${product.slug}`}>
-        <div className="relative aspect-[4/3] bg-gray-100">
-          {product.photos?.[0] ? (
-            <>
-              <img
-                src={product.photos[0]}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-              {product.photos.length > 1 && (
-                <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
-                  +{product.photos.length - 1}
-                </div>
-              )}
-            </>
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-ligne bg-blanc shadow-carte transition-all duration-300 hover:-translate-y-1 hover:shadow-levee">
+      <Link
+        href={`/product/${product.slug}`}
+        className="flex flex-col focus-visible:outline-offset-[-2px]"
+      >
+        <div className="relative aspect-[4/3] overflow-hidden bg-beton">
+          {photo ? (
+            <img
+              src={photo}
+              alt={product.name}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="text-center text-gray-400">
-                <div className="text-4xl mb-2">📷</div>
-                <p className="text-sm">Pas d'image</p>
-              </div>
+            <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-gris">
+              <ImageOff aria-hidden className="h-7 w-7" />
+              <span className="font-mono text-[11px] uppercase tracking-widest">
+                Photo à venir
+              </span>
             </div>
           )}
-        </div>
-      </Link>
-      
-      <div className="p-4">
-        <Link href={`/product/${product.slug}`}>
-          <h3 className="font-semibold text-anthracite mb-2 line-clamp-2 hover:text-oak transition-colors">
-            {product.name}
-          </h3>
-        </Link>
-        
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-2xl font-bold text-oak">
-            {product.salePrice}€
-          </span>
-          <span className="text-sm text-warm-gray line-through">
-            {product.rrp}€
-          </span>
-          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
-            -{Math.round((1 - product.salePrice/product.rrp) * 100)}%
+          <span className="absolute left-3 top-3 rounded-full bg-blanc/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-encre backdrop-blur-sm">
+            {product.category === 'Bazar' ? 'Bazar & Déco' : product.category}
           </span>
         </div>
 
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-warm-gray bg-beige px-2 py-1 rounded">
-            {product.category}
-          </span>
+        <h3 className="line-clamp-2 min-h-[2.6em] px-4 pt-4 text-[15px] font-medium leading-snug text-encre">
+          {product.name.replace(/^vidaXL\s+/i, '')}
+        </h3>
+      </Link>
+
+      <div className="flex flex-1 flex-col gap-3 p-4 pt-3">
+        <div className="mt-auto flex items-end justify-between gap-2">
+          <Sticker price={product.salePrice} rrp={product.rrp} />
           <button
-            onClick={handleAddToCart}
-            className="bg-oak text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-anthracite transition-colors"
+            onClick={handleAdd}
+            aria-label={`Ajouter ${product.name} au panier`}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ligne text-encre transition-colors hover:border-bleu hover:bg-bleu hover:text-blanc"
           >
-            Ajouter
+            <Plus aria-hidden className="h-4 w-4" />
           </button>
         </div>
+
+        <p className="font-mono text-[10px] uppercase tracking-widest text-gris">
+          Pièce unique · EAN {product.ean}
+        </p>
       </div>
-    </div>
+    </article>
   )
 }

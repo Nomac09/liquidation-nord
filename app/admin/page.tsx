@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { adminHeaders } from '@/lib/adminClient'
 
 interface Stats {
   totalProducts: number
@@ -17,7 +18,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/admin/stats')
+    fetch('/api/admin/stats', { headers: adminHeaders() })
       .then(res => res.json())
       .then(data => {
         setStats(data)

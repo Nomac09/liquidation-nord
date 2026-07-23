@@ -4,7 +4,18 @@
 
 @layer base {
   body {
-    @apply antialiased;
+    @apply antialiased bg-beton text-encre;
+  }
+
+  ::selection {
+    @apply bg-bleu text-blanc;
+  }
+
+  /* Visible keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid #24408e;
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 }
 
@@ -15,6 +26,17 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Micro-label: mono uppercase inventory tag */
+  .tag-label {
+    @apply font-mono text-micro uppercase tracking-widest text-gris;
+  }
+
+  /* L'étiquette — the clearance sticker price chip */
+  .sticker {
+    @apply inline-flex items-baseline gap-0.5 bg-orange text-blanc font-mono font-semibold px-2.5 py-1 select-none;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  }
 }
 
 /* Custom scrollbar */
@@ -23,13 +45,25 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-beige;
+  background: #ecebe6;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-warm-gray rounded;
+  background: #b9b8b0;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-anthracite;
+  background: #62687a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

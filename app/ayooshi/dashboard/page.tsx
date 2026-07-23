@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { adminHeaders } from '@/lib/adminClient'
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
@@ -10,7 +11,7 @@ export default function Dashboard() {
   })
 
   useEffect(() => {
-    fetch('/api/admin/stats')
+    fetch('/api/admin/stats', { headers: adminHeaders() })
       .then(res => res.json())
       .then(data => setStats(data))
       .catch(err => console.error('Failed to fetch stats:', err))

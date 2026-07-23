@@ -1,59 +1,66 @@
-// components/AddToCart.tsx
 'use client'
 
-import { useCart } from '@/lib/cart'
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Check, ShoppingBag } from 'lucide-react'
+import { useCart } from '@/lib/cart'
+import { useUI } from '@/lib/ui'
 
-interface AddToCartProps {
-  product: any
-}
-
-export default function AddToCart({ product }: AddToCartProps) {
+export default function AddToCart({ product }: { product: any }) {
   const { addItem } = useCart()
-  const [quantity, setQuantity] = useState(1)
+  const { openCart } = useUI()
   const [added, setAdded] = useState(false)
 
-  const handleAddToCart = () => {
+  const handleAdd = () => {
     addItem({
       productId: product._id,
       name: product.name,
       price: product.salePrice,
-      quantity,
-      photo: product.photos[0] || '/placeholder.png'
+      quantity: 1,
+      photo: product.photos?.[0] || '/placeholder.png',
     })
-    
     setAdded(true)
-    setTimeout(() => setAdded(false), 2000)
+    setTimeout(() => {
+      setAdded(false)
+      openCart()
+    }, 700)
   }
 
   return (
-    <div className="flex gap-3">
-      <div className="flex items-center border rounded-lg">
-        <button
-          onClick={() => setQuantity(Math.max(1, quantity - 1))}
-          className="px-3 py-2 hover:bg-beige"
-        >
-          -
-        </button>
-        <span className="px-4 py-2 font-semibold">{quantity}</span>
-        <button
-          onClick={() => setQuantity(quantity + 1)}
-          className="px-3 py-2 hover:bg-beige"
-        >
-          +
-        </button>
-      </div>
-      
-      <button
-        onClick={handleAddToCart}
-        className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-colors ${
-          added 
-            ? 'bg-green-500 text-white' 
-            : 'bg-oak text-white hover:bg-anthracite'
-        }`}
-      >
-        {added ? '✓ Ajouté !' : 'Ajouter au panier'}
-      </button>
-    </div>
+    <button
+      onClick={handleAdd}
+      disabled={added}
+      className={`relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full py-3.5 text-sm font-semibold transition-colors ${
+        added ? 'bg-bleu-deep text-blanc' : 'bg-bleu text-blanc hover:bg-bleu-deep'
+      }`}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        {added ? (
+          <motion.span
+            key="ok"
+            className="flex items-center gap-2"
+            initial={{ y: 14, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -14, opacity: 0 }}
+            transition={{ duration: 0.18 }}
+          >
+            <Check aria-hidden className="h-4 w-4" />
+            C’est dans le panier
+          </motion.span>
+        ) : (
+          <motion.span
+            key="add"
+            className="flex items-center gap-2"
+            initial={{ y: 14, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -14, opacity: 0 }}
+            transition={{ duration: 0.18 }}
+          >
+            <ShoppingBag aria-hidden className="h-4 w-4" />
+            Réserver cette pièce
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
   )
 }

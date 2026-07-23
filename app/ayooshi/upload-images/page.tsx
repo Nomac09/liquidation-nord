@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { adminHeaders } from '@/lib/adminClient'
 
 export default function BulkImageUpload() {
   const [uploading, setUploading] = useState(false)
@@ -40,6 +41,7 @@ export default function BulkImageUpload() {
 
         const response = await fetch('/api/upload-images-bulk', {
           method: 'POST',
+          headers: adminHeaders(),
           body: formData
         })
 

@@ -1,155 +1,101 @@
+import Hero from '@/components/Hero'
+import ProductGrid from '@/components/ProductGrid'
+import { Reveal } from '@/components/motion'
+import { getCategoryCounts, getProducts } from '@/lib/catalog'
+import { MapPin, Search as SearchIcon, Timer } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
 
-import ProductCard from '@/components/ProductCard'
-import connectDB from '@/lib/mongodb'
-import Product from '@/lib/schemas/Product'
-import { Search } from 'lucide-react'
-import Link from 'next/link'
-
-// Add product interface
-interface Product {
-  _id: string
-  name: string
-  ean: string
-  category: string
-  rrp: number
-  salePrice: number
-  photos: string[]
-  status: string
-  condition: string
-  dimensions?: string
-  weight?: number
-  slug: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-async function getProducts(category?: string, search?: string) {
-  try {
-    await connectDB()
-    
-    const query: any = { status: 'sellable' }
-    if (category) query.category = category
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { ean: { $regex: search, $options: 'i' } }
-      ]
-    }
-    
-    const products = await Product.find(query)
-      .sort({ createdAt: -1 })
-      .limit(50)
-    
-    return JSON.parse(JSON.stringify(products)) as Product[]
-  } catch (error) {
-    console.error('Error fetching products:', error)
-    return [] as Product[]
-  }
+const CATEGORY_LABELS: Record<string, string> = {
+  Mobilier: 'Mobilier',
+  Bazar: 'Bazar & Déco',
+  Bricolage: 'Bricolage',
+  Textile: 'Textile',
 }
 
 export default async function HomePage({
-  searchParams
+  searchParams,
 }: {
   searchParams: Promise<{ category?: string; search?: string }>
 }) {
-  // Await the searchParams promise
   const params = await searchParams
-  const products = await getProducts(params.category, params.search)
+  const category = params.category
+  const search = params.search
+
+  const [{ items, total }, counts] = await Promise.all([
+    getProducts({ category, search, limit: 24 }),
+    getCategoryCounts(),
+  ])
+  const grandTotal = Object.values(counts).reduce((a, b) => a + b, 0)
+
+  const showHero = !category && !search
 
   return (
-    <div className="min-h-screen bg-beige">
-      {/* Hero Section */}
-      <div className="bg-anthracite text-white py-16">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            Liquidation Nord
-          </h1>
-          <p className="text-xl mb-8">
-            Meubles & Déco à -60% • Stock limité • Nouveautés mensuelles
-          </p>
-          
-          {/* Search Bar */}
-          <form className="max-w-md">
-            <div className="relative">
-              <input
-                type="text"
-                name="search"
-                placeholder="Rechercher par nom ou EAN..."
-                className="w-full px-4 py-3 pl-12 rounded-lg text-black"
-                defaultValue={params.search}
-              />
-              <Search className="absolute left-4 top-3.5 h-5 w-5 text-warm-gray" />
+    <div>
+      {showHero && (
+        <>
+          <Hero
+            total={grandTotal}
+            mobilier={(counts['Mobilier'] || 0) + (counts['Bricolage'] || 0)}
+            bazar={(counts['Bazar'] || 0) + (counts['Textile'] || 0)}
+          />
+
+          <section aria-label="Comment ça marche" className="border-b border-ligne bg-beton">
+            <div className="container mx-auto grid gap-px overflow-hidden px-4 py-0 sm:grid-cols-3">
+              {[
+                {
+                  icon: SearchIcon,
+                  title: 'Repérez votre pièce',
+                  text: 'Parcourez l’arrivage en cours — mobilier, jardin, bricolage, déco.',
+                },
+                {
+                  icon: Timer,
+                  title: 'Réservez-la vite',
+                  text: 'Un seul exemplaire de chaque. Payez en ligne, elle est à vous.',
+                },
+                {
+                  icon: MapPin,
+                  title: 'Récupérez ou faites livrer',
+                  text: 'Retrait gratuit à Bondues, point relais ou livraison à domicile.',
+                },
+              ].map((step, i) => (
+                <Reveal key={step.title} delay={i * 0.08} className="flex gap-4 py-6 sm:px-4 sm:first:pl-0">
+                  <step.icon aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-bleu" />
+                  <div>
+                    <h2 className="font-display text-base font-semibold text-encre">
+                      {step.title}
+                    </h2>
+                    <p className="mt-1 text-sm leading-relaxed text-gris">{step.text}</p>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-          </form>
-        </div>
-      </div>
+          </section>
+        </>
+      )}
 
-      {/* Banner */}
-      <div className="bg-oak text-white py-3">
-        <div className="container mx-auto px-4 text-center">
-          <p className="font-semibold">
-            📦 Nouveaux arrivages mensuels • Stock limité • Enlèvement gratuit à Bondues
+      <section className="container mx-auto px-4 py-10">
+        <div className="mb-6 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-display text-2xl font-bold tracking-tight text-encre">
+            {search
+              ? `Résultats pour « ${search} »`
+              : category
+                ? CATEGORY_LABELS[category] || category
+                : 'Tout l’arrivage'}
+          </h2>
+          <p className="font-mono text-[11px] uppercase tracking-widest text-gris">
+            {total} pièce{total > 1 ? 's' : ''}
           </p>
         </div>
-      </div>
 
-      {/* Filters */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-wrap gap-4 mb-8">
-          <Link
-            href="/?category=Mobilier"
-            className={`px-6 py-2 rounded-lg border-2 ${
-              params.category === 'Mobilier' 
-                ? 'bg-anthracite text-white border-anthracite' 
-                : 'bg-white text-anthracite border-anthracite hover:bg-anthracite hover:text-white'
-            }`}
-          >
-            Mobilier
-          </Link>
-          <Link
-            href="/?category=Bricolage"
-            className={`px-6 py-2 rounded-lg border-2 ${
-              params.category === 'Bricolage' 
-                ? 'bg-anthracite text-white border-anthracite' 
-                : 'bg-white text-anthracite border-anthracite hover:bg-anthracite hover:text-white'
-            }`}
-          >
-            Bricolage
-          </Link>
-          <Link
-            href="/?category=Textile"
-            className={`px-6 py-2 rounded-lg border-2 ${
-              params.category === 'Textile' 
-                ? 'bg-anthracite text-white border-anthracite' 
-                : 'bg-white text-anthracite border-anthracite hover:bg-anthracite hover:text-white'
-            }`}
-          >
-            Textile
-          </Link>
-          <Link
-            href="/"
-            className="px-6 py-2 rounded-lg bg-warm-gray text-white border-2 border-warm-gray"
-          >
-            Tout voir
-          </Link>
-        </div>
-
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {products.map((product: Product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
-
-        {products.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-xl text-warm-gray">
-              Aucun produit trouvé pour cette catégorie.
-            </p>
-          </div>
-        )}
-      </div>
+        <ProductGrid
+          key={`${category || ''}|${search || ''}`}
+          initialItems={items}
+          total={total}
+          category={category}
+          search={search}
+        />
+      </section>
     </div>
   )
 }
