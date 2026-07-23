@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CartDrawer from '@/components/CartDrawer'
+import { BRAND_NAME } from '@/lib/brand'
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -25,15 +26,15 @@ const mono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.souqify.fr'),
   title: {
-    default: 'Liquidation Nord — Mobilier & déco vidaXL à −50 %',
-    template: '%s — Liquidation Nord',
+    default: `${BRAND_NAME} — Mobilier & déco vidaXL à −50 %`,
+    template: `%s — ${BRAND_NAME}`,
   },
   description:
     'Déstockage de retours vidaXL à Bondues (59) : mobilier, jardin, bricolage et déco à moitié prix. Chaque pièce est unique — retrait gratuit ou livraison partout en France.',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    siteName: 'Liquidation Nord',
+    siteName: BRAND_NAME,
   },
 }
 

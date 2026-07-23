@@ -1,7 +1,8 @@
 import Hero from '@/components/Hero'
 import ProductGrid from '@/components/ProductGrid'
+import StockManifest from '@/components/StockManifest'
 import { Reveal } from '@/components/motion'
-import { getCategoryCounts, getProducts } from '@/lib/catalog'
+import { getActiveLots, getCategoryCounts, getProducts } from '@/lib/catalog'
 import { MapPin, Search as SearchIcon, Timer } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -22,9 +23,10 @@ export default async function HomePage({
   const category = params.category
   const search = params.search
 
-  const [{ items, total }, counts] = await Promise.all([
+  const [{ items, total }, counts, lots] = await Promise.all([
     getProducts({ category, search, limit: 24 }),
     getCategoryCounts(),
+    getActiveLots(),
   ])
   const grandTotal = Object.values(counts).reduce((a, b) => a + b, 0)
 
@@ -39,6 +41,12 @@ export default async function HomePage({
             mobilier={(counts['Mobilier'] || 0) + (counts['Bricolage'] || 0)}
             bazar={(counts['Bazar'] || 0) + (counts['Textile'] || 0)}
           />
+
+          <section aria-label="Parcourir par catégorie" className="border-b border-ligne bg-blanc py-8">
+            <div className="container mx-auto px-4">
+              <StockManifest counts={counts} total={grandTotal} lots={lots} />
+            </div>
+          </section>
 
           <section aria-label="Comment ça marche" className="border-b border-ligne bg-beton">
             <div className="container mx-auto grid gap-px overflow-hidden px-4 py-0 sm:grid-cols-3">

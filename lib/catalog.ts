@@ -49,3 +49,13 @@ export async function getCategoryCounts() {
   for (const r of rows) counts[r._id] = r.n
   return counts
 }
+
+export async function getActiveLots() {
+  await connectDB()
+  const rows = await Product.aggregate([
+    { $match: { status: 'sellable', lot: { $nin: [null, ''] } } },
+    { $group: { _id: '$lot' } },
+    { $sort: { _id: 1 } },
+  ])
+  return rows.map((r) => r._id as string)
+}

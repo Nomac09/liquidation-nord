@@ -6,6 +6,7 @@ import { Search, ShoppingBag } from 'lucide-react'
 import { Suspense, useEffect, useState } from 'react'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
+import { BRAND_SYLLABLE_SPLIT } from '@/lib/brand'
 
 const CATEGORIES = [
   { label: 'Mobilier', value: 'Mobilier' },
@@ -14,6 +15,9 @@ const CATEGORIES = [
   { label: 'Textile', value: 'Textile' },
 ]
 
+// Deliberately understated: plain mono-caps text links, no pills or tabs.
+// The homepage's StockManifest is where category browsing gets its visual
+// weight — this row is just a utility way to jump categories from any page.
 function CategoryNav() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -21,27 +25,26 @@ function CategoryNav() {
 
   return (
     <nav aria-label="Catégories" className="overflow-x-auto">
-      <ul className="flex items-center gap-1 whitespace-nowrap">
+      <ul className="flex items-center gap-3 whitespace-nowrap font-mono text-[11px] uppercase tracking-widest">
         <li>
           <Link
             href="/"
-            className={`inline-block px-3 py-2 text-sm transition-colors ${
-              pathname === '/' && !active
-                ? 'text-bleu font-semibold'
-                : 'text-gris hover:text-encre'
+            className={`inline-block py-2 transition-colors ${
+              pathname === '/' && !active ? 'text-bleu' : 'text-gris hover:text-encre'
             }`}
           >
-            Tout l’arrivage
+            Tout
           </Link>
         </li>
         {CATEGORIES.map((c) => (
-          <li key={c.value}>
+          <li key={c.value} className="flex items-center gap-3">
+            <span aria-hidden className="text-ligne">
+              ·
+            </span>
             <Link
               href={`/?category=${c.value}`}
-              className={`inline-block px-3 py-2 text-sm transition-colors ${
-                active === c.value
-                  ? 'text-bleu font-semibold'
-                  : 'text-gris hover:text-encre'
+              className={`inline-block py-2 transition-colors ${
+                active === c.value ? 'text-bleu' : 'text-gris hover:text-encre'
               }`}
             >
               {c.label}
@@ -64,9 +67,9 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b border-ligne bg-blanc/95 backdrop-blur">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between gap-4 py-3">
-          <Link href="/" className="shrink-0 leading-none" aria-label="Liquidation Nord — accueil">
+          <Link href="/" className="shrink-0 leading-none" aria-label={`${BRAND_SYLLABLE_SPLIT.lead}${BRAND_SYLLABLE_SPLIT.tail} — accueil`}>
             <span className="font-display text-xl font-bold tracking-tight text-encre">
-              Liquidation<span className="text-bleu"> Nord</span>
+              {BRAND_SYLLABLE_SPLIT.lead}<span className="text-bleu">{BRAND_SYLLABLE_SPLIT.tail}</span>
             </span>
             <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-gris">
               Déstockage · Bondues (59)
