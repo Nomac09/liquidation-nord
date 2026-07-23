@@ -2,7 +2,7 @@ import Hero from '@/components/Hero'
 import ProductGrid from '@/components/ProductGrid'
 import StockManifest from '@/components/StockManifest'
 import { Reveal } from '@/components/motion'
-import { getActiveLots, getCategoryCounts, getProducts } from '@/lib/catalog'
+import { getCategoryCounts, getProducts } from '@/lib/catalog'
 import { MapPin, Search as SearchIcon, Timer } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -23,12 +23,10 @@ export default async function HomePage({
   const category = params.category
   const search = params.search
 
-  const [{ items, total }, counts, lots] = await Promise.all([
+  const [{ items, total }, counts] = await Promise.all([
     getProducts({ category, search, limit: 24 }),
     getCategoryCounts(),
-    getActiveLots(),
   ])
-  const grandTotal = Object.values(counts).reduce((a, b) => a + b, 0)
 
   const showHero = !category && !search
 
@@ -36,15 +34,11 @@ export default async function HomePage({
     <div>
       {showHero && (
         <>
-          <Hero
-            total={grandTotal}
-            mobilier={(counts['Mobilier'] || 0) + (counts['Bricolage'] || 0)}
-            bazar={(counts['Bazar'] || 0) + (counts['Textile'] || 0)}
-          />
+          <Hero />
 
           <section aria-label="Parcourir par catégorie" className="border-b border-ligne bg-blanc py-8">
             <div className="container mx-auto px-4">
-              <StockManifest counts={counts} total={grandTotal} lots={lots} />
+              <StockManifest counts={counts} />
             </div>
           </section>
 
@@ -83,7 +77,7 @@ export default async function HomePage({
       )}
 
       <section className="container mx-auto px-4 py-10">
-        <div className="mb-6 flex flex-wrap items-baseline justify-between gap-2">
+        <div className="mb-6">
           <h2 className="font-display text-2xl font-bold tracking-tight text-encre">
             {search
               ? `Résultats pour « ${search} »`
@@ -91,9 +85,6 @@ export default async function HomePage({
                 ? CATEGORY_LABELS[category] || category
                 : 'Tout l’arrivage'}
           </h2>
-          <p className="font-mono text-[11px] uppercase tracking-widest text-gris">
-            {total} pièce{total > 1 ? 's' : ''}
-          </p>
         </div>
 
         <ProductGrid

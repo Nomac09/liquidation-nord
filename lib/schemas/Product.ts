@@ -60,9 +60,22 @@ const ProductSchema = new mongoose.Schema({
     enum: ['sellable', 'unsellable', 'sold'],
     default: 'sellable'
   },
+  // True only once a specific unit has been physically inspected before
+  // listing. Drives the "Comme neuf" badge — never set true by import
+  // scripts, only by an actual inspection step.
+  inspected: {
+    type: Boolean,
+    default: false
+  },
+  // Optional per-item note for something specific worth flagging
+  // (e.g. a scuff), shown alongside the condition badge when present.
+  conditionNote: {
+    type: String,
+    default: ''
+  },
   condition: {
     type: String,
-    default: "Non testé - Retour client"
+    default: ""
   },
   dimensions: {
     type: String,

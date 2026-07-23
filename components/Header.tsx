@@ -84,7 +84,7 @@ export default function Header() {
               id="site-search"
               type="search"
               name="search"
-              placeholder="Chercher un meuble, une réf, un EAN…"
+              placeholder="Chercher un meuble, une référence…"
               className="w-full rounded-full border border-ligne bg-beton/60 py-2 pl-10 pr-4 text-sm text-encre placeholder:text-gris focus:border-bleu focus:bg-blanc"
             />
             <Search aria-hidden className="pointer-events-none absolute left-3.5 top-2.5 h-4 w-4 text-gris" />
@@ -124,7 +124,7 @@ export default function Header() {
             id="site-search-mobile"
             type="search"
             name="search"
-            placeholder="Chercher un meuble, une réf, un EAN…"
+            placeholder="Chercher un meuble, une référence…"
             className="w-full rounded-full border border-ligne bg-beton/60 py-2 pl-10 pr-4 text-sm"
           />
           <Search aria-hidden className="pointer-events-none absolute left-3.5 top-2.5 h-4 w-4 text-gris" />

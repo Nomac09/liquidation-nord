@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ChevronRight, ShieldCheck } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 import ImageGallery from '@/components/ImageGallery'
@@ -9,6 +9,7 @@ import DeliveryToggle from '@/components/DeliveryToggle'
 import AddToCart from '@/components/AddToCart'
 import Sticker from '@/components/Sticker'
 import Barcode from '@/components/Barcode'
+import ConditionBadge from '@/components/ConditionBadge'
 import { Reveal } from '@/components/motion'
 
 export const dynamic = 'force-dynamic'
@@ -76,9 +77,7 @@ export default async function ProductPage({
 
         <div className="space-y-6">
           <div>
-            <p className="tag-label">
-              {product.name.match(/^vidaXL/i) ? 'Retour vidaXL · ' : ''}pièce unique
-            </p>
+            <p className="tag-label">Pièce unique</p>
             <h1 className="mt-2 font-display text-3xl font-bold leading-tight tracking-tight text-encre sm:text-4xl">
               {displayName}
             </h1>
@@ -87,12 +86,7 @@ export default async function ProductPage({
           <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
             <Sticker price={product.salePrice} rrp={product.rrp} size="lg" tilted={false} />
 
-            <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-gris">
-              <ShieldCheck aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-bleu" />
-              {product.condition || 'Retour client non testé'} — vérifiez-la sur
-              place au retrait, ou contactez-nous pour plus de photos avant de
-              commander.
-            </p>
+            <ConditionBadge inspected={!!product.inspected} note={product.conditionNote} />
 
             <div className="mt-5">
               <AddToCart product={product} />
@@ -120,12 +114,11 @@ export default async function ProductPage({
               <h2 className="tag-label">Fiche d’inventaire</h2>
               <dl className="mt-4 divide-y divide-ligne/70 font-mono text-sm">
                 {[
-                  ['Réf. vidaXL', product.sku],
+                  ['Référence', product.sku],
                   ['Catégorie', CATEGORY_LABELS[product.category] || product.category],
-                  ['État', product.condition],
+                  ['État', product.inspected ? 'Comme neuf' : ''],
                   ['Dimensions', product.dimensions],
                   ['Poids', product.weight ? `${product.weight} kg` : ''],
-                  ['Lot', product.lot ? `Nº ${product.lot} — Stocklear` : ''],
                 ]
                   .filter(([, v]) => v)
                   .map(([k, v]) => (

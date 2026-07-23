@@ -48,7 +48,7 @@ export default function ProductGrid({
           Rien ne correspond à votre recherche.
         </p>
         <p className="mt-2 text-sm text-gris">
-          Essayez un autre mot-clé, ou parcourez tout l’arrivage — il se renouvelle à chaque palette.
+          Essayez un autre mot-clé, ou parcourez tout l’arrivage — la sélection se renouvelle régulièrement.
         </p>
       </div>
     )
@@ -72,9 +72,6 @@ export default function ProductGrid({
 
       {items.length < total && (
         <div className="mt-10 flex flex-col items-center gap-3">
-          <p className="font-mono text-[11px] uppercase tracking-widest text-gris">
-            {items.length} / {total} pièces affichées
-          </p>
           <button
             onClick={loadMore}
             disabled={pending}

@@ -10,7 +10,7 @@ export default function NotFound() {
       </h1>
       <p className="mx-auto mt-3 max-w-md text-gris">
         Elle a peut-être déjà trouvé preneur — c’est la règle du déstockage.
-        L’arrivage se renouvelle à chaque palette.
+        L’arrivage se renouvelle régulièrement.
       </p>
       <Link
         href="/"

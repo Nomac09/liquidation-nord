@@ -17,8 +17,9 @@ const ANCHOR_PCT = 17
 const FLOOR_PCT = 11
 
 // Segments are sized by live stock count, not fixed equal widths — the bar
-// itself is a manifest of what's actually in the warehouse right now, with
-// a legibility floor so a thin category never disappears entirely.
+// itself reflects what's actually in stock right now, with a legibility
+// floor so a thin category never disappears entirely. No numbers are
+// printed — width alone carries the weighting.
 function computeWidths(counts: Record<string, number>) {
   const cats = ORDER.filter((c) => (counts[c] || 0) > 0)
   const total = cats.reduce((s, c) => s + (counts[c] || 0), 0)
@@ -49,15 +50,7 @@ function Ticks() {
   )
 }
 
-function ManifestInner({
-  counts,
-  total,
-  lots,
-}: {
-  counts: Record<string, number>
-  total: number
-  lots: string[]
-}) {
+function ManifestInner({ counts }: { counts: Record<string, number> }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const activeCategory = pathname === '/' ? searchParams.get('category') : null
@@ -65,30 +58,23 @@ function ManifestInner({
 
   return (
     <div>
-      <p className="tag-label mb-2 text-gris">
-        {lots.length > 0
-          ? `${lots.length} arrivage${lots.length > 1 ? 's' : ''} actif${lots.length > 1 ? 's' : ''} · nº ${lots.join(' & ')}`
-          : 'Inventaire en direct'}
-      </p>
+      <p className="tag-label mb-2 text-gris">Parcourir par catégorie</p>
 
       <div
         role="tablist"
         aria-label="Filtrer par catégorie"
-        className="flex h-20 w-full overflow-hidden rounded-lg border border-ligne sm:h-24"
+        className="flex h-14 w-full overflow-hidden rounded-lg border border-ligne sm:h-16"
       >
         <Link
           href="/"
           role="tab"
           aria-selected={!activeCategory}
           style={{ width: `${ANCHOR_PCT}%` }}
-          className={`relative flex shrink-0 flex-col justify-center gap-0.5 px-3 transition-colors sm:px-4 ${
+          className={`relative flex shrink-0 items-center px-3 font-mono text-[10px] uppercase tracking-widest transition-colors sm:px-4 sm:text-[11px] ${
             !activeCategory ? 'bg-encre text-blanc' : 'bg-encre/95 text-blanc hover:bg-encre'
           }`}
         >
-          <span className="font-mono text-[10px] uppercase tracking-widest text-blanc/60 sm:text-[11px]">
-            Tout
-          </span>
-          <span className="font-display text-lg font-bold leading-none sm:text-2xl">{total}</span>
+          Tout
           <Ticks />
         </Link>
 
@@ -101,20 +87,15 @@ function ManifestInner({
               role="tab"
               aria-selected={active}
               style={{ width: `${pct}%` }}
-              className={`relative flex shrink-0 flex-col justify-center gap-0.5 border-l border-ligne px-3 transition-colors sm:px-4 ${
-                active ? 'bg-bleu text-blanc' : i % 2 === 0 ? 'bg-blanc text-encre hover:bg-beton' : 'bg-beton/60 text-encre hover:bg-beton'
+              className={`relative flex shrink-0 items-center truncate border-l border-ligne px-3 font-mono text-[10px] uppercase tracking-widest transition-colors sm:px-4 sm:text-[11px] ${
+                active
+                  ? 'bg-bleu text-blanc'
+                  : i % 2 === 0
+                    ? 'bg-blanc text-encre hover:bg-beton'
+                    : 'bg-beton/60 text-encre hover:bg-beton'
               }`}
             >
-              <span
-                className={`truncate font-mono text-[10px] uppercase tracking-widest sm:text-[11px] ${
-                  active ? 'text-blanc/70' : 'text-gris'
-                }`}
-              >
-                {LABELS[category] || category}
-              </span>
-              <span className="font-display text-lg font-bold leading-none sm:text-2xl">
-                {counts[category] || 0}
-              </span>
+              {LABELS[category] || category}
               {active && <Ticks />}
             </Link>
           )
@@ -124,19 +105,11 @@ function ManifestInner({
   )
 }
 
-export default function StockManifest({
-  counts,
-  total,
-  lots = [],
-}: {
-  counts: Record<string, number>
-  total: number
-  lots?: string[]
-}) {
+export default function StockManifest({ counts }: { counts: Record<string, number> }) {
   return (
     <Reveal>
-      <Suspense fallback={<div className="h-[104px]" />}>
-        <ManifestInner counts={counts} total={total} lots={lots} />
+      <Suspense fallback={<div className="h-14 sm:h-16" />}>
+        <ManifestInner counts={counts} />
       </Suspense>
     </Reveal>
   )

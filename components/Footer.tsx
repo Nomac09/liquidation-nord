@@ -10,8 +10,8 @@ export default function Footer() {
             {BRAND_SYLLABLE_SPLIT.lead}<span className="text-orange">{BRAND_SYLLABLE_SPLIT.tail}</span>
           </p>
           <p className="mt-2 text-sm leading-relaxed text-blanc/70">
-            Déstockage de retours vidaXL : mobilier, jardin, bricolage et déco
-            à moitié prix. Chaque pièce est unique — quand c’est parti, c’est parti.
+            Déstockage de mobilier, jardin, bricolage et déco de marque à
+            moitié prix. Chaque pièce est unique — quand c’est parti, c’est parti.
           </p>
         </div>
 
@@ -65,7 +65,12 @@ export default function Footer() {
       <div className="border-t border-blanc/10">
         <div className="container mx-auto flex flex-col items-start justify-between gap-2 px-4 py-4 font-mono text-[11px] uppercase tracking-widest text-blanc/50 sm:flex-row sm:items-center">
           <p>© {new Date().getFullYear()} {BRAND_NAME} — souqify.fr</p>
-          <p>Paiement sécurisé Stripe · TVA non applicable, art. 293 B du CGI</p>
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <Link href="/cgv" className="hover:text-blanc">
+              CGV
+            </Link>
+            <span>Paiement sécurisé Stripe · TVA non applicable, art. 293 B du CGI</span>
+          </p>
         </div>
       </div>
     </footer>

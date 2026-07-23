@@ -4,6 +4,12 @@ import Product from '@/lib/schemas/Product'
 import * as XLSX from 'xlsx'
 import { requireAdmin } from '@/lib/adminAuth'
 
+const DIACRITICS_RANGE = new RegExp('[̀-ͯ]', 'g')
+function slugify(name: string, ean: string) {
+  const ascii = name.normalize('NFD').replace(DIACRITICS_RANGE, '')
+  return `${ascii.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}-${ean}`
+}
+
 export async function POST(request: NextRequest) {
   const denied = requireAdmin(request)
   if (denied) return denied
@@ -61,10 +67,11 @@ export async function POST(request: NextRequest) {
           quantity,
           photos: [] as string[],
           status: 'sellable' as const,
-          condition: "Non testé - Retour client",
+          condition: '',
+          inspected: false,
           dimensions: '',
           weight: 0,
-          slug: `${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${ean}`,
+          slug: slugify(name, ean),
           salePrice: Math.round(rrp * (rrp > 500 ? 0.4 : 0.5))
         }
 

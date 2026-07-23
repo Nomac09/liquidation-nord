@@ -12,7 +12,7 @@ export function buildQuery(category?: string | null, search?: string | null) {
   if (category) query.category = category
   if (search) {
     const rx = { $regex: escapeRegex(search.trim()), $options: 'i' }
-    query.$or = [{ name: rx }, { nameEn: rx }, { ean: rx }, { sku: rx }]
+    query.$or = [{ name: rx }, { nameEn: rx }, { category: rx }, { sku: rx }]
   }
   return query
 }
@@ -48,14 +48,4 @@ export async function getCategoryCounts() {
   const counts: Record<string, number> = {}
   for (const r of rows) counts[r._id] = r.n
   return counts
-}
-
-export async function getActiveLots() {
-  await connectDB()
-  const rows = await Product.aggregate([
-    { $match: { status: 'sellable', lot: { $nin: [null, ''] } } },
-    { $group: { _id: '$lot' } },
-    { $sort: { _id: 1 } },
-  ])
-  return rows.map((r) => r._id as string)
 }
