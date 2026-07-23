@@ -23,3 +23,4 @@ Full-stack e-commerce platform for furniture liquidation based in Bondues, Franc
 1. **Install dependencies**:
 ```bash
 npm install
+

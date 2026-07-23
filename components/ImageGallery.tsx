@@ -1,17 +1,21 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 
 interface ImageGalleryProps {
-  photos: string[]
-  productName: string
+  photos?: any[]
+  productName?: string
+  name?: string // Alternative prop name
 }
 
-export default function ImageGallery({ photos, productName }: ImageGalleryProps) {
+export default function ImageGallery({ photos = [], productName, name }: ImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState(0)
+  const displayName = productName || name || 'Product'
 
-  if (!photos || photos.length === 0) {
+  // Ensure photos is an array
+  const validPhotos = Array.isArray(photos) ? photos.filter(Boolean) : []
+
+  if (validPhotos.length === 0) {
     return (
       <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center">
         <div className="text-center text-gray-400">
@@ -27,16 +31,16 @@ export default function ImageGallery({ photos, productName }: ImageGalleryProps)
       {/* Main image */}
       <div className="aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden">
         <img
-          src={photos[selectedImage]}
-          alt={`${productName} - Image ${selectedImage + 1}`}
+          src={validPhotos[selectedImage]}
+          alt={`${displayName} - Image ${selectedImage + 1}`}
           className="w-full h-full object-cover"
         />
       </div>
 
       {/* Thumbnail gallery */}
-      {photos.length > 1 && (
+      {validPhotos.length > 1 && (
         <div className="grid grid-cols-4 gap-2">
-          {photos.map((photo, index) => (
+          {validPhotos.map((photo, index) => (
             <button
               key={index}
               onClick={() => setSelectedImage(index)}
@@ -46,7 +50,7 @@ export default function ImageGallery({ photos, productName }: ImageGalleryProps)
             >
               <img
                 src={photo}
-                alt={`${productName} - Thumbnail ${index + 1}`}
+                alt={`${displayName} - Thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
               />
             </button>
