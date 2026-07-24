@@ -1,6 +1,5 @@
 import Hero from '@/components/Hero'
 import ProductGrid from '@/components/ProductGrid'
-import StockManifest from '@/components/StockManifest'
 import { Reveal } from '@/components/motion'
 import { getCategoryCounts, getProducts } from '@/lib/catalog'
 import { MapPin, Search as SearchIcon, Timer } from 'lucide-react'
@@ -34,13 +33,7 @@ export default async function HomePage({
     <div>
       {showHero && (
         <>
-          <Hero />
-
-          <section aria-label="Parcourir par catégorie" className="border-b border-ligne bg-blanc py-8">
-            <div className="container mx-auto px-4">
-              <StockManifest counts={counts} />
-            </div>
-          </section>
+          <Hero counts={counts} />
 
           <section aria-label="Comment ça marche" className="border-b border-ligne bg-beton">
             <div className="container mx-auto grid gap-px overflow-hidden px-4 py-0 sm:grid-cols-3">
@@ -52,8 +45,8 @@ export default async function HomePage({
                 },
                 {
                   icon: Timer,
-                  title: 'Réservez-la vite',
-                  text: 'Un seul exemplaire de chaque. Payez en ligne, elle est à vous.',
+                  title: 'Payez sans attendre',
+                  text: 'Un seul exemplaire de chaque — le premier paiement confirmé l’emporte.',
                 },
                 {
                   icon: MapPin,

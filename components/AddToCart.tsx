@@ -30,7 +30,6 @@ export default function AddToCart({
       productId,
       name,
       price,
-      quantity: 1,
       photo: photo || '/placeholder.png',
     })
     setAdded(true)
@@ -71,7 +70,7 @@ export default function AddToCart({
             transition={{ duration: 0.18 }}
           >
             <ShoppingBag aria-hidden className="h-4 w-4" />
-            Réserver cette pièce
+            Ajouter au panier
           </motion.span>
         )}
       </AnimatePresence>

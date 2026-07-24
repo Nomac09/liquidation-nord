@@ -3,14 +3,14 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react'
+import { ShoppingBag, Trash2, X } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
 import { formatPrice } from '@/components/Sticker'
 import { EASE } from '@/components/motion'
 
 export default function CartDrawer() {
-  const { items, removeItem, updateQuantity, total } = useCart()
+  const { items, removeItem, total } = useCart()
   const { cartOpen, closeCart } = useUI()
   const reduce = useReducedMotion()
 
@@ -96,23 +96,9 @@ export default function CartDrawer() {
                         <p className="mt-1 font-mono text-sm font-semibold text-encre">
                           {formatPrice(item.price)} €
                         </p>
-                        <div className="mt-2 flex items-center gap-2">
-                          <button
-                            onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                            aria-label="Réduire la quantité"
-                            className="flex h-7 w-7 items-center justify-center rounded-full border border-ligne text-gris hover:border-bleu hover:text-bleu"
-                          >
-                            <Minus aria-hidden className="h-3.5 w-3.5" />
-                          </button>
-                          <span className="w-6 text-center font-mono text-sm">{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                            aria-label="Augmenter la quantité"
-                            className="flex h-7 w-7 items-center justify-center rounded-full border border-ligne text-gris hover:border-bleu hover:text-bleu"
-                          >
-                            <Plus aria-hidden className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
+                        <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-gris">
+                          Pièce unique
+                        </p>
                       </div>
                       <button
                         onClick={() => removeItem(item.productId)}

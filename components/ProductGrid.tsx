@@ -2,7 +2,10 @@
 
 import { useState, useTransition } from 'react'
 import { motion, gridContainer, gridItem, EASE, useReducedMotion } from '@/components/motion'
-import ProductCard, { type CatalogProduct } from '@/components/ProductCard'
+import TicketRow from '@/components/TicketRow'
+import RegistreRow from '@/components/RegistreRow'
+import { useViewMode } from '@/lib/viewMode'
+import type { CatalogProduct } from '@/components/ProductCard'
 import { Loader2 } from 'lucide-react'
 
 const PAGE_SIZE = 24
@@ -22,6 +25,7 @@ export default function ProductGrid({
   const [initialCount] = useState(initialItems.length)
   const [pending, startTransition] = useTransition()
   const reduce = useReducedMotion()
+  const { mode, setMode } = useViewMode()
 
   const loadMore = () => {
     startTransition(async () => {
@@ -55,10 +59,41 @@ export default function ProductGrid({
     )
   }
 
+  const listClass =
+    mode === 'tickets'
+      ? 'flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4'
+      : 'border border-ligne bg-blanc px-4 lg:grid lg:grid-cols-2 lg:gap-x-8'
+  const Row = mode === 'tickets' ? TicketRow : RegistreRow
+
   return (
     <>
+      <div className="mb-4 flex items-center justify-end">
+        <div
+          role="tablist"
+          aria-label="Mode d’affichage"
+          className="inline-flex overflow-hidden rounded-full border border-ligne font-mono text-[10px] uppercase tracking-widest"
+        >
+          <button
+            role="tab"
+            aria-selected={mode === 'tickets'}
+            onClick={() => setMode('tickets')}
+            className={`px-3 py-1.5 transition-colors ${mode === 'tickets' ? 'bg-encre text-blanc' : 'text-encre hover:bg-beton'}`}
+          >
+            Tickets
+          </button>
+          <button
+            role="tab"
+            aria-selected={mode === 'registre'}
+            onClick={() => setMode('registre')}
+            className={`border-l border-ligne px-3 py-1.5 transition-colors ${mode === 'registre' ? 'bg-encre text-blanc' : 'text-encre hover:bg-beton'}`}
+          >
+            Registre
+          </button>
+        </div>
+      </div>
+
       <motion.ul
-        className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 xl:grid-cols-4"
+        className={listClass}
         variants={reduce ? undefined : gridContainer}
         initial={reduce ? undefined : 'hidden'}
         whileInView={reduce ? undefined : 'show'}
@@ -66,7 +101,7 @@ export default function ProductGrid({
       >
         {items.slice(0, initialCount).map((product) => (
           <motion.li key={product._id} variants={reduce ? undefined : gridItem}>
-            <ProductCard product={product} />
+            <Row product={product} />
           </motion.li>
         ))}
       </motion.ul>
@@ -76,7 +111,7 @@ export default function ProductGrid({
         // whileInView already fired (and won't re-fire, once: true) — so
         // these animate on mount directly instead of relying on variant
         // propagation from an ancestor that's done animating.
-        <ul className="mt-3 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-5 md:grid-cols-3 xl:grid-cols-4">
+        <ul className={`mt-3 ${listClass}`}>
           {items.slice(initialCount).map((product, i) => (
             <motion.li
               key={product._id}
@@ -84,7 +119,7 @@ export default function ProductGrid({
               animate={{ opacity: 1, y: 0 }}
               transition={reduce ? undefined : { duration: 0.5, ease: EASE, delay: (i % PAGE_SIZE) * 0.03 }}
             >
-              <ProductCard product={product} />
+              <Row product={product} />
             </motion.li>
           ))}
         </ul>

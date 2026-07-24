@@ -76,6 +76,12 @@ const ProductSchema = new mongoose.Schema({
     enum: ['sellable', 'unsellable', 'sold'],
     default: 'sellable'
   },
+  // Set only by the payment webhook's atomic sold-transition, never by
+  // client code. Used for order records now, and a "recently sold" rail
+  // later.
+  soldAt: {
+    type: Date
+  },
   // True only once a specific unit has been physically inspected before
   // listing. Drives the "Comme neuf" badge — never set true by import
   // scripts, only by an actual inspection step.

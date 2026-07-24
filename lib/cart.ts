@@ -11,50 +11,30 @@ interface CartItem {
 
 interface CartState {
   items: CartItem[]
-  addItem: (item: CartItem) => void
+  addItem: (item: Omit<CartItem, 'quantity'>) => void
   removeItem: (productId: string) => void
-  updateQuantity: (productId: string, quantity: number) => void
   clearCart: () => void
   total: () => number
 }
 
+// Every product is a single physical unit — there is never more than one
+// of anything to buy, so quantity is always 1. addItem is idempotent: if
+// the item is already in the cart, this does nothing.
 export const useCart = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
       addItem: (item) => {
         const items = get().items
-        const existingItem = items.find(i => i.productId === item.productId)
-        
-        if (existingItem) {
-          set({
-            items: items.map(i => 
-              i.productId === item.productId 
-                ? { ...i, quantity: i.quantity + item.quantity }
-                : i
-            )
-          })
-        } else {
-          set({ items: [...items, item] })
-        }
+        if (items.some((i) => i.productId === item.productId)) return
+        set({ items: [...items, { ...item, quantity: 1 }] })
       },
       removeItem: (productId) => {
         set({ items: get().items.filter(i => i.productId !== productId) })
       },
-      updateQuantity: (productId, quantity) => {
-        if (quantity <= 0) {
-          get().removeItem(productId)
-          return
-        }
-        set({
-          items: get().items.map(i => 
-            i.productId === productId ? { ...i, quantity } : i
-          )
-        })
-      },
       clearCart: () => set({ items: [] }),
       total: () => {
-        return get().items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+        return get().items.reduce((sum, item) => sum + item.price, 0)
       }
     }),
     {

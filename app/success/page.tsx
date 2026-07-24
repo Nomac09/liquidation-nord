@@ -68,7 +68,7 @@ function SuccessContent() {
       <div className="rounded-xl border border-ligne bg-blanc p-8 text-center shadow-carte">
         <CheckCircle2 aria-hidden className="mx-auto h-12 w-12 text-bleu" />
         <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-encre">
-          C’est réservé !
+          C’est payé, c’est à vous.
         </h1>
         <p className="mt-2 text-gris">
           Merci pour votre commande. La confirmation part à{' '}

@@ -14,11 +14,17 @@ const OrderSchema = new mongoose.Schema({
   shippingCost: Number,
   shippingDetails: Object,
   total: Number,
-  stripeSessionId: String,
+  stripeSessionId: { type: String, unique: true, sparse: true, index: true },
   paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },
   deliveryStatus: { type: String, enum: ['pending', 'label_created', 'shipped', 'delivered'], default: 'pending' },
   trackingNumber: String,
   customerEmail: String,
+  // productIds where the atomic sold-transition failed at webhook time —
+  // this customer was charged but the item had already been sold to
+  // someone whose payment completed first. Needs a manual refund; should
+  // never be non-empty in normal operation, but must not fail silently if
+  // it happens.
+  soldConflicts: [{ type: String }],
   createdAt: { type: Date, default: Date.now }
 });
 

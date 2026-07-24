@@ -28,7 +28,6 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
       productId: product._id,
       name: product.name,
       price: product.salePrice,
-      quantity: 1,
       photo: photo || '/placeholder.png',
     })
     openCart()

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react'
+import { AlertCircle, ArrowRight, ShoppingBag, Trash2 } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { formatPrice } from '@/components/Sticker'
 
@@ -16,31 +16,37 @@ const SHIPPING = {
 type ShippingMethod = keyof typeof SHIPPING
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, total } = useCart()
+  const { items, removeItem, total } = useCart()
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>('pickup')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [unavailable, setUnavailable] = useState<string[]>([])
   const router = useRouter()
 
   const handleCheckout = async () => {
     setIsLoading(true)
     setError('')
+    setUnavailable([])
     try {
       const response = await fetch('/api/checkout/create-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map((item) => ({
-            productId: item.productId,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-          })),
+          items: items.map((item) => ({ productId: item.productId })),
           shippingMethod,
-          shippingCost: SHIPPING[shippingMethod].cost,
-          subtotal: total(),
         }),
       })
+
+      if (response.status === 409) {
+        const data = await response.json()
+        const unavailableIds: string[] = data.items?.map((i: { productId: string }) => i.productId) || []
+        const names: string[] = data.items?.map((i: { name: string }) => i.name) || []
+        unavailableIds.forEach((id) => removeItem(id))
+        setUnavailable(names)
+        setIsLoading(false)
+        return
+      }
+
       const { url } = await response.json()
       if (!url) throw new Error('no-url')
       router.push(url)
@@ -77,9 +83,19 @@ export default function CartPage() {
         Votre panier
       </h1>
       <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-gris">
-        {items.length} article{items.length > 1 ? 's' : ''} réservé
-        {items.length > 1 ? 's' : ''}
+        {items.length} article{items.length > 1 ? 's' : ''}
       </p>
+
+      {unavailable.length > 0 && (
+        <div role="alert" className="mt-6 flex items-start gap-2 rounded-lg bg-orange-pale px-4 py-3 text-sm text-orange-deep">
+          <AlertCircle aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
+          <span>
+            {unavailable.length === 1
+              ? `« ${unavailable[0]} » vient d’être vendue — elle a été retirée de votre panier.`
+              : `Ces pièces viennent d’être vendues et ont été retirées de votre panier : ${unavailable.join(', ')}.`}
+          </span>
+        </div>
+      )}
 
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
         <ul className="space-y-3 lg:col-span-2">
@@ -100,23 +116,9 @@ export default function CartPage() {
                 <p className="mt-1 font-mono font-semibold text-encre">
                   {formatPrice(item.price)} €
                 </p>
-                <div className="mt-3 flex items-center gap-2">
-                  <button
-                    onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                    aria-label="Réduire la quantité"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-ligne text-gris hover:border-bleu hover:text-bleu"
-                  >
-                    <Minus aria-hidden className="h-4 w-4" />
-                  </button>
-                  <span className="w-8 text-center font-mono">{item.quantity}</span>
-                  <button
-                    onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                    aria-label="Augmenter la quantité"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-ligne text-gris hover:border-bleu hover:text-bleu"
-                  >
-                    <Plus aria-hidden className="h-4 w-4" />
-                  </button>
-                </div>
+                <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-gris">
+                  Pièce unique
+                </p>
               </div>
               <button
                 onClick={() => removeItem(item.productId)}

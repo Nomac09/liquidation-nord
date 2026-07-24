@@ -2,10 +2,14 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { EASE } from '@/components/motion'
+import StockManifest from '@/components/StockManifest'
 
 // The one orchestrated moment: micro-label → headline lines clip-reveal →
-// the −50% sticker springs in.
-export default function Hero() {
+// the −50% sticker springs in. The category manifest bar lives inside this
+// same block (a dashed rule below the lede, not a separate section) so the
+// arrivage framing and the category tally read as one ledger unit rather
+// than "hero banner, then unrelated nav widget."
+export default function Hero({ counts }: { counts: Record<string, number> }) {
   const reduce = useReducedMotion()
 
   const line = (delay: number) =>
@@ -63,6 +67,10 @@ export default function Hero() {
           l’entrepôt ou faites-vous livrer. Un seul exemplaire de chaque —
           quand c’est parti, c’est parti.
         </motion.p>
+
+        <div className="mt-10 border-t border-dashed border-ligne pt-6">
+          <StockManifest counts={counts} />
+        </div>
       </div>
     </section>
   )
