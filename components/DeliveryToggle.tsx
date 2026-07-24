@@ -7,7 +7,7 @@ const OPTIONS = [
   {
     value: 'pickup' as const,
     icon: MapPin,
-    title: 'Je viens la chercher',
+    title: 'Retrait à l’entrepôt',
     detail: 'Entrepôt de Bondues (59910) · Lun–Sam 9h–18h',
     price: 'Gratuit',
   },
@@ -21,7 +21,7 @@ const OPTIONS = [
   {
     value: 'home' as const,
     icon: Truck,
-    title: 'Livrée chez moi',
+    title: 'Livraison à domicile',
     detail: 'Cocolis · sans limite de poids · 3 à 5 jours',
     price: '79,99 €',
   },

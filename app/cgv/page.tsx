@@ -38,8 +38,7 @@ export default function CGVPage() {
         avant publication définitive. La dénomination sociale ci-dessous est
         reprise du nom d’entreprise communiqué pour le compte Stripe
         (« AutoWeb Commerce ») — à confirmer que c’est bien l’entité qui
-        exploite ce site avant publication. L’adresse email de contact reste
-        à compléter.
+        exploite ce site avant publication.
       </div>
 
       <Section title="1. Objet">
@@ -111,10 +110,9 @@ export default function CGVPage() {
         </p>
         <p>
           Pour exercer ce droit, l’acheteur notifie sa décision par écrit
-          (email) à l’adresse de contact du vendeur [À compléter — email de
-          contact]. Le remboursement intervient dans un délai de 14 jours à
-          compter de la réception du produit retourné, ou de la preuve de
-          son expédition.
+          (email) à l’adresse contact@souqify.fr. Le remboursement intervient
+          dans un délai de 14 jours à compter de la réception du produit
+          retourné, ou de la preuve de son expédition.
         </p>
       </Section>
 
@@ -152,8 +150,8 @@ export default function CGVPage() {
           nécessaires à l’exécution de la commande (paiement, livraison).
           Conformément à la réglementation applicable, l’acheteur dispose
           d’un droit d’accès, de rectification et de suppression de ses
-          données, exerçable auprès de [À compléter — email de contact], ou
-          par courrier au 2 Allée de la Mannée, Apt 21, 59910 Bondues.
+          données, exerçable auprès de contact@souqify.fr, ou par courrier au
+          2 Allée de la Mannée, Apt 21, 59910 Bondues.
         </p>
       </Section>
 
@@ -168,9 +166,8 @@ export default function CGVPage() {
       <Section title="11. Contact">
         <p>
           Pour toute question relative à une commande ou aux présentes CGV,
-          l’acheteur peut contacter le vendeur à l’adresse [À compléter —
-          email de contact], ou par courrier au 2 Allée de la Mannée, Apt 21,
-          59910 Bondues.
+          l’acheteur peut contacter le vendeur à l’adresse contact@souqify.fr,
+          ou par courrier au 2 Allée de la Mannée, Apt 21, 59910 Bondues.
         </p>
       </Section>
     </div>

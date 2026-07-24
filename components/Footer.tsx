@@ -1,16 +1,17 @@
 import Link from 'next/link'
 import { BRAND_NAME, BRAND_SYLLABLE_SPLIT } from '@/lib/brand'
+import { CATEGORIES } from '@/lib/categories'
 
 export default function Footer() {
   return (
     <footer className="border-t border-ligne bg-encre text-blanc">
-      <div className="container mx-auto grid gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container mx-auto grid gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-5">
         <div>
           <p className="font-display text-lg font-bold">
             {BRAND_SYLLABLE_SPLIT.lead}<span className="text-orange">{BRAND_SYLLABLE_SPLIT.tail}</span>
           </p>
           <p className="mt-2 text-sm leading-relaxed text-blanc/70">
-            Déstockage de mobilier, jardin, bricolage et déco vidaXL à
+            Déstockage de jardin, mobilier, déco et jardinage vidaXL à
             moitié prix. Chaque pièce est unique — quand c’est parti, c’est parti.
           </p>
         </div>
@@ -24,6 +25,15 @@ export default function Footer() {
             <br />
             Lun–Sam · 9h–18h
           </address>
+        </div>
+
+        <div>
+          <p className="tag-label text-blanc/50">Contact</p>
+          <p className="mt-3 text-sm leading-relaxed text-blanc/85">
+            <a href="mailto:contact@souqify.fr" className="hover:text-blanc">
+              contact@souqify.fr
+            </a>
+          </p>
         </div>
 
         <div>
@@ -43,16 +53,13 @@ export default function Footer() {
                 Tout l’arrivage
               </Link>
             </li>
-            <li>
-              <Link href="/?category=Mobilier" className="text-blanc/85 hover:text-blanc">
-                Mobilier
-              </Link>
-            </li>
-            <li>
-              <Link href="/?category=Bazar" className="text-blanc/85 hover:text-blanc">
-                Bazar & Déco
-              </Link>
-            </li>
+            {CATEGORIES.map((c) => (
+              <li key={c.value}>
+                <Link href={`/?category=${encodeURIComponent(c.value)}`} className="text-blanc/85 hover:text-blanc">
+                  {c.label}
+                </Link>
+              </li>
+            ))}
             <li>
               <Link href="/cart" className="text-blanc/85 hover:text-blanc">
                 Mon panier

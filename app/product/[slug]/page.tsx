@@ -11,6 +11,7 @@ import Sticker from '@/components/Sticker'
 import Barcode from '@/components/Barcode'
 import ConditionBadge from '@/components/ConditionBadge'
 import { Reveal } from '@/components/motion'
+import { CATEGORY_LABELS } from '@/lib/categories'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,13 +36,6 @@ export async function generateMetadata({
       `${product.name} à ${product.salePrice} € au lieu de ${product.rrp} € — pièce unique, retrait gratuit à Bondues (59).`,
     openGraph: product.photos?.[0] ? { images: [product.photos[0]] } : undefined,
   }
-}
-
-const CATEGORY_LABELS: Record<string, string> = {
-  Mobilier: 'Mobilier',
-  Bazar: 'Bazar & Déco',
-  Bricolage: 'Bricolage',
-  Textile: 'Textile',
 }
 
 export default async function ProductPage({
@@ -117,7 +111,7 @@ export default async function ProductPage({
               <h2 className="tag-label">Fiche d’inventaire</h2>
               <dl className="mt-4 divide-y divide-ligne/70 font-mono text-sm">
                 {[
-                  [/^vidaxl/i.test(product.name) ? 'Réf. vidaXL' : 'Référence', product.sku],
+                  ['Référence', product.internalRef],
                   ['Catégorie', CATEGORY_LABELS[product.category] || product.category],
                   ['État', product.inspected ? 'Comme neuf' : ''],
                   ['Dimensions', product.dimensions],

@@ -6,9 +6,15 @@ import { getProducts } from '@/lib/catalog'
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
+    const priceMin = searchParams.get('priceMin')
+    const priceMax = searchParams.get('priceMax')
     const { items, total } = await getProducts({
       category: searchParams.get('category'),
       search: searchParams.get('search'),
+      priceMin: priceMin ? Number(priceMin) : null,
+      priceMax: priceMax ? Number(priceMax) : null,
+      material: searchParams.get('material'),
+      color: searchParams.get('color'),
       limit: parseInt(searchParams.get('limit') || '24', 10) || 24,
       skip: parseInt(searchParams.get('skip') || '0', 10) || 0,
     })

@@ -25,8 +25,11 @@ export default function ConditionBadge({
   return (
     <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-gris">
       <ShieldCheck aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-bleu" />
-      Pièce en stock limité — photos contractuelles. Contactez-nous pour tout
-      détail avant votre commande.
+      Pièce en stock limité — photos contractuelles.{' '}
+      <a href="mailto:contact@souqify.fr" className="text-bleu hover:underline">
+        Contactez-nous
+      </a>{' '}
+      pour tout détail avant votre commande.
     </p>
   )
 }

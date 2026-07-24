@@ -16,6 +16,8 @@ export interface CatalogProduct {
   photos: string[]
   condition?: string
   slug: string
+  status?: 'sellable' | 'sold' | 'unsellable'
+  specLine?: string
 }
 
 export default function ProductCard({ product }: { product: CatalogProduct }) {

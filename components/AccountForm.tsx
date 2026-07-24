@@ -47,7 +47,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-        <h2 className="tag-label">Coordonnées</h2>
+        <h2 className="tag-label border-b border-dashed border-ligne pb-3">Coordonnées</h2>
         <div className="mt-4 space-y-4">
           <div>
             <label htmlFor="acc-email" className="tag-label">Email</label>
@@ -84,7 +84,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
       </div>
 
       <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-        <h2 className="tag-label">Adresse de livraison</h2>
+        <h2 className="tag-label border-b border-dashed border-ligne pb-3">Adresse de livraison</h2>
         <div className="mt-4 space-y-4">
           <div>
             <label htmlFor="acc-line1" className="tag-label">Adresse</label>

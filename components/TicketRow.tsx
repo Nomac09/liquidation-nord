@@ -1,21 +1,36 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, type ElementType } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ImageOff, Plus } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
 import Sticker from '@/components/Sticker'
+import { CATEGORY_LABELS } from '@/lib/categories'
 import type { CatalogProduct } from '@/components/ProductCard'
 
-const CATEGORY_LABELS: Record<string, string> = {
-  Mobilier: 'Mobilier',
-  Bazar: 'Bazar & Déco',
-  Bricolage: 'Bricolage',
-  Textile: 'Textile',
-}
-
 const SWIPE_THRESHOLD = 30
+
+// A sold ticket is a closed ledger entry, not a link to click through —
+// its product page is no longer live, so it renders as a plain grid
+// participant instead of an anchor.
+function PhotoInfoWrapper({
+  sold,
+  slug,
+  children,
+}: {
+  sold: boolean
+  slug: string
+  children: React.ReactNode
+}) {
+  const Tag: ElementType = sold ? 'div' : Link
+  const extraProps = sold ? {} : { href: `/product/${slug}` }
+  return (
+    <Tag className="contents" {...extraProps}>
+      {children}
+    </Tag>
+  )
+}
 
 // A wide ticket row, not a square card: photo | perforated tear | info |
 // perforated tear | price + claim. Full-bleed at every width — mobile
@@ -28,6 +43,7 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
   const [index, setIndex] = useState(0)
   const touchStartX = useRef(0)
   const swiped = useRef(false)
+  const sold = product.status === 'sold'
 
   const hasMultiple = photos.length > 1
   const photo = photos[index] || photos[0]
@@ -76,8 +92,12 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
   }
 
   return (
-    <article className="group grid grid-cols-[92px_1fr_auto] border border-ligne bg-blanc transition-colors hover:border-encre/40 sm:grid-cols-[150px_1fr_150px]">
-      <Link href={`/product/${product.slug}`} className="contents">
+    <article
+      className={`group grid grid-cols-[92px_1fr_auto] border border-ligne bg-blanc transition-colors sm:grid-cols-[150px_1fr_150px] ${
+        sold ? 'opacity-60' : 'hover:border-encre/40'
+      }`}
+    >
+      <PhotoInfoWrapper sold={sold} slug={product.slug}>
         <div
           className="relative flex items-center justify-center overflow-hidden bg-beton p-2 sm:p-3"
           onClick={onPhotoClick}
@@ -90,13 +110,15 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
               src={photo}
               alt={product.name}
               loading="lazy"
-              className="max-h-24 max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03] sm:max-h-32"
+              className={`max-h-24 max-w-full object-contain transition-transform duration-500 ease-out sm:max-h-32 ${
+                sold ? 'grayscale' : 'group-hover:scale-[1.03]'
+              }`}
             />
           ) : (
             <ImageOff aria-hidden className="h-5 w-5 text-gris" />
           )}
 
-          {hasMultiple && (
+          {hasMultiple && !sold && (
             <>
               <button
                 type="button"
@@ -145,22 +167,37 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
           <p className="truncate font-mono text-[10px] uppercase tracking-widest text-gris">
             Réf. {product.internalRef || '—'} · {CATEGORY_LABELS[product.category] || product.category}
           </p>
-          <h3 className="line-clamp-2 text-[14px] font-medium leading-snug text-encre sm:text-[15px]">
+          <h3
+            className={`line-clamp-2 text-[14px] font-medium leading-snug text-encre sm:text-[15px] ${
+              sold ? 'line-through decoration-orange-deep' : ''
+            }`}
+          >
             {product.name}
           </h3>
+          {product.specLine && (
+            <p className="truncate font-mono text-[10px] text-gris">{product.specLine}</p>
+          )}
         </div>
-      </Link>
+      </PhotoInfoWrapper>
 
       <div className="perforated relative flex flex-col items-center justify-center gap-2 px-2.5 py-3 sm:px-4">
-        <Sticker price={product.salePrice} rrp={product.rrp} />
-        <button
-          onClick={handleAdd}
-          aria-label={`Ajouter ${product.name} au panier`}
-          className="flex items-center gap-1 rounded-full border border-ligne px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-encre transition-colors hover:border-bleu hover:bg-bleu hover:text-blanc"
-        >
-          <Plus aria-hidden className="h-3 w-3" />
-          Ajouter
-        </button>
+        <span className={sold ? 'line-through decoration-orange-deep' : ''}>
+          <Sticker price={product.salePrice} rrp={product.rrp} />
+        </span>
+        {sold ? (
+          <span className="rounded-full border border-orange-deep px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-orange-deep">
+            Vendu
+          </span>
+        ) : (
+          <button
+            onClick={handleAdd}
+            aria-label={`Ajouter ${product.name} au panier`}
+            className="flex items-center gap-1 rounded-full border border-ligne px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-encre transition-colors hover:border-bleu hover:bg-bleu hover:text-blanc"
+          >
+            <Plus aria-hidden className="h-3 w-3" />
+            Ajouter
+          </button>
+        )}
       </div>
     </article>
   )

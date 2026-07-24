@@ -119,6 +119,8 @@ export async function POST(request: NextRequest) {
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
+      ui_mode: 'embedded_page',
+      redirect_on_completion: 'always',
       line_items: [
         ...items.map((i) => ({
           quantity: 1,
@@ -142,8 +144,7 @@ export async function POST(request: NextRequest) {
             }]
           : []),
       ],
-      success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/cart`,
+      return_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       customer_email: accountEmail,
       metadata: { orderId },
     })
@@ -163,7 +164,7 @@ export async function POST(request: NextRequest) {
       userId: accountUserId,
     })
 
-    return NextResponse.json({ url: session.url })
+    return NextResponse.json({ clientSecret: session.client_secret })
   } catch (error) {
     console.error('checkout session creation failed', error)
     return NextResponse.json({ error: 'Payment service unavailable' }, { status: 503 })

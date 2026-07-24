@@ -15,11 +15,19 @@ export default function ProductGrid({
   total,
   category,
   search,
+  priceMin,
+  priceMax,
+  material,
+  color,
 }: {
   initialItems: CatalogProduct[]
   total: number
   category?: string
   search?: string
+  priceMin?: string
+  priceMax?: string
+  material?: string
+  color?: string
 }) {
   const [items, setItems] = useState(initialItems)
   const [initialCount] = useState(initialItems.length)
@@ -35,6 +43,10 @@ export default function ProductGrid({
       })
       if (category) params.set('category', category)
       if (search) params.set('search', search)
+      if (priceMin) params.set('priceMin', priceMin)
+      if (priceMax) params.set('priceMax', priceMax)
+      if (material) params.set('material', material)
+      if (color) params.set('color', color)
       const res = await fetch(`/api/products?${params}`)
       if (!res.ok) return
       const data = await res.json()

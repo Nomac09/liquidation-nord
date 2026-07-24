@@ -23,6 +23,7 @@ function SuccessContent() {
   const { clearCart } = useCart()
 
   useEffect(() => {
+    sessionStorage.removeItem('souqify-checkout-secret')
     if (!sessionId) {
       setLoading(false)
       return
@@ -54,7 +55,10 @@ function SuccessContent() {
         </h1>
         <p className="mt-2 text-gris">
           Si vous venez de payer, vous recevrez l’email de confirmation dans
-          quelques minutes.
+          quelques minutes. Toujours rien ? Écrivez-nous à{' '}
+          <a href="mailto:contact@souqify.fr" className="text-bleu hover:underline">
+            contact@souqify.fr
+          </a>.
         </p>
         <Link href="/" className="mt-6 inline-block font-semibold text-bleu hover:underline">
           Retour à l’arrivage
@@ -68,10 +72,10 @@ function SuccessContent() {
       <div className="rounded-xl border border-ligne bg-blanc p-8 text-center shadow-carte">
         <CheckCircle2 aria-hidden className="mx-auto h-12 w-12 text-bleu" />
         <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-encre">
-          C’est payé, c’est à vous.
+          Merci pour votre commande.
         </h1>
         <p className="mt-2 text-gris">
-          Merci pour votre commande. La confirmation part à{' '}
+          La confirmation part à{' '}
           <span className="font-medium text-encre">{order.customerEmail}</span>.
         </p>
 

@@ -101,11 +101,12 @@ export default function CartPage() {
         return
       }
 
-      const { url } = await response.json()
-      if (!url) throw new Error('no-url')
-      router.push(url)
+      const { clientSecret } = await response.json()
+      if (!clientSecret) throw new Error('no-client-secret')
+      sessionStorage.setItem('souqify-checkout-secret', clientSecret)
+      router.push('/checkout')
     } catch {
-      setError('Le paiement n’a pas pu démarrer. Réessayez, ou contactez-nous.')
+      setError('Le paiement n’a pas pu démarrer. Réessayez, ou écrivez-nous à contact@souqify.fr.')
       setIsLoading(false)
     }
   }

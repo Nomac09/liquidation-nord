@@ -5,6 +5,9 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CartDrawer from '@/components/CartDrawer'
 import SessionProvider from '@/components/SessionProvider'
+import StockManifest from '@/components/StockManifest'
+import FilterBar from '@/components/FilterBar'
+import { getCategoryCounts } from '@/lib/catalog'
 import { BRAND_NAME } from '@/lib/brand'
 
 const display = Bricolage_Grotesque({
@@ -31,7 +34,7 @@ export const metadata: Metadata = {
     template: `%s — ${BRAND_NAME}`,
   },
   description:
-    'Mobilier, jardin, bricolage et déco vidaXL à Bondues (59), à moitié prix. Chaque pièce est en stock limité — retrait gratuit ou livraison partout en France.',
+    'Jardin, mobilier, déco et jardinage vidaXL à Bondues (59), à moitié prix. Chaque pièce est en stock limité — retrait gratuit ou livraison partout en France.',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -39,16 +42,22 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const counts = await getCategoryCounts()
+
   return (
     <html lang="fr" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="font-sans flex min-h-screen flex-col">
         <SessionProvider>
           <Header />
+          <div className="sticky top-[60px] z-30 sm:top-[65px]">
+            <StockManifest counts={counts} />
+          </div>
+          <FilterBar />
           <main className="flex-1">{children}</main>
           <Footer />
           <CartDrawer />

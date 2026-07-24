@@ -1,72 +1,51 @@
-import Hero from '@/components/Hero'
+import DropModule from '@/components/DropModule'
 import ProductGrid from '@/components/ProductGrid'
-import { Reveal } from '@/components/motion'
-import { getCategoryCounts, getProducts } from '@/lib/catalog'
-import { MapPin, Search as SearchIcon, Timer } from 'lucide-react'
+import { getProducts } from '@/lib/catalog'
+import { getDropInfo } from '@/lib/drop'
+import { CATEGORY_LABELS } from '@/lib/categories'
 
 export const dynamic = 'force-dynamic'
-
-const CATEGORY_LABELS: Record<string, string> = {
-  Mobilier: 'Mobilier',
-  Bazar: 'Bazar & Déco',
-  Bricolage: 'Bricolage',
-  Textile: 'Textile',
-}
 
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; search?: string }>
+  searchParams: Promise<{
+    category?: string
+    search?: string
+    priceMin?: string
+    priceMax?: string
+    material?: string
+    color?: string
+  }>
 }) {
   const params = await searchParams
-  const category = params.category
-  const search = params.search
+  const { category, search, priceMin, priceMax, material, color } = params
 
-  const [{ items, total }, counts] = await Promise.all([
-    getProducts({ category, search, limit: 24 }),
-    getCategoryCounts(),
+  const showDrop = !category && !search && !priceMin && !priceMax && !material && !color
+
+  const [{ items, total }, drop] = await Promise.all([
+    getProducts({
+      category,
+      search,
+      priceMin: priceMin ? Number(priceMin) : null,
+      priceMax: priceMax ? Number(priceMax) : null,
+      material,
+      color,
+      limit: 24,
+    }),
+    showDrop ? getDropInfo() : Promise.resolve(null),
   ])
-
-  const showHero = !category && !search
 
   return (
     <div>
-      {showHero && (
-        <>
-          <Hero counts={counts} />
-
-          <section aria-label="Comment ça marche" className="border-b border-ligne bg-beton">
-            <div className="container mx-auto grid gap-px overflow-hidden px-4 py-0 sm:grid-cols-3">
-              {[
-                {
-                  icon: SearchIcon,
-                  title: 'Repérez votre pièce',
-                  text: 'Parcourez l’arrivage en cours — mobilier, jardin, bricolage, déco.',
-                },
-                {
-                  icon: Timer,
-                  title: 'Payez sans attendre',
-                  text: 'Un seul exemplaire de chaque — le premier paiement confirmé l’emporte.',
-                },
-                {
-                  icon: MapPin,
-                  title: 'Récupérez ou faites livrer',
-                  text: 'Retrait gratuit à Bondues, point relais ou livraison à domicile.',
-                },
-              ].map((step, i) => (
-                <Reveal key={step.title} delay={i * 0.08} className="flex gap-4 py-6 sm:px-4 sm:first:pl-0">
-                  <step.icon aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-bleu" />
-                  <div>
-                    <h2 className="font-display text-base font-semibold text-encre">
-                      {step.title}
-                    </h2>
-                    <p className="mt-1 text-sm leading-relaxed text-gris">{step.text}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </section>
-        </>
+      {showDrop && drop && (
+        <DropModule
+          dateLabel={drop.dateLabel}
+          remaining={drop.remaining}
+          total={drop.total}
+          brand={drop.brand}
+          photos={drop.photos}
+        />
       )}
 
       <section className="container mx-auto px-4 py-10">
@@ -81,11 +60,15 @@ export default async function HomePage({
         </div>
 
         <ProductGrid
-          key={`${category || ''}|${search || ''}`}
+          key={`${category || ''}|${search || ''}|${priceMin || ''}|${priceMax || ''}|${material || ''}|${color || ''}`}
           initialItems={items}
           total={total}
           category={category}
           search={search}
+          priceMin={priceMin}
+          priceMax={priceMax}
+          material={material}
+          color={color}
         />
       </section>
     </div>
