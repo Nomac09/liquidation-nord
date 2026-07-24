@@ -19,6 +19,11 @@ const OrderSchema = new mongoose.Schema({
   deliveryStatus: { type: String, enum: ['pending', 'label_created', 'shipped', 'delivered'], default: 'pending' },
   trackingNumber: String,
   customerEmail: String,
+  customerName: String,
+  customerPhone: String,
+  // The account this order belongs to, if the customer was signed in at
+  // checkout — absent for guest orders.
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   // productIds where the atomic sold-transition failed at webhook time —
   // this customer was charged but the item had already been sold to
   // someone whose payment completed first. Needs a manual refund; should

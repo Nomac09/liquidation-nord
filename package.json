@@ -16,10 +16,12 @@
     "@types/react-dropzone": "^4.2.2",
     "@uploadthing/react": "^7.3.3",
     "autoprefixer": "^10.4.23",
+    "bcryptjs": "^3.0.3",
     "framer-motion": "^12.42.2",
     "lucide-react": "^0.302.0",
     "mongoose": "^8.0.3",
     "next": "^15.1.0",
+    "next-auth": "^5.0.0-beta.32",
     "postcss": "^8.5.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -30,5 +32,8 @@
     "uploadthing": "^7.7.4",
     "xlsx": "^0.18.5",
     "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6"
   }
 }

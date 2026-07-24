@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CartDrawer from '@/components/CartDrawer'
+import SessionProvider from '@/components/SessionProvider'
 import { BRAND_NAME } from '@/lib/brand'
 
 const display = Bricolage_Grotesque({
@@ -46,10 +47,12 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="font-sans flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <CartDrawer />
+        <SessionProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <CartDrawer />
+        </SessionProvider>
       </body>
     </html>
   )

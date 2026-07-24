@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { Search, ShoppingBag } from 'lucide-react'
+import { Search, ShoppingBag, User } from 'lucide-react'
 import { Suspense, useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
 import { BRAND_SYLLABLE_SPLIT } from '@/lib/brand'
@@ -59,6 +60,7 @@ function CategoryNav() {
 export default function Header() {
   const { items } = useCart()
   const { openCart } = useUI()
+  const { data: session, status } = useSession()
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
   const count = mounted ? items.reduce((s, i) => s + i.quantity, 0) : 0
@@ -90,19 +92,33 @@ export default function Header() {
             <Search aria-hidden className="pointer-events-none absolute left-3.5 top-2.5 h-4 w-4 text-gris" />
           </form>
 
-          <button
-            onClick={openCart}
-            className="relative flex items-center gap-2 rounded-full border border-ligne px-4 py-2 text-sm font-medium text-encre transition-colors hover:border-bleu hover:text-bleu"
-            aria-label={`Ouvrir le panier, ${count} article${count > 1 ? 's' : ''}`}
-          >
-            <ShoppingBag aria-hidden className="h-4 w-4" />
-            <span className="hidden sm:inline">Panier</span>
-            {count > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange px-1 font-mono text-[11px] font-semibold text-blanc">
-                {count}
+          <div className="flex items-center gap-2">
+            <Link
+              href={status === 'authenticated' ? '/account' : '/login'}
+              className="flex items-center gap-2 rounded-full border border-ligne px-4 py-2 text-sm font-medium text-encre transition-colors hover:border-bleu hover:text-bleu"
+            >
+              <User aria-hidden className="h-4 w-4" />
+              <span className="hidden sm:inline">
+                {status === 'authenticated'
+                  ? (session?.user?.name?.split(' ')[0] || 'Mon compte')
+                  : 'Se connecter'}
               </span>
-            )}
-          </button>
+            </Link>
+
+            <button
+              onClick={openCart}
+              className="relative flex items-center gap-2 rounded-full border border-ligne px-4 py-2 text-sm font-medium text-encre transition-colors hover:border-bleu hover:text-bleu"
+              aria-label={`Ouvrir le panier, ${count} article${count > 1 ? 's' : ''}`}
+            >
+              <ShoppingBag aria-hidden className="h-4 w-4" />
+              <span className="hidden sm:inline">Panier</span>
+              {count > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange px-1 font-mono text-[11px] font-semibold text-blanc">
+                  {count}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
 
         <div className="-mx-1 flex items-center justify-between gap-2 border-t border-ligne/60 py-1">

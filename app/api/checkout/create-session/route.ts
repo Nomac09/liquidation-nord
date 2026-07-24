@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import mongoose from 'mongoose'
+import { auth } from '@/auth'
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 import Order from '@/lib/schemas/Order'
+import User from '@/lib/schemas/User'
 import { stripe } from '@/lib/stripe'
 
 const SHIPPING = {
@@ -38,8 +40,22 @@ export async function POST(request: NextRequest) {
       ? body.shippingMethod
       : 'pickup'
 
+    const customerName = String(body?.customer?.name || '').trim().slice(0, 120)
+    const customerPhone = String(body?.customer?.phone || '').trim().slice(0, 30)
+    const rawAddress = body?.customer?.address || {}
+    const address = {
+      line1: String(rawAddress.line1 || '').trim().slice(0, 200),
+      line2: String(rawAddress.line2 || '').trim().slice(0, 200),
+      postalCode: String(rawAddress.postalCode || '').trim().slice(0, 12),
+      city: String(rawAddress.city || '').trim().slice(0, 100),
+      country: String(rawAddress.country || 'France').trim().slice(0, 60),
+    }
+
     if (rawIds.length === 0) {
       return NextResponse.json({ error: 'empty-cart' }, { status: 400 })
+    }
+    if (!customerName || !customerPhone || !address.line1 || !address.postalCode || !address.city) {
+      return NextResponse.json({ error: 'missing-customer-details' }, { status: 400 })
     }
 
     const requestedIds = Array.from(new Set(rawIds)).filter((id) => mongoose.Types.ObjectId.isValid(id))
@@ -54,6 +70,22 @@ export async function POST(request: NextRequest) {
     }
 
     await connectDB()
+
+    // If signed in, keep the account's saved details in sync with whatever
+    // was just submitted at checkout — this is what "tied to account"
+    // means in practice: next checkout, it's already prefilled.
+    const authSession = await auth()
+    let accountEmail: string | undefined
+    let accountUserId: string | undefined
+    if (authSession?.user?.id) {
+      accountUserId = authSession.user.id
+      const user = await User.findByIdAndUpdate(
+        accountUserId,
+        { $set: { name: customerName, phone: customerPhone, address } },
+        { new: true }
+      ).select('email')
+      accountEmail = user?.email
+    }
 
     const products = await Product.find({ _id: { $in: requestedIds } })
       .select('name salePrice photos status')
@@ -112,6 +144,7 @@ export async function POST(request: NextRequest) {
       ],
       success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/cart`,
+      customer_email: accountEmail,
       metadata: { orderId },
     })
 
@@ -121,9 +154,13 @@ export async function POST(request: NextRequest) {
       subtotal,
       shippingMethod,
       shippingCost,
+      shippingDetails: address,
       total,
       stripeSessionId: session.id,
       paymentStatus: 'pending',
+      customerName,
+      customerPhone,
+      userId: accountUserId,
     })
 
     return NextResponse.json({ url: session.url })
