@@ -1,7 +1,8 @@
 'use client'
 
+import { useRef, useState } from 'react'
 import Link from 'next/link'
-import { ImageOff, Plus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ImageOff, Plus } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
 import Sticker from '@/components/Sticker'
@@ -14,6 +15,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   Textile: 'Textile',
 }
 
+const SWIPE_THRESHOLD = 30
+
 // A wide ticket row, not a square card: photo | perforated tear | info |
 // perforated tear | price + claim. Full-bleed at every width — mobile
 // stays a single narrow column of these rows rather than stacking the
@@ -21,7 +24,17 @@ const CATEGORY_LABELS: Record<string, string> = {
 export default function TicketRow({ product }: { product: CatalogProduct }) {
   const { addItem } = useCart()
   const { openCart } = useUI()
-  const photo = product.photos?.[0]
+  const photos = (product.photos || []).filter(Boolean)
+  const [index, setIndex] = useState(0)
+  const touchStartX = useRef(0)
+  const swiped = useRef(false)
+
+  const hasMultiple = photos.length > 1
+  const photo = photos[index] || photos[0]
+
+  const go = (delta: number) => {
+    setIndex((i) => (i + delta + photos.length) % photos.length)
+  }
 
   const handleAdd = () => {
     addItem({
@@ -33,10 +46,45 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
     openCart()
   }
 
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    swiped.current = false
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!hasMultiple) return
+    const delta = e.touches[0].clientX - touchStartX.current
+    if (Math.abs(delta) > SWIPE_THRESHOLD) {
+      swiped.current = true
+    }
+  }
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!hasMultiple || !swiped.current) return
+    const delta = e.changedTouches[0].clientX - touchStartX.current
+    if (delta < 0) go(1)
+    else go(-1)
+  }
+
+  const onPhotoClick = (e: React.MouseEvent) => {
+    // A swipe on touch devices fires a trailing click — swallow it so it
+    // doesn't also navigate to the product page.
+    if (swiped.current) {
+      e.preventDefault()
+      swiped.current = false
+    }
+  }
+
   return (
     <article className="group grid grid-cols-[92px_1fr_auto] border border-ligne bg-blanc transition-colors hover:border-encre/40 sm:grid-cols-[150px_1fr_150px]">
       <Link href={`/product/${product.slug}`} className="contents">
-        <div className="relative flex items-center justify-center overflow-hidden bg-beton p-2 sm:p-3">
+        <div
+          className="relative flex items-center justify-center overflow-hidden bg-beton p-2 sm:p-3"
+          onClick={onPhotoClick}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {photo ? (
             <img
               src={photo}
@@ -46,6 +94,50 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
             />
           ) : (
             <ImageOff aria-hidden className="h-5 w-5 text-gris" />
+          )}
+
+          {hasMultiple && (
+            <>
+              <button
+                type="button"
+                aria-label="Photo précédente"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  go(-1)
+                }}
+                className="absolute left-0.5 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full bg-blanc/80 text-encre opacity-0 shadow-carte transition-opacity group-hover:opacity-100 sm:h-6 sm:w-6"
+              >
+                <ChevronLeft aria-hidden className="h-3 w-3" />
+              </button>
+              <button
+                type="button"
+                aria-label="Photo suivante"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  go(1)
+                }}
+                className="absolute right-0.5 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full bg-blanc/80 text-encre opacity-0 shadow-carte transition-opacity group-hover:opacity-100 sm:h-6 sm:w-6"
+              >
+                <ChevronRight aria-hidden className="h-3 w-3" />
+              </button>
+              <div className="absolute bottom-1 left-1/2 flex -translate-x-1/2 gap-1">
+                {photos.map((_, i) => (
+                  <span
+                    key={i}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      setIndex(i)
+                    }}
+                    className={`h-1 w-1 rounded-full transition-colors ${
+                      i === index ? 'bg-encre' : 'bg-encre/25'
+                    }`}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
 
