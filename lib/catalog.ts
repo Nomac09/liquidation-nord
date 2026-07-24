@@ -1,7 +1,9 @@
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 
-export const LIST_FIELDS = 'name ean sku category rrp salePrice photos condition slug lot createdAt'
+// Deliberately excludes `ean` — it's the raw manufacturer identifier and
+// must never reach a customer-facing list or client component.
+export const LIST_FIELDS = 'name internalRef category rrp salePrice photos condition slug lot createdAt'
 
 function escapeRegex(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')

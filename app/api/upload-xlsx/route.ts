@@ -3,6 +3,7 @@ import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 import * as XLSX from 'xlsx'
 import { requireAdmin } from '@/lib/adminAuth'
+import { generateInternalRef, generatePseudoBarcode } from '@/lib/internalRef'
 
 const DIACRITICS_RANGE = new RegExp('[̀-ͯ]', 'g')
 function slugify(name: string, ean: string) {
@@ -76,12 +77,16 @@ export async function POST(request: NextRequest) {
         }
 
         const existingProduct = await Product.findOne({ ean: productData.ean })
-        
+
         if (existingProduct) {
           await Product.updateOne({ ean: productData.ean }, { $set: productData })
           results.updated++
         } else {
-          const product = new Product(productData)
+          const product = new Product({
+            ...productData,
+            internalRef: generateInternalRef(ean),
+            pseudoBarcode: generatePseudoBarcode(ean),
+          })
           await product.save()
           results.imported++
         }

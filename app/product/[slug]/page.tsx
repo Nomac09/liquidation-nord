@@ -87,7 +87,12 @@ export default async function ProductPage({
             <ConditionBadge inspected={!!product.inspected} note={product.conditionNote} />
 
             <div className="mt-5">
-              <AddToCart product={product} />
+              <AddToCart
+                productId={product._id}
+                name={product.name}
+                price={product.salePrice}
+                photo={product.photos?.[0]}
+              />
             </div>
           </div>
 
@@ -133,7 +138,11 @@ export default async function ProductPage({
                   ))}
                 </ul>
               )}
-              <Barcode ean={product.ean} className="mt-6 text-encre/80" />
+              <Barcode
+                code={product.pseudoBarcode}
+                displayText={product.internalRef}
+                className="mt-6 text-encre/80"
+              />
             </section>
           </Reveal>
 

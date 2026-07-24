@@ -9,7 +9,7 @@ import { ImageOff, Plus } from 'lucide-react'
 export interface CatalogProduct {
   _id: string
   name: string
-  ean: string
+  internalRef?: string
   category: string
   rrp: number
   salePrice: number
@@ -79,7 +79,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
         </div>
 
         <p className="font-mono text-[10px] uppercase tracking-widest text-gris">
-          Pièce unique · EAN {product.ean}
+          Pièce unique{product.internalRef ? ` · Réf. ${product.internalRef}` : ''}
         </p>
       </div>
     </article>

@@ -35,18 +35,22 @@ export default function CGVPage() {
 
       <div className="mt-8 rounded-lg border border-ligne bg-orange-pale px-5 py-4 text-sm text-orange-deep">
         Brouillon de travail — à faire relire par un professionnel du droit
-        avant publication définitive. Les champs marqués [À compléter]
-        doivent être renseignés avec les informations légales de
-        l’entreprise avant mise en ligne.
+        avant publication définitive. La dénomination sociale ci-dessous est
+        reprise du nom d’entreprise communiqué pour le compte Stripe
+        (« AutoWeb Commerce ») — à confirmer que c’est bien l’entité qui
+        exploite ce site avant publication. L’adresse email de contact reste
+        à compléter.
       </div>
 
       <Section title="1. Objet">
         <p>
           Les présentes conditions générales de vente (CGV) régissent les
           ventes réalisées sur le site {BRAND_NAME.toLowerCase()}, exploité
-          par [À compléter — dénomination sociale, forme juridique, SIREN/SIRET,
-          adresse du siège social]. Toute commande passée sur le site implique
-          l’acceptation sans réserve des présentes CGV.
+          par AutoWeb Commerce, dont le siège social est situé au 2 Allée de
+          la Mannée, Apt 21, 59910 Bondues, immatriculée sous le numéro SIRET
+          10014846900016 (nº de TVA intracommunautaire FR44100148469). Toute
+          commande passée sur le site implique l’acceptation sans réserve
+          des présentes CGV.
         </p>
       </Section>
 
@@ -107,9 +111,10 @@ export default function CGVPage() {
         </p>
         <p>
           Pour exercer ce droit, l’acheteur notifie sa décision par écrit
-          (email) à l’adresse de contact du vendeur [À compléter]. Le
-          remboursement intervient dans un délai de 14 jours à compter de la
-          réception du produit retourné, ou de la preuve de son expédition.
+          (email) à l’adresse de contact du vendeur [À compléter — email de
+          contact]. Le remboursement intervient dans un délai de 14 jours à
+          compter de la réception du produit retourné, ou de la preuve de
+          son expédition.
         </p>
       </Section>
 
@@ -147,7 +152,8 @@ export default function CGVPage() {
           nécessaires à l’exécution de la commande (paiement, livraison).
           Conformément à la réglementation applicable, l’acheteur dispose
           d’un droit d’accès, de rectification et de suppression de ses
-          données, exerçable auprès de [À compléter — adresse de contact].
+          données, exerçable auprès de [À compléter — email de contact], ou
+          par courrier au 2 Allée de la Mannée, Apt 21, 59910 Bondues.
         </p>
       </Section>
 
@@ -162,7 +168,9 @@ export default function CGVPage() {
       <Section title="11. Contact">
         <p>
           Pour toute question relative à une commande ou aux présentes CGV,
-          l’acheteur peut contacter le vendeur à l’adresse [À compléter].
+          l’acheteur peut contacter le vendeur à l’adresse [À compléter —
+          email de contact], ou par courrier au 2 Allée de la Mannée, Apt 21,
+          59910 Bondues.
         </p>
       </Section>
     </div>

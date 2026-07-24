@@ -7,6 +7,22 @@ const ProductSchema = new mongoose.Schema({
     unique: true,
     index: true
   },
+  // Customer-facing reference (e.g. "SQ-A3F91") — never the raw EAN, which
+  // is traceable back to the original manufacturer listing. ean stays in
+  // the DB for internal inventory tracking only; it must never be sent to
+  // a client component or rendered.
+  internalRef: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  // Decorative 13-digit code for the on-page barcode graphic — derived
+  // independently from ean so the printed barcode can't be reverse-mapped
+  // to the real one.
+  pseudoBarcode: {
+    type: String,
+    default: ''
+  },
   sku: {
     type: String,
     required: false

@@ -1,5 +1,7 @@
-// Renders a real EAN-13 barcode as an inline SVG — the product's actual
-// identity as a design element on the spec card.
+// Renders a valid-format EAN-13 barcode as an inline SVG, purely as a
+// design element on the spec card. `code` is a decorative pseudo-EAN
+// (never the product's real manufacturer EAN); `displayText` overrides
+// what prints underneath — normally the customer-facing reference.
 const L = ['0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011']
 const G = ['0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111']
 const R = ['1110010', '1100110', '1101100', '1000010', '1011100', '1001110', '1010000', '1000100', '1001000', '1110100']
@@ -22,8 +24,16 @@ function encode(ean: string): string | null {
   return bits
 }
 
-export default function Barcode({ ean, className }: { ean: string; className?: string }) {
-  const bits = encode(ean)
+export default function Barcode({
+  code,
+  displayText,
+  className,
+}: {
+  code: string
+  displayText?: string
+  className?: string
+}) {
+  const bits = encode(code)
   if (!bits) return null
 
   const bars: { x: number; w: number }[] = []
@@ -44,14 +54,14 @@ export default function Barcode({ ean, className }: { ean: string; className?: s
         preserveAspectRatio="none"
         className="h-9 w-full"
         role="img"
-        aria-label={`Code-barres EAN ${ean}`}
+        aria-label={`Code-barres ${displayText || code}`}
       >
         {bars.map((b, i) => (
           <rect key={i} x={b.x} y={0} width={b.w} height={36} fill="currentColor" />
         ))}
       </svg>
       <p className="mt-1 text-center font-mono text-[11px] tracking-[0.35em] text-current">
-        {ean}
+        {displayText || code}
       </p>
     </div>
   )

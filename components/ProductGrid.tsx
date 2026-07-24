@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { motion, gridContainer, gridItem, useReducedMotion } from '@/components/motion'
+import { motion, gridContainer, gridItem, EASE, useReducedMotion } from '@/components/motion'
 import ProductCard, { type CatalogProduct } from '@/components/ProductCard'
 import { Loader2 } from 'lucide-react'
 
@@ -19,6 +19,7 @@ export default function ProductGrid({
   search?: string
 }) {
   const [items, setItems] = useState(initialItems)
+  const [initialCount] = useState(initialItems.length)
   const [pending, startTransition] = useTransition()
   const reduce = useReducedMotion()
 
@@ -63,12 +64,31 @@ export default function ProductGrid({
         whileInView={reduce ? undefined : 'show'}
         viewport={{ once: true, margin: '-20px' }}
       >
-        {items.map((product) => (
+        {items.slice(0, initialCount).map((product) => (
           <motion.li key={product._id} variants={reduce ? undefined : gridItem}>
             <ProductCard product={product} />
           </motion.li>
         ))}
       </motion.ul>
+
+      {items.length > initialCount && (
+        // Items loaded via "load more" mount well after the container's
+        // whileInView already fired (and won't re-fire, once: true) — so
+        // these animate on mount directly instead of relying on variant
+        // propagation from an ancestor that's done animating.
+        <ul className="mt-3 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-5 md:grid-cols-3 xl:grid-cols-4">
+          {items.slice(initialCount).map((product, i) => (
+            <motion.li
+              key={product._id}
+              initial={reduce ? undefined : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={reduce ? undefined : { duration: 0.5, ease: EASE, delay: (i % PAGE_SIZE) * 0.03 }}
+            >
+              <ProductCard product={product} />
+            </motion.li>
+          ))}
+        </ul>
+      )}
 
       {items.length < total && (
         <div className="mt-10 flex flex-col items-center gap-3">

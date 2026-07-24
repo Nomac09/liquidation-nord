@@ -6,18 +6,32 @@ import { Check, ShoppingBag } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
 
-export default function AddToCart({ product }: { product: any }) {
+// Takes only the exact fields needed — never the whole product object.
+// Server Components serialize an entire prop into the page payload when
+// it's passed to a Client Component, even fields this component never
+// reads, so anything sensitive (the raw EAN) must not be passed in.
+export default function AddToCart({
+  productId,
+  name,
+  price,
+  photo,
+}: {
+  productId: string
+  name: string
+  price: number
+  photo?: string
+}) {
   const { addItem } = useCart()
   const { openCart } = useUI()
   const [added, setAdded] = useState(false)
 
   const handleAdd = () => {
     addItem({
-      productId: product._id,
-      name: product.name,
-      price: product.salePrice,
+      productId,
+      name,
+      price,
       quantity: 1,
-      photo: product.photos?.[0] || '/placeholder.png',
+      photo: photo || '/placeholder.png',
     })
     setAdded(true)
     setTimeout(() => {
