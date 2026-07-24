@@ -36,7 +36,7 @@ export default function Hero() {
         <h1 className="mt-5 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight text-encre sm:text-6xl">
           <span className="block overflow-hidden pb-1">
             <motion.span className="block" {...line(0.15)}>
-              Du mobilier de marque,
+              Du mobilier vidaXL,
             </motion.span>
           </span>
           <span className="block overflow-hidden pb-1">

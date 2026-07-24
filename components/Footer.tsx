@@ -10,7 +10,7 @@ export default function Footer() {
             {BRAND_SYLLABLE_SPLIT.lead}<span className="text-orange">{BRAND_SYLLABLE_SPLIT.tail}</span>
           </p>
           <p className="mt-2 text-sm leading-relaxed text-blanc/70">
-            Déstockage de mobilier, jardin, bricolage et déco de marque à
+            Déstockage de mobilier, jardin, bricolage et déco vidaXL à
             moitié prix. Chaque pièce est unique — quand c’est parti, c’est parti.
           </p>
         </div>

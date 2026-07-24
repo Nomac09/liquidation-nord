@@ -81,7 +81,7 @@ function SuccessContent() {
             {order.items.map((item, i) => (
               <li key={i} className="flex justify-between gap-4">
                 <span className="min-w-0 flex-1 truncate">
-                  {item.name.replace(/^vidaXL\s+/i, '')} × {item.quantity}
+                  {item.name} × {item.quantity}
                 </span>
                 <span className="font-mono">{formatPrice(item.price * item.quantity)} €</span>
               </li>

@@ -95,7 +95,7 @@ export default function CartPage() {
               />
               <div className="min-w-0 flex-1">
                 <h2 className="line-clamp-2 font-medium leading-snug text-encre">
-                  {item.name.replace(/^vidaXL\s+/i, '')}
+                  {item.name}
                 </h2>
                 <p className="mt-1 font-mono font-semibold text-encre">
                   {formatPrice(item.price)} €

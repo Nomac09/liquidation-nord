@@ -22,12 +22,11 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
   const { addItem } = useCart()
   const { openCart } = useUI()
   const photo = product.photos?.[0]
-  const displayName = product.name.replace(/^vidaXL\s+/i, '')
 
   const handleAdd = () => {
     addItem({
       productId: product._id,
-      name: displayName,
+      name: product.name,
       price: product.salePrice,
       quantity: 1,
       photo: photo || '/placeholder.png',
@@ -45,7 +44,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
           {photo ? (
             <img
               src={photo}
-              alt={displayName}
+              alt={product.name}
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
             />
@@ -63,7 +62,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
         </div>
 
         <h3 className="line-clamp-2 min-h-[2.6em] px-4 pt-4 text-[15px] font-medium leading-snug text-encre">
-          {displayName}
+          {product.name}
         </h3>
       </Link>
 
@@ -72,7 +71,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
           <Sticker price={product.salePrice} rrp={product.rrp} />
           <button
             onClick={handleAdd}
-            aria-label={`Ajouter ${displayName} au panier`}
+            aria-label={`Ajouter ${product.name} au panier`}
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ligne text-encre transition-colors hover:border-bleu hover:bg-bleu hover:text-blanc"
           >
             <Plus aria-hidden className="h-4 w-4" />

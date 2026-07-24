@@ -29,7 +29,7 @@ export async function generateMetadata({
   const product = await getProduct(slug)
   if (!product) return {}
   return {
-    title: product.name.replace(/^vidaXL\s+/i, ''),
+    title: product.name,
     description:
       product.description?.slice(0, 155) ||
       `${product.name} à ${product.salePrice} € au lieu de ${product.rrp} € — pièce unique, retrait gratuit à Bondues (59).`,
@@ -56,8 +56,6 @@ export default async function ProductPage({
     notFound()
   }
 
-  const displayName = product.name.replace(/^vidaXL\s+/i, '')
-
   return (
     <div className="container mx-auto px-4 py-8">
       <nav aria-label="Fil d’Ariane" className="mb-6 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-gris">
@@ -72,14 +70,14 @@ export default async function ProductPage({
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
         <div>
-          <ImageGallery photos={product.photos} productName={displayName} />
+          <ImageGallery photos={product.photos} productName={product.name} />
         </div>
 
         <div className="space-y-6">
           <div>
             <p className="tag-label">Pièce unique</p>
             <h1 className="mt-2 font-display text-3xl font-bold leading-tight tracking-tight text-encre sm:text-4xl">
-              {displayName}
+              {product.name}
             </h1>
           </div>
 
@@ -114,7 +112,7 @@ export default async function ProductPage({
               <h2 className="tag-label">Fiche d’inventaire</h2>
               <dl className="mt-4 divide-y divide-ligne/70 font-mono text-sm">
                 {[
-                  ['Référence', product.sku],
+                  [/^vidaxl/i.test(product.name) ? 'Réf. vidaXL' : 'Référence', product.sku],
                   ['Catégorie', CATEGORY_LABELS[product.category] || product.category],
                   ['État', product.inspected ? 'Comme neuf' : ''],
                   ['Dimensions', product.dimensions],

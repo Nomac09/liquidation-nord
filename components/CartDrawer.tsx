@@ -91,7 +91,7 @@ export default function CartDrawer() {
                       />
                       <div className="min-w-0 flex-1">
                         <p className="line-clamp-2 text-sm font-medium leading-snug text-encre">
-                          {item.name.replace(/^vidaXL\s+/i, '')}
+                          {item.name}
                         </p>
                         <p className="mt-1 font-mono text-sm font-semibold text-encre">
                           {formatPrice(item.price)} €

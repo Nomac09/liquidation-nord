@@ -26,11 +26,11 @@ const mono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.souqify.fr'),
   title: {
-    default: `${BRAND_NAME} — Mobilier & déco de marque à −50 %`,
+    default: `${BRAND_NAME} — Mobilier & déco vidaXL à −50 %`,
     template: `%s — ${BRAND_NAME}`,
   },
   description:
-    'Mobilier, jardin, bricolage et déco de marque à Bondues (59), à moitié prix. Chaque pièce est en stock limité — retrait gratuit ou livraison partout en France.',
+    'Mobilier, jardin, bricolage et déco vidaXL à Bondues (59), à moitié prix. Chaque pièce est en stock limité — retrait gratuit ou livraison partout en France.',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',

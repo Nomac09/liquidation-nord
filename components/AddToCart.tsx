@@ -14,7 +14,7 @@ export default function AddToCart({ product }: { product: any }) {
   const handleAdd = () => {
     addItem({
       productId: product._id,
-      name: product.name.replace(/^vidaXL\s+/i, ''),
+      name: product.name,
       price: product.salePrice,
       quantity: 1,
       photo: product.photos?.[0] || '/placeholder.png',
