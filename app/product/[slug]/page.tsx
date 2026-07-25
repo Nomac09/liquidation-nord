@@ -12,6 +12,7 @@ import Barcode from '@/components/Barcode'
 import ConditionBadge from '@/components/ConditionBadge'
 import { Reveal } from '@/components/motion'
 import { CATEGORY_LABELS } from '@/lib/categories'
+import { BRAND_NAME } from '@/lib/brand'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,12 +30,23 @@ export async function generateMetadata({
   const { slug } = await params
   const product = await getProduct(slug)
   if (!product) return {}
+  const description =
+    product.description?.slice(0, 155) ||
+    `${product.name} à ${product.salePrice} € au lieu de ${product.rrp} € — pièce unique, retrait gratuit à Bondues (59).`
   return {
     title: product.name,
-    description:
-      product.description?.slice(0, 155) ||
-      `${product.name} à ${product.salePrice} € au lieu de ${product.rrp} € — pièce unique, retrait gratuit à Bondues (59).`,
-    openGraph: product.photos?.[0] ? { images: [product.photos[0]] } : undefined,
+    description,
+    alternates: { canonical: `/product/${product.slug}` },
+    // A per-route `openGraph` object fully replaces the root layout's
+    // (Next doesn't deep-merge it) — type/locale/siteName must be
+    // repeated here or they silently disappear from this page's tags.
+    openGraph: {
+      type: 'website',
+      locale: 'fr_FR',
+      siteName: BRAND_NAME,
+      images: product.photos?.[0] ? [product.photos[0]] : undefined,
+    },
+    twitter: product.photos?.[0] ? { card: 'summary_large_image' } : undefined,
   }
 }
 
@@ -50,8 +62,35 @@ export default async function ProductPage({
     notFound()
   }
 
+  // Liquidation/returns stock, never sold as brand-new — UsedCondition is
+  // the honest read regardless of the "Comme neuf" inspection badge above,
+  // which is a condition note, not a new-in-box claim (see ConditionBadge).
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description:
+      product.description?.slice(0, 500) ||
+      `${product.name} — pièce unique, retrait gratuit à Bondues (59).`,
+    image: product.photos || [],
+    sku: product.internalRef || undefined,
+    category: CATEGORY_LABELS[product.category] || product.category,
+    offers: {
+      '@type': 'Offer',
+      url: `https://www.souqify.fr/product/${product.slug}`,
+      priceCurrency: 'EUR',
+      price: product.salePrice,
+      itemCondition: 'https://schema.org/UsedCondition',
+      availability: 'https://schema.org/InStock',
+    },
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav aria-label="Fil d’Ariane" className="mb-6 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-gris">
         <Link href="/" className="transition-colors hover:text-encre">
           Arrivage

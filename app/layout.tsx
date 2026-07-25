@@ -40,6 +40,13 @@ export const metadata: Metadata = {
     locale: 'fr_FR',
     siteName: BRAND_NAME,
   },
+  twitter: {
+    card: 'summary',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default async function RootLayout({
