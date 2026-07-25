@@ -24,11 +24,11 @@ async function verify(token: string | undefined) {
 }
 
 export default async function VerifyEmailPage({
-  searchParams,
+  params,
 }: {
-  searchParams: Promise<{ token?: string }>
+  params: Promise<{ token?: string }>
 }) {
-  const { token } = await searchParams
+  const { token } = await params
   const result = await verify(token)
 
   return (

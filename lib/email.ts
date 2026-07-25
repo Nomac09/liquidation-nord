@@ -11,12 +11,28 @@ function getClient() {
 
 const FROM = process.env.EMAIL_FROM || 'verification@souqify.fr'
 
+// Prefers the explicit env var (this is what local dev sets to
+// localhost). If that's ever missing on an actual Vercel deployment,
+// fall back on Vercel's own auto-set VERCEL_ENV rather than landing on
+// the localhost default below — a verification link that only works on
+// someone's laptop is worse than one that's merely unconfigured.
 function siteUrl() {
-  return (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '')
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
+  }
+  if (process.env.VERCEL_ENV === 'production') return 'https://www.souqify.fr'
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+  return 'http://localhost:3000'
 }
 
 export async function sendVerificationEmail(email: string, token: string) {
-  const link = `${siteUrl()}/verify-email?token=${token}`
+  // A path segment, not `?token=` — the token is 64 lowercase hex chars,
+  // so a query string always puts "=" directly before two more hex
+  // digits, e.g. "=67". Somewhere in the send/receive pipeline that gets
+  // misread as the quoted-printable escape for byte 0x67 ('g'), silently
+  // eating the "=" and corrupting the token on every single send —
+  // confirmed by comparing a real received email against its DB token.
+  const link = `${siteUrl()}/verify-email/${token}`
 
   // The SDK never rejects on API-level failures (bad/unverified domain,
   // rate limits, etc.) — it always resolves to `{ data, error }`. Callers
