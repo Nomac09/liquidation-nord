@@ -5,7 +5,6 @@ import { ChevronRight } from 'lucide-react'
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 import ImageGallery from '@/components/ImageGallery'
-import DeliveryToggle from '@/components/DeliveryToggle'
 import AddToCart from '@/components/AddToCart'
 import FavoriteButton from '@/components/FavoriteButton'
 import Sticker from '@/components/Sticker'
@@ -184,20 +183,6 @@ export default async function ProductPage({
                 displayText={product.internalRef}
                 className="mt-6 text-encre/80"
               />
-            </section>
-          </Reveal>
-
-          <Reveal>
-            <section aria-label="Livraison" className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-              <h2 className="tag-label">Comment je la récupère ?</h2>
-              <div className="mt-4">
-                <DeliveryToggle />
-              </div>
-              <p className="mt-3 text-xs leading-relaxed text-gris">
-                Le mode de livraison se confirme au moment du paiement. Pour les
-                gros meubles, le retrait à l’entrepôt reste le plus simple — on
-                vous aide à charger.
-              </p>
             </section>
           </Reveal>
         </div>

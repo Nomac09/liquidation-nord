@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { ShoppingBag, User } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useReducedMotion } from '@/components/motion'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
 import { BRAND_SYLLABLE_SPLIT } from '@/lib/brand'
@@ -18,6 +20,7 @@ export default function Header() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
   const count = mounted ? items.reduce((s, i) => s + i.quantity, 0) : 0
+  const reduce = useReducedMotion()
 
   return (
     <header className="sticky top-0 z-40 border-b border-ligne bg-blanc/95 backdrop-blur">
@@ -51,11 +54,20 @@ export default function Header() {
           >
             <ShoppingBag aria-hidden className="h-4 w-4" />
             <span className="hidden sm:inline">Panier</span>
-            {count > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange px-1 font-mono text-[11px] font-semibold text-blanc">
-                {count}
-              </span>
-            )}
+            <AnimatePresence>
+              {count > 0 && (
+                <motion.span
+                  key={reduce ? 'badge' : count}
+                  initial={reduce ? false : { scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.5, opacity: 0 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+                  className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange px-1 font-mono text-[11px] font-semibold text-blanc"
+                >
+                  {count}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
       </div>

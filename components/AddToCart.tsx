@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check, ShoppingBag } from 'lucide-react'
 import { useCart } from '@/lib/cart'
-import { useUI } from '@/lib/ui'
 
 // Takes only the exact fields needed — never the whole product object.
 // Server Components serialize an entire prop into the page payload when
@@ -22,7 +21,6 @@ export default function AddToCart({
   photo?: string
 }) {
   const { addItem } = useCart()
-  const { openCart } = useUI()
   const [added, setAdded] = useState(false)
 
   const handleAdd = () => {
@@ -33,10 +31,7 @@ export default function AddToCart({
       photo: photo || '/placeholder.png',
     })
     setAdded(true)
-    setTimeout(() => {
-      setAdded(false)
-      openCart()
-    }, 700)
+    setTimeout(() => setAdded(false), 1200)
   }
 
   return (

@@ -9,7 +9,13 @@ import { AlertCircle } from 'lucide-react'
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/account'
+  // An explicit callbackUrl (e.g. cart → "connectez-vous" before checkout)
+  // is honored by both methods. Absent that, Credentials still lands on
+  // the account page (a deliberate action), but Google — often a
+  // first-time signup — goes straight to the homepage, frictionless.
+  const explicitCallback = searchParams.get('callbackUrl')
+  const callbackUrl = explicitCallback || '/account'
+  const googleCallbackUrl = explicitCallback || '/'
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -44,7 +50,7 @@ function LoginForm() {
         <h2 className="tag-label border-b border-dashed border-ligne pb-3">Connexion</h2>
 
         <button
-          onClick={() => signIn('google', { callbackUrl })}
+          onClick={() => signIn('google', { callbackUrl: googleCallbackUrl })}
           className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-ligne bg-blanc py-3 text-sm font-semibold text-encre transition-colors hover:border-gris"
         >
           <svg aria-hidden className="h-4 w-4" viewBox="0 0 24 24">
@@ -105,7 +111,10 @@ function LoginForm() {
 
       <p className="mt-6 text-center text-sm text-gris">
         Pas encore de compte ?{' '}
-        <Link href={`/register?callbackUrl=${encodeURIComponent(callbackUrl)}`} className="font-semibold text-bleu hover:underline">
+        <Link
+          href={explicitCallback ? `/register?callbackUrl=${encodeURIComponent(explicitCallback)}` : '/register'}
+          className="font-semibold text-bleu hover:underline"
+        >
           Créer un compte
         </Link>
       </p>

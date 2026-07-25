@@ -4,7 +4,6 @@ import { useRef, useState, type ElementType } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ImageOff, Plus } from 'lucide-react'
 import { useCart } from '@/lib/cart'
-import { useUI } from '@/lib/ui'
 import Sticker from '@/components/Sticker'
 import FavoriteButton from '@/components/FavoriteButton'
 import { CATEGORY_LABELS } from '@/lib/categories'
@@ -39,7 +38,6 @@ function PhotoInfoWrapper({
 // photo above the text like a generic product card.
 export default function TicketRow({ product }: { product: CatalogProduct }) {
   const { addItem } = useCart()
-  const { openCart } = useUI()
   const photos = (product.photos || []).filter(Boolean)
   const [index, setIndex] = useState(0)
   const touchStartX = useRef(0)
@@ -60,7 +58,6 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
       price: product.salePrice,
       photo: photo || '/placeholder.png',
     })
-    openCart()
   }
 
   const onTouchStart = (e: React.TouchEvent) => {

@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useCart } from '@/lib/cart'
-import { useUI } from '@/lib/ui'
 import Sticker from '@/components/Sticker'
 import { ImageOff, Plus } from 'lucide-react'
 
@@ -22,7 +21,6 @@ export interface CatalogProduct {
 
 export default function ProductCard({ product }: { product: CatalogProduct }) {
   const { addItem } = useCart()
-  const { openCart } = useUI()
   const photo = product.photos?.[0]
 
   const handleAdd = () => {
@@ -32,7 +30,6 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
       price: product.salePrice,
       photo: photo || '/placeholder.png',
     })
-    openCart()
   }
 
   return (

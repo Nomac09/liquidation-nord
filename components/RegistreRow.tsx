@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { ImageOff, Plus } from 'lucide-react'
 import { useCart } from '@/lib/cart'
-import { useUI } from '@/lib/ui'
 import { formatPrice } from '@/components/Sticker'
 import FavoriteButton from '@/components/FavoriteButton'
 import type { CatalogProduct } from '@/components/ProductCard'
@@ -13,7 +12,6 @@ import type { CatalogProduct } from '@/components/ProductCard'
 // than browsing photo by photo.
 export default function RegistreRow({ product }: { product: CatalogProduct }) {
   const { addItem } = useCart()
-  const { openCart } = useUI()
   const photo = product.photos?.[0]
   const sold = product.status === 'sold'
 
@@ -24,7 +22,6 @@ export default function RegistreRow({ product }: { product: CatalogProduct }) {
       price: product.salePrice,
       photo: photo || '/placeholder.png',
     })
-    openCart()
   }
 
   const row = (
