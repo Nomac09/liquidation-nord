@@ -5,6 +5,7 @@ import { ImageOff, Plus } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
 import { formatPrice } from '@/components/Sticker'
+import FavoriteButton from '@/components/FavoriteButton'
 import type { CatalogProduct } from '@/components/ProductCard'
 
 // The dense scanning view: one line per piece, tabular-nums prices,
@@ -56,6 +57,7 @@ export default function RegistreRow({ product }: { product: CatalogProduct }) {
       <span className={`shrink-0 font-mono text-sm font-semibold tabular-nums text-encre ${sold ? 'line-through decoration-orange-deep' : ''}`}>
         {formatPrice(product.salePrice)} €
       </span>
+      <FavoriteButton productId={product._id} productName={product.name} size="sm" />
       {sold ? (
         <span className="shrink-0 font-mono text-[10px] uppercase tracking-widest text-orange-deep">Vendu</span>
       ) : (

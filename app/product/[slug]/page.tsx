@@ -7,6 +7,7 @@ import Product from '@/lib/schemas/Product'
 import ImageGallery from '@/components/ImageGallery'
 import DeliveryToggle from '@/components/DeliveryToggle'
 import AddToCart from '@/components/AddToCart'
+import FavoriteButton from '@/components/FavoriteButton'
 import Sticker from '@/components/Sticker'
 import Barcode from '@/components/Barcode'
 import ConditionBadge from '@/components/ConditionBadge'
@@ -107,11 +108,18 @@ export default async function ProductPage({
         </div>
 
         <div className="space-y-6">
-          <div>
-            <p className="tag-label">Pièce unique</p>
-            <h1 className="mt-2 font-display text-3xl font-bold leading-tight tracking-tight text-encre sm:text-4xl">
-              {product.name}
-            </h1>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="tag-label">Pièce unique</p>
+              <h1 className="mt-2 font-display text-3xl font-bold leading-tight tracking-tight text-encre sm:text-4xl">
+                {product.name}
+              </h1>
+            </div>
+            <FavoriteButton
+              productId={product._id}
+              productName={product.name}
+              className="mt-1 shrink-0"
+            />
           </div>
 
           <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">

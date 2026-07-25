@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CartDrawer from '@/components/CartDrawer'
 import SessionProvider from '@/components/SessionProvider'
+import FavoritesHydrator from '@/components/FavoritesHydrator'
 import StockManifest from '@/components/StockManifest'
 import FilterBar from '@/components/FilterBar'
 import { getCategoryCounts } from '@/lib/catalog'
@@ -60,6 +61,7 @@ export default async function RootLayout({
     <html lang="fr" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="font-sans flex min-h-screen flex-col">
         <SessionProvider>
+          <FavoritesHydrator />
           <Header />
           <div className="sticky top-[60px] z-30 sm:top-[65px]">
             <StockManifest counts={counts} />

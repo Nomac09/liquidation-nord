@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, ImageOff, Plus } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { useUI } from '@/lib/ui'
 import Sticker from '@/components/Sticker'
+import FavoriteButton from '@/components/FavoriteButton'
 import { CATEGORY_LABELS } from '@/lib/categories'
 import type { CatalogProduct } from '@/components/ProductCard'
 
@@ -117,6 +118,13 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
           ) : (
             <ImageOff aria-hidden className="h-5 w-5 text-gris" />
           )}
+
+          <FavoriteButton
+            productId={product._id}
+            productName={product.name}
+            size="sm"
+            className="absolute right-1 top-1 z-10"
+          />
 
           {hasMultiple && !sold && (
             <>

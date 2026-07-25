@@ -58,3 +58,56 @@ export async function sendVerificationEmail(email: string, token: string) {
   })
   if (error) throw new Error(`Resend: ${error.name} — ${error.message}`)
 }
+
+interface ArrivalTarget {
+  email: string
+  unsubscribeToken: string
+}
+
+// Resend's batch endpoint caps out at 100 emails per call.
+const BATCH_SIZE = 100
+
+export async function sendNewArrivalNotifications(
+  targets: ArrivalTarget[],
+  info: { dateLabel: string | null; categoryLabel?: string }
+) {
+  let sent = 0
+  const errors: string[] = []
+
+  for (let i = 0; i < targets.length; i += BATCH_SIZE) {
+    const chunk = targets.slice(i, i + BATCH_SIZE)
+    const payload = chunk.map((t) => {
+      // Path segment, not a query string — see sendVerificationEmail for
+      // why (quoted-printable corruption of hex tokens after `=`).
+      const unsubscribeLink = `${siteUrl()}/unsubscribe/${t.unsubscribeToken}`
+      return {
+        from: `${BRAND_NAME} <${FROM}>`,
+        to: t.email,
+        subject: info.categoryLabel
+          ? `Nouvel arrivage ${info.categoryLabel} chez ${BRAND_NAME}`
+          : `Nouvel arrivage chez ${BRAND_NAME}`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; color: #111;">
+            <h1 style="font-size: 20px;">Nouvel arrivage${info.categoryLabel ? ` — ${info.categoryLabel}` : ''}</h1>
+            <p>${info.dateLabel ? `Un nouvel arrivage est arrivé le ${info.dateLabel}. ` : 'Un nouvel arrivage vient d’entrer en stock. '}Chaque pièce est en un seul exemplaire — premier arrivé, premier servi.</p>
+            <p style="margin: 24px 0;">
+              <a href="${siteUrl()}${info.categoryLabel ? `/?category=${encodeURIComponent(info.categoryLabel)}` : ''}" style="background: #1d4ed8; color: #fff; padding: 12px 24px; border-radius: 999px; text-decoration: none; font-weight: 600;">
+                Voir l’arrivage
+              </a>
+            </p>
+            <p style="color: #999; font-size: 12px;"><a href="${unsubscribeLink}" style="color: #999;">Se désinscrire de ces alertes</a></p>
+          </div>
+        `,
+      }
+    })
+
+    const { error } = await getClient().batch.send(payload)
+    if (error) {
+      errors.push(`${error.name}: ${error.message}`)
+      continue
+    }
+    sent += chunk.length
+  }
+
+  return { sent, errors }
+}

@@ -16,7 +16,9 @@ const OrderSchema = new mongoose.Schema({
   total: Number,
   stripeSessionId: { type: String, unique: true, sparse: true, index: true },
   paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },
-  deliveryStatus: { type: String, enum: ['pending', 'label_created', 'shipped', 'delivered'], default: 'pending' },
+  // 'ready_for_pickup' only applies to shippingMethod: 'pickup'; the
+  // 'label_created' / 'shipped' pair is for 'relay' and 'home' instead.
+  deliveryStatus: { type: String, enum: ['pending', 'ready_for_pickup', 'label_created', 'shipped', 'delivered'], default: 'pending' },
   trackingNumber: String,
   customerEmail: String,
   customerName: String,
