@@ -9,12 +9,11 @@ import { AlertCircle } from 'lucide-react'
 function RegisterForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  // See login/page.tsx for the reasoning: an explicit callbackUrl wins for
-  // both methods, otherwise Google (often first-time signup) goes straight
-  // to the homepage while a manual account creation still lands on /account.
+  // Shop first, collect details later — see login/page.tsx. Signing up
+  // returns you to wherever you were, or the homepage; account/address
+  // completion is never forced here, only at checkout.
   const explicitCallback = searchParams.get('callbackUrl')
-  const callbackUrl = explicitCallback || '/account'
-  const googleCallbackUrl = explicitCallback || '/'
+  const callbackUrl = explicitCallback || '/'
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -64,7 +63,7 @@ function RegisterForm() {
         <h2 className="tag-label border-b border-dashed border-ligne pb-3">Inscription</h2>
 
         <button
-          onClick={() => signIn('google', { callbackUrl: googleCallbackUrl })}
+          onClick={() => signIn('google', { callbackUrl })}
           className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-ligne bg-blanc py-3 text-sm font-semibold text-encre transition-colors hover:border-gris"
         >
           <svg aria-hidden className="h-4 w-4" viewBox="0 0 24 24">

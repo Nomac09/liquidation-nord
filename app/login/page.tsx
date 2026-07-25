@@ -9,13 +9,12 @@ import { AlertCircle } from 'lucide-react'
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  // An explicit callbackUrl (e.g. cart → "connectez-vous" before checkout)
-  // is honored by both methods. Absent that, Credentials still lands on
-  // the account page (a deliberate action), but Google — often a
-  // first-time signup — goes straight to the homepage, frictionless.
+  // Shop first, collect details later: signing in — however you do it —
+  // returns you to wherever you were (explicit callbackUrl, e.g. cart
+  // prompting login before checkout) or the homepage. Nothing about
+  // authenticating requires visiting the account page.
   const explicitCallback = searchParams.get('callbackUrl')
-  const callbackUrl = explicitCallback || '/account'
-  const googleCallbackUrl = explicitCallback || '/'
+  const callbackUrl = explicitCallback || '/'
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -50,7 +49,7 @@ function LoginForm() {
         <h2 className="tag-label border-b border-dashed border-ligne pb-3">Connexion</h2>
 
         <button
-          onClick={() => signIn('google', { callbackUrl: googleCallbackUrl })}
+          onClick={() => signIn('google', { callbackUrl })}
           className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-ligne bg-blanc py-3 text-sm font-semibold text-encre transition-colors hover:border-gris"
         >
           <svg aria-hidden className="h-4 w-4" viewBox="0 0 24 24">
