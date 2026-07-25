@@ -17,6 +17,7 @@ export interface CatalogProduct {
   slug: string
   status?: 'sellable' | 'sold' | 'unsellable'
   specLine?: string
+  weight?: number
 }
 
 export default function ProductCard({ product }: { product: CatalogProduct }) {
@@ -29,6 +30,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
       name: product.name,
       price: product.salePrice,
       photo: photo || '/placeholder.png',
+      weight: product.weight || 0,
     })
   }
 

@@ -6,7 +6,7 @@ import { buildSpecLine } from '@/lib/specs'
 // must never reach a customer-facing list or client component. `specs` is
 // fetched here too, but only to derive `specLine` server-side — the raw
 // array itself is stripped before the result leaves this module.
-export const LIST_FIELDS = 'name internalRef category rrp salePrice photos condition slug lot status specs createdAt'
+export const LIST_FIELDS = 'name internalRef category rrp salePrice photos condition slug lot status specs createdAt weight'
 
 function escapeRegex(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')

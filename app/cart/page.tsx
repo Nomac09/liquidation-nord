@@ -1,20 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { AlertCircle, ArrowRight, ShoppingBag, Trash2 } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { formatPrice } from '@/components/Sticker'
+import { SHIPPING_METHODS, SHIPPING_LABELS, RELAY_MAX_KG, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
 
-const SHIPPING = {
-  pickup: { label: 'Retrait à Bondues', detail: 'Gratuit · Lun–Sam 9h–18h', cost: 0 },
-  relay: { label: 'Point relais', detail: 'Mondial Relay · max 130 kg', cost: 29.99 },
-  home: { label: 'À domicile', detail: 'Cocolis · 3 à 5 jours', cost: 79.99 },
-} as const
+const SHIPPING_DETAIL: Record<ShippingMethod, string> = {
+  pickup: 'Gratuit · Lun–Sam 9h–18h',
+  relay: `Mondial Relay · max ${RELAY_MAX_KG} kg`,
+  home: 'Cocolis · 3 à 5 jours',
+}
 
-type ShippingMethod = keyof typeof SHIPPING
+const UNAVAILABLE_REASON: Record<string, string> = {
+  'item-too-heavy': 'Indisponible — une pièce dépasse la limite de poids pour ce mode.',
+  'cart-too-heavy': `Indisponible — le panier dépasse ${RELAY_MAX_KG} kg au total.`,
+}
 
 interface CustomerForm {
   name: string
@@ -36,6 +40,18 @@ export default function CartPage() {
   const [error, setError] = useState('')
   const [unavailable, setUnavailable] = useState<string[]>([])
   const router = useRouter()
+
+  const quotes = useMemo(
+    () => getShippingQuotes(items.map((i) => i.weight || 0)),
+    [items]
+  )
+
+  // If the cart changes (an item added/removed) and that makes the
+  // currently-selected method no longer available, fall back to pickup —
+  // always valid — rather than silently checking out with a stale choice.
+  useEffect(() => {
+    if (!quotes[shippingMethod].available) setShippingMethod('pickup')
+  }, [quotes, shippingMethod])
 
   useEffect(() => {
     if (status !== 'authenticated') return
@@ -87,6 +103,17 @@ export default function CartPage() {
 
       if (response.status === 409) {
         const data = await response.json()
+
+        if (data.error === 'shipping-unavailable') {
+          // The server re-checks weight independently of the cart page's
+          // own preview — if they disagree, something changed between
+          // page load and checkout (e.g. cart edited in another tab).
+          setShippingMethod('pickup')
+          setError('Ce mode de livraison n’est plus disponible pour ce panier — sélection remise sur le retrait à l’entrepôt.')
+          setIsLoading(false)
+          return
+        }
+
         const unavailableIds: string[] = data.items?.map((i: { productId: string }) => i.productId) || []
         const names: string[] = data.items?.map((i: { name: string }) => i.name) || []
         unavailableIds.forEach((id) => removeItem(id))
@@ -289,14 +316,18 @@ export default function CartPage() {
             <fieldset className="mt-4">
               <legend className="tag-label">Comment récupérer vos pièces ?</legend>
               <div className="mt-3 space-y-2">
-                {(Object.keys(SHIPPING) as ShippingMethod[]).map((key) => {
-                  const opt = SHIPPING[key]
+                {SHIPPING_METHODS.map((key) => {
+                  const quote = quotes[key]
                   const active = shippingMethod === key
                   return (
                     <label
                       key={key}
-                      className={`flex cursor-pointer items-center justify-between gap-3 rounded-lg border p-3 transition-colors ${
-                        active ? 'border-bleu bg-bleu-pale' : 'border-ligne hover:border-gris'
+                      className={`flex items-center justify-between gap-3 rounded-lg border p-3 transition-colors ${
+                        !quote.available
+                          ? 'cursor-not-allowed border-ligne opacity-50'
+                          : active
+                            ? 'cursor-pointer border-bleu bg-bleu-pale'
+                            : 'cursor-pointer border-ligne hover:border-gris'
                       }`}
                     >
                       <input
@@ -304,16 +335,21 @@ export default function CartPage() {
                         name="shipping"
                         value={key}
                         checked={active}
+                        disabled={!quote.available}
                         onChange={() => setShippingMethod(key)}
                         className="sr-only"
                       />
                       <span className="min-w-0">
-                        <span className="block text-sm font-semibold text-encre">{opt.label}</span>
-                        <span className="block text-xs text-gris">{opt.detail}</span>
+                        <span className="block text-sm font-semibold text-encre">{SHIPPING_LABELS[key]}</span>
+                        <span className="block text-xs text-gris">
+                          {quote.available ? SHIPPING_DETAIL[key] : UNAVAILABLE_REASON[quote.reason!]}
+                        </span>
                       </span>
-                      <span className={`font-mono text-sm font-semibold ${active ? 'text-bleu' : 'text-encre'}`}>
-                        {opt.cost === 0 ? '0 €' : `${formatPrice(opt.cost)} €`}
-                      </span>
+                      {quote.available && (
+                        <span className={`font-mono text-sm font-semibold ${active ? 'text-bleu' : 'text-encre'}`}>
+                          {quote.cost === 0 ? '0 €' : `${formatPrice(quote.cost)} €`}
+                        </span>
+                      )}
                     </label>
                   )
                 })}
@@ -327,12 +363,12 @@ export default function CartPage() {
               </div>
               <div className="flex justify-between">
                 <dt className="text-gris">Livraison</dt>
-                <dd className="font-mono">{formatPrice(SHIPPING[shippingMethod].cost)} €</dd>
+                <dd className="font-mono">{formatPrice(quotes[shippingMethod].cost)} €</dd>
               </div>
               <div className="flex justify-between border-t border-ligne pt-2 text-base font-semibold">
                 <dt>Total</dt>
                 <dd className="font-mono">
-                  {formatPrice(total() + SHIPPING[shippingMethod].cost)} €
+                  {formatPrice(total() + quotes[shippingMethod].cost)} €
                 </dd>
               </div>
             </dl>

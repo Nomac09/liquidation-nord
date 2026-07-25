@@ -14,11 +14,13 @@ export default function AddToCart({
   name,
   price,
   photo,
+  weight,
 }: {
   productId: string
   name: string
   price: number
   photo?: string
+  weight?: number
 }) {
   const { addItem } = useCart()
   const [added, setAdded] = useState(false)
@@ -29,6 +31,7 @@ export default function AddToCart({
       name,
       price,
       photo: photo || '/placeholder.png',
+      weight: weight || 0,
     })
     setAdded(true)
     setTimeout(() => setAdded(false), 1200)

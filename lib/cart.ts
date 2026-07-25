@@ -7,6 +7,7 @@ interface CartItem {
   price: number
   quantity: number
   photo: string
+  weight: number
 }
 
 interface CartState {
@@ -15,6 +16,7 @@ interface CartState {
   removeItem: (productId: string) => void
   clearCart: () => void
   total: () => number
+  totalWeight: () => number
 }
 
 // Every product is a single physical unit — there is never more than one
@@ -35,6 +37,11 @@ export const useCart = create<CartState>()(
       clearCart: () => set({ items: [] }),
       total: () => {
         return get().items.reduce((sum, item) => sum + item.price, 0)
+      },
+      // Falls back to 0 per item — carts persisted before `weight` was
+      // added to CartItem won't have it until re-added.
+      totalWeight: () => {
+        return get().items.reduce((sum, item) => sum + (item.weight || 0), 0)
       }
     }),
     {

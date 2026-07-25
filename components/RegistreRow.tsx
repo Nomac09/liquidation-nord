@@ -21,6 +21,7 @@ export default function RegistreRow({ product }: { product: CatalogProduct }) {
       name: product.name,
       price: product.salePrice,
       photo: photo || '/placeholder.png',
+      weight: product.weight || 0,
     })
   }
 

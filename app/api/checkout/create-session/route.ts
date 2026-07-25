@@ -6,17 +6,10 @@ import Product from '@/lib/schemas/Product'
 import Order from '@/lib/schemas/Order'
 import User from '@/lib/schemas/User'
 import { stripe } from '@/lib/stripe'
-
-const SHIPPING = {
-  pickup: { label: 'Retrait à Bondues', cost: 0 },
-  relay: { label: 'Point relais', cost: 29.99 },
-  home: { label: 'À domicile', cost: 79.99 },
-} as const
-
-type ShippingMethod = keyof typeof SHIPPING
+import { SHIPPING_METHODS, SHIPPING_LABELS, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
 
 function isShippingMethod(value: unknown): value is ShippingMethod {
-  return typeof value === 'string' && value in SHIPPING
+  return typeof value === 'string' && (SHIPPING_METHODS as readonly string[]).includes(value)
 }
 
 function generateOrderId() {
@@ -94,7 +87,7 @@ export async function POST(request: NextRequest) {
     }
 
     const products = await Product.find({ _id: { $in: requestedIds } })
-      .select('name salePrice photos status')
+      .select('name salePrice photos status weight')
       .lean()
     const byId = new Map(products.map((p) => [String(p._id), p]))
 
@@ -117,8 +110,17 @@ export async function POST(request: NextRequest) {
       }
     })
 
+    // Recomputed from the products' real weight, never trusted from the
+    // client — this is what actually decides eligibility and price, the
+    // cart page's version is only a preview of this same calculation.
+    const itemWeights = requestedIds.map((id) => (byId.get(id)!.weight as number) || 0)
+    const quote = getShippingQuotes(itemWeights)[shippingMethod]
+    if (!quote.available) {
+      return NextResponse.json({ error: 'shipping-unavailable', reason: quote.reason }, { status: 409 })
+    }
+
     const subtotal = items.reduce((sum, i) => sum + i.price, 0)
-    const shippingCost = SHIPPING[shippingMethod].cost
+    const shippingCost = quote.cost
     const total = subtotal + shippingCost
     const orderId = generateOrderId()
     const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '')
@@ -145,7 +147,7 @@ export async function POST(request: NextRequest) {
               price_data: {
                 currency: 'eur',
                 unit_amount: Math.round(shippingCost * 100),
-                product_data: { name: `Livraison — ${SHIPPING[shippingMethod].label}` },
+                product_data: { name: `Livraison — ${SHIPPING_LABELS[shippingMethod]}` },
               },
             }]
           : []),

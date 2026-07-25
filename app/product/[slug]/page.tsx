@@ -132,6 +132,7 @@ export default async function ProductPage({
                 name={product.name}
                 price={product.salePrice}
                 photo={product.photos?.[0]}
+                weight={product.weight}
               />
             </div>
           </div>
