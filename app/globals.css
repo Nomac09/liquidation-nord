@@ -2,6 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+/* "Quiet premium" identity tokens — additive, scoped by class name to the
+   pages migrated to the new design system. The old palette above (encre,
+   bleu, orange, beton...) is untouched and keeps serving every page not
+   yet migrated. `--paper` is deliberately a distinct, deeper tone from
+   `--surface` — it's the "mat" a product photo sits on, meant to hold a
+   photo shot on a white background instead of letting it bleed into the
+   page. */
+:root {
+  --stone: #E8E7E2;
+  --surface: #F6F5F1;
+  --paper: #DDD9CE;
+  --ink: #22221F;
+  --dust: #6E6C64;
+  --hairline: #D3D0C8;
+  --hairline-strong: #B9B5A9;
+  --verdigris: #4B5A46;
+  --verdigris-deep: #37422F;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --stone: #1B1D18;
+    --surface: #232620;
+    --paper: #2C2F27;
+    --ink: #EDEAE1;
+    --dust: #A8A497;
+    --hairline: #383B33;
+    --hairline-strong: #4A4D42;
+    --verdigris: #9BB08D;
+    --verdigris-deep: #C3D3B8;
+  }
+}
+:root[data-theme="dark"] {
+  --stone: #1B1D18; --surface: #232620; --paper: #2C2F27;
+  --ink: #EDEAE1; --dust: #A8A497;
+  --hairline: #383B33; --hairline-strong: #4A4D42;
+  --verdigris: #9BB08D; --verdigris-deep: #C3D3B8;
+}
+:root[data-theme="light"] {
+  --stone: #E8E7E2; --surface: #F6F5F1; --paper: #DDD9CE;
+  --ink: #22221F; --dust: #6E6C64;
+  --hairline: #D3D0C8; --hairline-strong: #B9B5A9;
+  --verdigris: #4B5A46; --verdigris-deep: #37422F;
+}
+
 @layer base {
   body {
     @apply antialiased bg-beton text-encre;

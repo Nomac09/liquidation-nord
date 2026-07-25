@@ -12,21 +12,21 @@ export default function ConditionBadge({
 }) {
   if (inspected) {
     return (
-      <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed">
-        <CheckCircle2 aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-bleu" />
-        <span className="text-encre">
-          <strong>Comme neuf.</strong>
-          {note && <span className="text-gris"> {note}</span>}
+      <p className="mt-5 flex items-start gap-2.5 text-[13.5px] leading-relaxed">
+        <CheckCircle2 aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-verdigris-deep" />
+        <span className="text-ink">
+          <span className="font-medium">Inspectée, comme neuf.</span>
+          {note && <span className="text-dust"> {note}</span>}
         </span>
       </p>
     )
   }
 
   return (
-    <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-gris">
-      <ShieldCheck aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-bleu" />
+    <p className="mt-5 flex items-start gap-2.5 text-[13.5px] leading-relaxed text-dust">
+      <ShieldCheck aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-verdigris-deep" />
       Pièce en stock limité — photos contractuelles.{' '}
-      <a href="mailto:contact@souqify.fr" className="text-bleu hover:underline">
+      <a href="mailto:contact@souqify.fr" className="text-verdigris-deep hover:underline">
         Contactez-nous
       </a>{' '}
       pour tout détail avant votre commande.

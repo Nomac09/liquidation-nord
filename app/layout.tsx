@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
-import { Bricolage_Grotesque, Archivo, IBM_Plex_Mono } from 'next/font/google'
+import { Bricolage_Grotesque, Archivo, IBM_Plex_Mono, Ibarra_Real_Nova, Karla } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -28,6 +28,24 @@ const mono = IBM_Plex_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   weight: ['400', '500', '600'],
+})
+
+// New "quiet premium" identity — additive, not a replacement of the fonts
+// above. Only pages migrated to the new design system reference these
+// (via the `serif`/`karla` Tailwind font families); everything else keeps
+// rendering in Bricolage Grotesque/Archivo untouched until the full
+// sitewide rollout.
+const serif = Ibarra_Real_Nova({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  weight: ['400', '600'],
+  style: ['normal', 'italic'],
+})
+
+const karla = Karla({
+  subsets: ['latin'],
+  variable: '--font-karla',
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
@@ -60,7 +78,7 @@ export default async function RootLayout({
   const counts = await getCategoryCounts()
 
   return (
-    <html lang="fr" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="fr" className={`${display.variable} ${body.variable} ${mono.variable} ${serif.variable} ${karla.variable}`}>
       <body className="font-sans flex min-h-screen flex-col">
         <SessionProvider>
           <FavoritesHydrator />

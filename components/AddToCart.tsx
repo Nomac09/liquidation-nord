@@ -41,8 +41,8 @@ export default function AddToCart({
     <button
       onClick={handleAdd}
       disabled={added}
-      className={`relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full py-3.5 text-sm font-semibold transition-colors ${
-        added ? 'bg-bleu-deep text-blanc' : 'bg-bleu text-blanc hover:bg-bleu-deep'
+      className={`relative flex w-full items-center justify-center gap-2 overflow-hidden py-4 font-karla text-sm font-semibold tracking-wide transition-colors ${
+        added ? 'bg-verdigris-deep text-stone' : 'bg-verdigris text-stone hover:bg-verdigris-deep'
       }`}
     >
       <AnimatePresence mode="wait" initial={false}>

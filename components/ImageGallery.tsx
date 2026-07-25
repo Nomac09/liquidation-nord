@@ -53,7 +53,7 @@ export default function ImageGallery({
 
   if (validPhotos.length === 0) {
     return (
-      <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-xl border border-ligne bg-blanc text-gris">
+      <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 border border-hairline bg-paper text-dust">
         <ImageOff aria-hidden className="h-8 w-8" />
         <span className="font-mono text-[11px] uppercase tracking-widest">
           Photo à venir — demandez-la nous
@@ -68,21 +68,21 @@ export default function ImageGallery({
         type="button"
         onClick={() => setLightboxOpen(true)}
         aria-label="Agrandir la photo"
-        className="group relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-ligne bg-blanc"
+        className="group relative aspect-[4/3] w-full overflow-hidden border border-hairline-strong bg-paper"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.img
             key={selected}
             src={validPhotos[selected]}
             alt={`${productName} — photo ${selected + 1} sur ${validPhotos.length}`}
-            className="h-full w-full object-contain"
+            className="h-full w-full object-contain p-6"
             initial={reduce ? false : { opacity: 0, scale: 1.02 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={reduce ? undefined : { opacity: 0 }}
             transition={{ duration: 0.25 }}
           />
         </AnimatePresence>
-        <span className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-encre/70 px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-widest text-blanc opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
+        <span className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-ink/75 px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-widest text-stone opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
           <ZoomIn aria-hidden className="h-3 w-3" />
           Agrandir
         </span>
@@ -96,15 +96,15 @@ export default function ImageGallery({
               onClick={() => setSelected(index)}
               aria-label={`Voir la photo ${index + 1}`}
               aria-current={selected === index}
-              className={`aspect-square overflow-hidden rounded-lg border-2 bg-blanc transition-colors ${
-                selected === index ? 'border-bleu' : 'border-ligne hover:border-gris'
+              className={`aspect-square overflow-hidden border bg-paper p-1.5 transition-colors ${
+                selected === index ? 'border-verdigris' : 'border-hairline hover:border-hairline-strong'
               }`}
             >
               <img
                 src={photo}
                 alt=""
                 loading="lazy"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </button>
           ))}

@@ -7,8 +7,7 @@ import Product from '@/lib/schemas/Product'
 import ImageGallery from '@/components/ImageGallery'
 import AddToCart from '@/components/AddToCart'
 import FavoriteButton from '@/components/FavoriteButton'
-import Sticker from '@/components/Sticker'
-import Barcode from '@/components/Barcode'
+import PriceMark from '@/components/PriceMark'
 import ConditionBadge from '@/components/ConditionBadge'
 import { Reveal } from '@/components/motion'
 import { CATEGORY_LABELS } from '@/lib/categories'
@@ -85,48 +84,59 @@ export default async function ProductPage({
     },
   }
 
+  const specRows = [
+    ['Référence', product.internalRef],
+    ['Catégorie', CATEGORY_LABELS[product.category] || product.category],
+    ['État', product.inspected ? 'Comme neuf' : ''],
+    ['Dimensions', product.dimensions],
+    ['Poids', product.weight ? `${product.weight} kg` : ''],
+  ].filter(([, v]) => v)
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <nav aria-label="Fil d’Ariane" className="mb-6 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-gris">
-        <Link href="/" className="transition-colors hover:text-encre">
-          Arrivage
-        </Link>
-        <ChevronRight aria-hidden className="h-3 w-3" />
-        <Link href={`/?category=${product.category}`} className="transition-colors hover:text-encre">
-          {CATEGORY_LABELS[product.category] || product.category}
-        </Link>
-      </nav>
+    <div className="bg-stone">
+      <div className="container mx-auto px-4 py-10 sm:py-14">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <nav aria-label="Fil d’Ariane" className="mb-8 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-dust">
+          <Link href="/" className="transition-colors hover:text-ink">
+            Arrivage
+          </Link>
+          <ChevronRight aria-hidden className="h-3 w-3" />
+          <Link href={`/?category=${product.category}`} className="transition-colors hover:text-ink">
+            {CATEGORY_LABELS[product.category] || product.category}
+          </Link>
+        </nav>
 
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-        <div>
-          <ImageGallery photos={product.photos} productName={product.name} />
-        </div>
-
-        <div className="space-y-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="tag-label">Pièce unique</p>
-              <h1 className="mt-2 font-display text-3xl font-bold leading-tight tracking-tight text-encre sm:text-4xl">
-                {product.name}
-              </h1>
-            </div>
-            <FavoriteButton
-              productId={product._id}
-              productName={product.name}
-              className="mt-1 shrink-0"
-            />
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+          <div>
+            <ImageGallery photos={product.photos} productName={product.name} />
           </div>
 
-          <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-            <Sticker price={product.salePrice} rrp={product.rrp} size="lg" tilted={false} />
+          <div>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-dust">Pièce unique</p>
+                <h1 className="mt-2 font-serif text-3xl leading-[1.15] text-ink sm:text-4xl" style={{ textWrap: 'balance' }}>
+                  {product.name}
+                </h1>
+              </div>
+              <FavoriteButton
+                productId={product._id}
+                productName={product.name}
+                variant="quiet"
+                className="mt-1 shrink-0"
+              />
+            </div>
+
+            <div className="mt-6 border-b border-hairline pb-6">
+              <PriceMark price={product.salePrice} rrp={product.rrp} size="lg" />
+            </div>
 
             <ConditionBadge inspected={!!product.inspected} note={product.conditionNote} />
 
-            <div className="mt-5">
+            <div className="mt-6">
               <AddToCart
                 productId={product._id}
                 name={product.name}
@@ -135,57 +145,41 @@ export default async function ProductPage({
                 weight={product.weight}
               />
             </div>
-          </div>
 
-          {product.description && (
+            {product.description && (
+              <Reveal>
+                <section aria-label="Description" className="mt-10 border-t border-hairline pt-8">
+                  <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-dust">Description</h2>
+                  <div className="mt-3 space-y-3 font-karla text-[15px] leading-relaxed text-ink/85">
+                    {product.description.split(/\n{2,}/).map((p: string, i: number) =>
+                      p.trim() ? <p key={i}>{p.trim()}</p> : null
+                    )}
+                  </div>
+                </section>
+              </Reveal>
+            )}
+
             <Reveal>
-              <section aria-label="Description">
-                <h2 className="tag-label">Description</h2>
-                <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-encre/85">
-                  {product.description.split(/\n{2,}/).map((p: string, i: number) =>
-                    p.trim() ? <p key={i}>{p.trim()}</p> : null
-                  )}
-                </div>
-              </section>
-            </Reveal>
-          )}
-
-          <Reveal>
-            <section
-              aria-label="Fiche d’inventaire"
-              className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte"
-            >
-              <h2 className="tag-label">Fiche d’inventaire</h2>
-              <dl className="mt-4 divide-y divide-ligne/70 font-mono text-sm">
-                {[
-                  ['Référence', product.internalRef],
-                  ['Catégorie', CATEGORY_LABELS[product.category] || product.category],
-                  ['État', product.inspected ? 'Comme neuf' : ''],
-                  ['Dimensions', product.dimensions],
-                  ['Poids', product.weight ? `${product.weight} kg` : ''],
-                ]
-                  .filter(([, v]) => v)
-                  .map(([k, v]) => (
-                    <div key={k as string} className="flex justify-between gap-4 py-2">
-                      <dt className="text-gris">{k}</dt>
-                      <dd className="text-right text-encre">{v}</dd>
+              <section aria-label="Fiche d’inventaire" className="mt-10 border-t border-hairline pt-8">
+                <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-dust">Fiche d’inventaire</h2>
+                <dl className="mt-3 font-mono text-[13px]">
+                  {specRows.map(([k, v]) => (
+                    <div key={k as string} className="flex justify-between gap-4 border-t border-hairline py-2.5 first:border-t-0">
+                      <dt className="text-dust">{k}</dt>
+                      <dd className="text-right text-ink">{v}</dd>
                     </div>
                   ))}
-              </dl>
-              {product.specs?.length > 0 && (
-                <ul className="mt-4 list-disc space-y-1 border-t border-ligne/70 pl-4 pt-4 text-sm text-encre/85">
-                  {product.specs.map((s: string) => (
-                    <li key={s}>{s}</li>
-                  ))}
-                </ul>
-              )}
-              <Barcode
-                code={product.pseudoBarcode}
-                displayText={product.internalRef}
-                className="mt-6 text-encre/80"
-              />
-            </section>
-          </Reveal>
+                </dl>
+                {product.specs?.length > 0 && (
+                  <ul className="mt-4 list-disc space-y-1 border-t border-hairline pl-4 pt-4 font-karla text-sm text-ink/85">
+                    {product.specs.map((s: string) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            </Reveal>
+          </div>
         </div>
       </div>
     </div>
