@@ -51,7 +51,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       await connectDB()
       const existing = await User.findOne({ email })
       if (!existing) {
-        await User.create({ email, name: user.name || '', image: user.image || '' })
+        // Google has already proven ownership of this address.
+        await User.create({ email, name: user.name || '', image: user.image || '', emailVerified: new Date() })
+      } else if (!existing.emailVerified) {
+        // Same proof applies retroactively if this email registered via
+        // Credentials first and is only now linking Google.
+        existing.emailVerified = new Date()
+        await existing.save()
       }
       return true
     },

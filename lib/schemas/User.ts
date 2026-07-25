@@ -40,6 +40,22 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  // Set the moment an email is confirmed — via the verification link, or
+  // immediately on Google sign-in, since Google has already done that
+  // proof for us. Null/unset means unverified.
+  emailVerified: {
+    type: Date,
+  },
+  verificationToken: {
+    type: String,
+  },
+  verificationTokenExpires: {
+    type: Date,
+  },
+  // Throttles the "resend" button independently of token expiry.
+  verificationSentAt: {
+    type: Date,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

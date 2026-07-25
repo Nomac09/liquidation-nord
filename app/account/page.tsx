@@ -4,6 +4,7 @@ import connectDB from '@/lib/mongodb'
 import User from '@/lib/schemas/User'
 import Order from '@/lib/schemas/Order'
 import AccountForm from '@/components/AccountForm'
+import EmailVerificationBanner from '@/components/EmailVerificationBanner'
 import { formatPrice } from '@/components/Sticker'
 
 export const dynamic = 'force-dynamic'
@@ -22,7 +23,7 @@ export default async function AccountPage() {
 
   await connectDB()
   const [doc, orders] = await Promise.all([
-    User.findById(session.user.id).select('email name phone address').lean(),
+    User.findById(session.user.id).select('email name phone address emailVerified passwordHash').lean(),
     Order.find({ userId: session.user.id })
       .select('orderId items total paymentStatus createdAt')
       .sort({ createdAt: -1 })
@@ -34,6 +35,9 @@ export default async function AccountPage() {
   }
   const user = JSON.parse(JSON.stringify(doc))
   const orderList = JSON.parse(JSON.stringify(orders))
+  // Only Credentials accounts have a passwordHash — Google sign-ins are
+  // exempt from verification, so the banner never shows for them.
+  const needsVerification = Boolean(user.passwordHash) && !user.emailVerified
 
   const initial = {
     email: user.email,
@@ -56,6 +60,8 @@ export default async function AccountPage() {
       <p className="mt-1 text-sm text-gris">
         Ces informations servent à préparer votre commande — nous ne les partageons pas.
       </p>
+
+      {needsVerification && <EmailVerificationBanner className="mt-6" />}
 
       <div className="mt-8 rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
         <h2 className="tag-label border-b border-dashed border-ligne pb-3">Historique de commandes</h2>

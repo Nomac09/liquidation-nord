@@ -83,8 +83,14 @@ export async function POST(request: NextRequest) {
         accountUserId,
         { $set: { name: customerName, phone: customerPhone, address } },
         { new: true }
-      ).select('email')
+      ).select('email emailVerified passwordHash')
       accountEmail = user?.email
+
+      // Google-linked accounts are exempt (see auth.ts) — this only ever
+      // blocks a Credentials account that hasn't clicked its email link.
+      if (user?.passwordHash && !user.emailVerified) {
+        return NextResponse.json({ error: 'email-not-verified' }, { status: 403 })
+      }
     }
 
     const products = await Product.find({ _id: { $in: requestedIds } })

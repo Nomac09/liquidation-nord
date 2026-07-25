@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
+import crypto from 'crypto'
 import bcrypt from 'bcryptjs'
 import connectDB from '@/lib/mongodb'
 import User from '@/lib/schemas/User'
+import { sendVerificationEmail } from '@/lib/email'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -30,7 +32,23 @@ export async function POST(request: NextRequest) {
     }
 
     const passwordHash = await bcrypt.hash(password, 12)
-    await User.create({ email, name, passwordHash })
+    const verificationToken = crypto.randomBytes(32).toString('hex')
+    await User.create({
+      email,
+      name,
+      passwordHash,
+      verificationToken,
+      verificationTokenExpires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      verificationSentAt: new Date(),
+    })
+
+    try {
+      await sendVerificationEmail(email, verificationToken)
+    } catch (error) {
+      // Account is created either way — the resend-verification endpoint
+      // covers the case where this initial send fails.
+      console.error('verification email failed to send', error)
+    }
 
     return NextResponse.json({ ok: true })
   } catch (error) {

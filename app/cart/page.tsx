@@ -101,6 +101,15 @@ export default function CartPage() {
         return
       }
 
+      if (response.status === 403) {
+        const data = await response.json().catch(() => null)
+        if (data?.error === 'email-not-verified') {
+          setError('Confirmez votre email avant de payer — un lien de vérification vous a été envoyé à l’inscription. Vous pouvez le renvoyer depuis votre compte.')
+          setIsLoading(false)
+          return
+        }
+      }
+
       const { clientSecret } = await response.json()
       if (!clientSecret) throw new Error('no-client-secret')
       sessionStorage.setItem('souqify-checkout-secret', clientSecret)
