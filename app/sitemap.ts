@@ -31,6 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: SITE_URL, changeFrequency: 'daily', priority: 1 },
     { url: `${SITE_URL}/cgv`, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${SITE_URL}/politique-cookies`, changeFrequency: 'yearly', priority: 0.2 },
     ...categoryEntries,
     ...productEntries,
   ]

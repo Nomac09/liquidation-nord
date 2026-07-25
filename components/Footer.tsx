@@ -76,6 +76,9 @@ export default function Footer() {
             <Link href="/cgv" className="hover:text-blanc">
               CGV
             </Link>
+            <Link href="/politique-cookies" className="hover:text-blanc">
+              Cookies & vie privée
+            </Link>
             <span>Paiement sécurisé Stripe · TVA non applicable, art. 293 B du CGI</span>
           </p>
         </div>

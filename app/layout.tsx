@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/next'
 import { Bricolage_Grotesque, Archivo, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CartDrawer from '@/components/CartDrawer'
+import CookieNotice from '@/components/CookieNotice'
 import SessionProvider from '@/components/SessionProvider'
 import FavoritesHydrator from '@/components/FavoritesHydrator'
 import StockManifest from '@/components/StockManifest'
@@ -70,7 +72,9 @@ export default async function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <CartDrawer />
+          <CookieNotice />
         </SessionProvider>
+        <Analytics />
       </body>
     </html>
   )
