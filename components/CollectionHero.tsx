@@ -3,31 +3,30 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { EASE } from '@/components/motion'
 
-interface DropPhoto {
+interface CollectionPhoto {
   url: string
   name: string
 }
 
-// One dominant photograph anchors the arrival, with a considered quartet
+// Presents the standing collection — a calm, evergreen boutique front,
+// not a dated "arrival" announcement. No count, no countdown, no "only
+// one exists" framing: the one-of-one/first-payment-wins mechanics are
+// still exactly how the catalogue behaves underneath, they're just not
+// dressed up as a scarcity event here.
+//
+// One dominant photograph anchors the section, with a considered quartet
 // of supporting images at a consistent, cover-filled frame — a hero and
 // its supporting cast, not a uniform contact sheet of equal-weight tiles.
 // Cover-fit (not contain) is deliberate here: this is editorial/atmospheric
 // photography, not a product listing where the exact uncropped item matters.
-export default function DropModule({
-  dateLabel,
-  remaining,
-  total,
+export default function CollectionHero({
   brand,
   photos,
 }: {
-  dateLabel: string | null
-  remaining: number
-  total: number
   brand: string | null
-  photos: DropPhoto[]
+  photos: CollectionPhoto[]
 }) {
   const reduce = useReducedMotion()
-  const pct = total > 0 ? Math.min(100, (remaining / total) * 100) : 0
   const gallery = photos.slice(0, 5)
   const [feature, b, c, d, e] = gallery
 
@@ -43,38 +42,20 @@ export default function DropModule({
   return (
     <section className="bg-stone">
       <div className="container mx-auto px-4 py-14 sm:py-20">
-        <motion.div
-          className="grid gap-8 sm:grid-cols-[1.3fr_1fr] sm:items-end sm:gap-14"
-          {...fade(0.05)}
-        >
-          <div>
-            {dateLabel && (
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-dust">
-                Arrivage du {dateLabel}
-                {brand ? ` — ${brand}` : ''}
-              </p>
-            )}
-            <h1
-              className="mt-3 font-serif text-4xl leading-[1.12] tracking-tight text-ink sm:text-6xl"
-              style={{ textWrap: 'balance' }}
-            >
-              {remaining} pièce{remaining > 1 ? 's' : ''}{' '}
-              <em className="italic text-verdigris-deep">n’existent qu’une fois.</em>
-            </h1>
-          </div>
-
-          <div className="sm:text-right">
-            <p className="font-mono text-[15px] tabular-nums text-ink">
-              <span className="font-medium">{remaining}</span>{' '}
-              <span className="text-dust">disponibles / {total}</span>
-            </p>
-            <div className="mt-2.5 h-[2px] w-full max-w-[220px] bg-hairline sm:ml-auto">
-              <div className="h-full bg-verdigris" style={{ width: `${pct}%` }} />
-            </div>
-            <p className="mt-2 max-w-[220px] text-xs leading-relaxed text-dust sm:ml-auto">
-              Chaque vente retire la pièce du catalogue — sans réassort.
-            </p>
-          </div>
+        <motion.div className="max-w-2xl" {...fade(0.05)}>
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-dust">
+            Bondues (59) · Nord
+          </p>
+          <h1
+            className="mt-3 font-serif text-4xl leading-[1.12] tracking-tight text-ink sm:text-6xl"
+            style={{ textWrap: 'balance' }}
+          >
+            Jardin, mobilier et déco{brand ? ` ${brand}` : ''}, à moitié prix.
+          </h1>
+          <p className="mt-5 max-w-md font-karla text-[15px] leading-relaxed text-dust">
+            Chaque pièce est inspectée à l’entrepôt avant sa mise en ligne — retrait
+            gratuit sur place ou livraison partout en France.
+          </p>
         </motion.div>
 
         {gallery.length >= 5 && (
@@ -115,7 +96,7 @@ function GalleryFigure({
   className,
   showCaption = true,
 }: {
-  photo: DropPhoto
+  photo: CollectionPhoto
   className: string
   showCaption?: boolean
 }) {

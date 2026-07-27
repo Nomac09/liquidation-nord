@@ -31,7 +31,7 @@ export async function generateMetadata({
   if (!product) return {}
   const description =
     product.description?.slice(0, 155) ||
-    `${product.name} à ${product.salePrice} € au lieu de ${product.rrp} € — pièce unique, retrait gratuit à Bondues (59).`
+    `${product.name} à ${product.salePrice} € au lieu de ${product.rrp} € — retrait gratuit à Bondues (59) ou livraison partout en France.`
   return {
     title: product.name,
     description,
@@ -70,7 +70,7 @@ export default async function ProductPage({
     name: product.name,
     description:
       product.description?.slice(0, 500) ||
-      `${product.name} — pièce unique, retrait gratuit à Bondues (59).`,
+      `${product.name} — retrait gratuit à Bondues (59) ou livraison partout en France.`,
     image: product.photos || [],
     sku: product.internalRef || undefined,
     category: CATEGORY_LABELS[product.category] || product.category,
@@ -101,7 +101,7 @@ export default async function ProductPage({
         />
         <nav aria-label="Fil d’Ariane" className="mb-8 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-dust">
           <Link href="/" className="transition-colors hover:text-ink">
-            Arrivage
+            Catalogue
           </Link>
           <ChevronRight aria-hidden className="h-3 w-3" />
           <Link href={`/?category=${product.category}`} className="transition-colors hover:text-ink">
@@ -117,7 +117,11 @@ export default async function ProductPage({
           <div>
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-dust">Pièce unique</p>
+                {product.internalRef && (
+                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-dust">
+                    Réf. {product.internalRef}
+                  </p>
+                )}
                 <h1 className="mt-2 font-serif text-3xl leading-[1.15] text-ink sm:text-4xl" style={{ textWrap: 'balance' }}>
                   {product.name}
                 </h1>

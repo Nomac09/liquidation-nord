@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import DropModule from '@/components/DropModule'
+import CollectionHero from '@/components/CollectionHero'
 import ProductGrid from '@/components/ProductGrid'
 import { getProducts } from '@/lib/catalog'
 import { getDropInfo } from '@/lib/drop'
@@ -74,13 +74,7 @@ export default async function HomePage({
   return (
     <div>
       {showDrop && drop && (
-        <DropModule
-          dateLabel={drop.dateLabel}
-          remaining={drop.remaining}
-          total={drop.total}
-          brand={drop.brand}
-          photos={drop.photos}
-        />
+        <CollectionHero brand={drop.brand} photos={drop.photos} />
       )}
 
       <section className="container mx-auto px-4 py-10">
@@ -90,7 +84,7 @@ export default async function HomePage({
               ? `Résultats pour « ${search} »`
               : category
                 ? CATEGORY_LABELS[category] || category
-                : 'Tout l’arrivage'}
+                : 'Toute la collection'}
           </h2>
         </div>
 
