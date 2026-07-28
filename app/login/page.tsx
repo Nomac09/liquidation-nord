@@ -41,16 +41,16 @@ function LoginForm() {
 
   return (
     <div className="container mx-auto max-w-sm px-4 py-16">
-      <h1 className="font-display text-3xl font-bold tracking-tight text-encre">
+      <h1 className="font-display text-3xl tracking-tight text-ink">
         Se connecter
       </h1>
 
-      <div className="mt-6 rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-        <h2 className="tag-label border-b border-dashed border-ligne pb-3">Connexion</h2>
+      <div className="mt-6 rounded-xl border border-hairline bg-surface p-6 shadow-carte">
+        <h2 className="tag-label border-b border-dashed border-hairline pb-3">Connexion</h2>
 
         <button
           onClick={() => signIn('google', { callbackUrl })}
-          className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-ligne bg-blanc py-3 text-sm font-semibold text-encre transition-colors hover:border-gris"
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-hairline bg-surface py-3 text-sm font-semibold text-ink transition-colors hover:border-hairline-strong"
         >
           <svg aria-hidden className="h-4 w-4" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.47a5.53 5.53 0 0 1-2.4 3.63v3.02h3.88c2.27-2.09 3.57-5.17 3.57-8.84Z" />
@@ -62,9 +62,9 @@ function LoginForm() {
         </button>
 
         <div className="my-5 flex items-center gap-3">
-          <div className="h-px flex-1 bg-ligne" />
-          <span className="font-mono text-[10px] uppercase tracking-widest text-gris">ou</span>
-          <div className="h-px flex-1 bg-ligne" />
+          <div className="h-px flex-1 bg-hairline" />
+          <span className="font-mono text-[10px] uppercase tracking-widest text-dust">ou</span>
+          <div className="h-px flex-1 bg-hairline" />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -76,7 +76,7 @@ function LoginForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+              className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
             />
           </div>
           <div>
@@ -87,12 +87,12 @@ function LoginForm() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+              className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
             />
           </div>
 
           {error && (
-            <p role="alert" className="flex items-start gap-2 rounded-lg bg-orange-pale px-3 py-2 text-sm text-orange-deep">
+            <p role="alert" className="flex items-start gap-2 rounded-lg bg-alert-pale px-3 py-2 text-sm text-alert">
               <AlertCircle aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
               {error}
             </p>
@@ -101,18 +101,18 @@ function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-full bg-bleu py-3 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep disabled:opacity-60"
+            className="w-full rounded-full bg-verdigris py-3 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
           >
             {isLoading ? 'Connexion…' : 'Se connecter'}
           </button>
         </form>
       </div>
 
-      <p className="mt-6 text-center text-sm text-gris">
+      <p className="mt-6 text-center text-sm text-dust">
         Pas encore de compte ?{' '}
         <Link
           href={explicitCallback ? `/register?callbackUrl=${encodeURIComponent(explicitCallback)}` : '/register'}
-          className="font-semibold text-bleu hover:underline"
+          className="font-semibold text-verdigris-deep hover:underline"
         >
           Créer un compte
         </Link>

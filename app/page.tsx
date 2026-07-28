@@ -32,7 +32,7 @@ export async function generateMetadata({
     const label = CATEGORY_LABELS[category]
     return {
       title: `${label} — vidaXL à −50 %`,
-      description: `${label} vidaXL à Bondues (59), à moitié prix. Chaque pièce est en stock limité — retrait gratuit ou livraison partout en France.`,
+      description: `${label} vidaXL à Bondues (59), à moitié prix. Retrait gratuit ou livraison partout en France.`,
       // No `alternates.canonical` here: Next's URL resolver collapses any
       // root-path URL ("/") down to the bare origin, silently dropping
       // the ?category= query string — a canonical that would wrongly
@@ -79,7 +79,7 @@ export default async function HomePage({
 
       <section className="container mx-auto px-4 py-10">
         <div className="mb-6">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-encre">
+          <h2 className="font-display text-2xl tracking-tight text-ink">
             {search
               ? `Résultats pour « ${search} »`
               : category

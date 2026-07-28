@@ -4,9 +4,8 @@ import { formatPrice } from '@/components/Sticker'
 // set large, in the serif, in ink. The RRP is a small, struck-through
 // reference beside it, the same register a consignment shop uses for
 // "estimated retail" — never a colored badge, never a percentage shout.
-// Replaces <Sticker> for pages migrated to the new identity; kept as a
-// separate component rather than a variant since the two treatments
-// share no layout logic and Sticker still serves every unmigrated page.
+// Replaces <Sticker> everywhere — the old clearance-sticker chip and its
+// ticket/perforation styling are fully retired.
 export default function PriceMark({
   price,
   rrp,
@@ -14,13 +13,15 @@ export default function PriceMark({
 }: {
   price: number
   rrp?: number
-  size?: 'md' | 'lg'
+  size?: 'sm' | 'md' | 'lg'
 }) {
   const discount = rrp && rrp > price ? Math.round((1 - price / rrp) * 100) : null
+  const priceSize = size === 'lg' ? 'text-4xl' : size === 'sm' ? 'text-lg' : 'text-2xl'
+  const gap = size === 'sm' ? 'gap-2' : 'gap-3'
 
   return (
-    <span className="inline-flex items-baseline gap-3">
-      <span className={`font-serif text-ink ${size === 'lg' ? 'text-4xl' : 'text-2xl'}`}>
+    <span className={`inline-flex items-baseline ${gap}`}>
+      <span className={`font-serif text-ink ${priceSize}`}>
         {formatPrice(price)} €
       </span>
       {rrp && rrp > price && (

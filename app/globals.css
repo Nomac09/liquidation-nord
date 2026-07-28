@@ -2,13 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* "Quiet premium" identity tokens — additive, scoped by class name to the
-   pages migrated to the new design system. The old palette above (encre,
-   bleu, orange, beton...) is untouched and keeps serving every page not
-   yet migrated. `--paper` is deliberately a distinct, deeper tone from
-   `--surface` — it's the "mat" a product photo sits on, meant to hold a
-   photo shot on a white background instead of letting it bleed into the
-   page. */
+/* "Quiet premium" identity tokens, sitewide. `--paper` is deliberately a
+   distinct, deeper tone from `--surface` — it's the "mat" a product photo
+   sits on, meant to hold a photo shot on a white background instead of
+   letting it bleed into the page. `--alert` is semantic only (form errors,
+   "unavailable at checkout"), kept apart from `--verdigris` so it never
+   reads as a price/discount treatment. */
 :root {
   --stone: #E8E7E2;
   --surface: #F6F5F1;
@@ -19,6 +18,8 @@
   --hairline-strong: #B9B5A9;
   --verdigris: #4B5A46;
   --verdigris-deep: #37422F;
+  --alert: #9B4A3F;
+  --alert-pale: #F3E7E4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,6 +33,8 @@
     --hairline-strong: #4A4D42;
     --verdigris: #9BB08D;
     --verdigris-deep: #C3D3B8;
+    --alert: #D48A7D;
+    --alert-pale: #3A2823;
   }
 }
 :root[data-theme="dark"] {
@@ -39,26 +42,28 @@
   --ink: #EDEAE1; --dust: #A8A497;
   --hairline: #383B33; --hairline-strong: #4A4D42;
   --verdigris: #9BB08D; --verdigris-deep: #C3D3B8;
+  --alert: #D48A7D; --alert-pale: #3A2823;
 }
 :root[data-theme="light"] {
   --stone: #E8E7E2; --surface: #F6F5F1; --paper: #DDD9CE;
   --ink: #22221F; --dust: #6E6C64;
   --hairline: #D3D0C8; --hairline-strong: #B9B5A9;
   --verdigris: #4B5A46; --verdigris-deep: #37422F;
+  --alert: #9B4A3F; --alert-pale: #F3E7E4;
 }
 
 @layer base {
   body {
-    @apply antialiased bg-beton text-encre;
+    @apply antialiased bg-stone text-ink;
   }
 
   ::selection {
-    @apply bg-bleu text-blanc;
+    @apply bg-verdigris text-stone;
   }
 
   /* Visible keyboard focus everywhere */
   :focus-visible {
-    outline: 2px solid #24408e;
+    outline: 2px solid var(--verdigris);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -74,38 +79,7 @@
 
   /* Micro-label: mono uppercase inventory tag */
   .tag-label {
-    @apply font-mono text-micro uppercase tracking-widest text-gris;
-  }
-
-  /* L'étiquette — the clearance sticker price chip */
-  .sticker {
-    @apply inline-flex items-baseline gap-0.5 bg-orange text-blanc font-mono font-semibold px-2.5 py-1 select-none;
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
-  }
-
-  /* Ticket tear-line: a dashed divider with two punched-hole notches, as
-     if this zone were detached from a perforated sheet. Notches match the
-     page background (not the card's) so they read as holes through to
-     what's behind the ticket. */
-  .perforated {
-    border-left: 1.5px dashed #d9d8d0;
-  }
-  .perforated::before,
-  .perforated::after {
-    content: '';
-    position: absolute;
-    left: -6px;
-    width: 12px;
-    height: 12px;
-    border-radius: 9999px;
-    background: #ecebe6;
-    border: 1.5px solid #d9d8d0;
-  }
-  .perforated::before {
-    top: -6px;
-  }
-  .perforated::after {
-    bottom: -6px;
+    @apply font-mono text-micro uppercase tracking-widest text-dust;
   }
 }
 
@@ -115,16 +89,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #ecebe6;
+  background: var(--surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #b9b8b0;
+  background: var(--hairline-strong);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #62687a;
+  background: var(--dust);
 }
 
 @media (prefers-reduced-motion: reduce) {

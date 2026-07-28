@@ -150,18 +150,18 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="container mx-auto px-4 py-24 text-center">
-        <ShoppingBag aria-hidden className="mx-auto h-10 w-10 text-gris" />
-        <h1 className="mt-4 font-display text-3xl font-bold text-encre">
+        <ShoppingBag aria-hidden className="mx-auto h-10 w-10 text-dust" />
+        <h1 className="mt-4 font-display text-3xl text-ink">
           Votre panier est vide
         </h1>
-        <p className="mx-auto mt-2 max-w-md text-gris">
-          Les pièces partent vite — chaque article est en un seul exemplaire.
+        <p className="mx-auto mt-2 max-w-md text-dust">
+          Chaque pièce est en un seul exemplaire.
         </p>
         <Link
           href="/"
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-bleu px-8 py-3 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-verdigris px-8 py-3 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep"
         >
-          Parcourir l’arrivage
+          Voir la collection
           <ArrowRight aria-hidden className="h-4 w-4" />
         </Link>
       </div>
@@ -170,16 +170,16 @@ export default function CartPage() {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <h1 className="font-display text-3xl font-bold tracking-tight text-encre">
+      <h1 className="font-display text-3xl tracking-tight text-ink">
         Votre panier
       </h1>
-      <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-gris">
+      <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-dust">
         {items.length} article{items.length > 1 ? 's' : ''}
       </p>
 
       {status !== 'authenticated' && (
-        <p className="mt-3 text-sm text-gris">
-          <Link href={`/login?callbackUrl=${encodeURIComponent('/cart')}`} className="font-semibold text-bleu hover:underline">
+        <p className="mt-3 text-sm text-dust">
+          <Link href={`/login?callbackUrl=${encodeURIComponent('/cart')}`} className="font-semibold text-verdigris-deep hover:underline">
             Connectez-vous
           </Link>{' '}
           pour préremplir vos coordonnées la prochaine fois.
@@ -187,7 +187,7 @@ export default function CartPage() {
       )}
 
       {unavailable.length > 0 && (
-        <div role="alert" className="mt-6 flex items-start gap-2 rounded-lg bg-orange-pale px-4 py-3 text-sm text-orange-deep">
+        <div role="alert" className="mt-6 flex items-start gap-2 rounded-lg bg-alert-pale px-4 py-3 text-sm text-alert">
           <AlertCircle aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
           <span>
             {unavailable.length === 1
@@ -203,28 +203,25 @@ export default function CartPage() {
             {items.map((item) => (
               <li
                 key={item.productId}
-                className="flex gap-4 rounded-xl border border-ligne bg-blanc p-4 shadow-carte"
+                className="flex gap-4 rounded-xl border border-hairline bg-surface p-4 shadow-carte"
               >
                 <img
                   src={item.photo || '/placeholder.png'}
                   alt=""
-                  className="h-24 w-24 shrink-0 rounded-lg border border-ligne object-cover"
+                  className="h-24 w-24 shrink-0 rounded-lg border border-hairline bg-paper object-contain p-1.5"
                 />
                 <div className="min-w-0 flex-1">
-                  <h2 className="line-clamp-2 font-medium leading-snug text-encre">
+                  <h2 className="line-clamp-2 font-medium leading-snug text-ink">
                     {item.name}
                   </h2>
-                  <p className="mt-1 font-mono font-semibold text-encre">
+                  <p className="mt-1 font-mono font-semibold text-ink">
                     {formatPrice(item.price)} €
-                  </p>
-                  <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-gris">
-                    Pièce unique
                   </p>
                 </div>
                 <button
                   onClick={() => removeItem(item.productId)}
                   aria-label={`Retirer ${item.name}`}
-                  className="self-start p-1.5 text-gris transition-colors hover:text-orange-deep"
+                  className="self-start p-1.5 text-dust transition-colors hover:text-alert"
                 >
                   <Trash2 aria-hidden className="h-4 w-4" />
                 </button>
@@ -232,7 +229,7 @@ export default function CartPage() {
             ))}
           </ul>
 
-          <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
+          <div className="rounded-xl border border-hairline bg-surface p-6 shadow-carte">
             <h2 className="tag-label">Vos coordonnées</h2>
             <div className="mt-4 space-y-4">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -244,7 +241,7 @@ export default function CartPage() {
                     required
                     value={customer.name}
                     onChange={(e) => setField('name', e.target.value)}
-                    className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+                    className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
                   />
                 </div>
                 <div>
@@ -256,7 +253,7 @@ export default function CartPage() {
                     placeholder="06 12 34 56 78"
                     value={customer.phone}
                     onChange={(e) => setField('phone', e.target.value)}
-                    className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+                    className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
                   />
                 </div>
               </div>
@@ -268,7 +265,7 @@ export default function CartPage() {
                   required
                   value={customer.line1}
                   onChange={(e) => setField('line1', e.target.value)}
-                  className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+                  className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
                 />
               </div>
               <div>
@@ -278,7 +275,7 @@ export default function CartPage() {
                   type="text"
                   value={customer.line2}
                   onChange={(e) => setField('line2', e.target.value)}
-                  className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+                  className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -290,7 +287,7 @@ export default function CartPage() {
                     required
                     value={customer.postalCode}
                     onChange={(e) => setField('postalCode', e.target.value)}
-                    className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+                    className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
                   />
                 </div>
                 <div>
@@ -301,7 +298,7 @@ export default function CartPage() {
                     required
                     value={customer.city}
                     onChange={(e) => setField('city', e.target.value)}
-                    className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+                    className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
                   />
                 </div>
               </div>
@@ -310,8 +307,8 @@ export default function CartPage() {
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-            <h2 className="font-display text-lg font-bold text-encre">Récapitulatif</h2>
+          <div className="rounded-xl border border-hairline bg-surface p-6 shadow-carte">
+            <h2 className="font-display text-lg text-ink">Récapitulatif</h2>
 
             <fieldset className="mt-4">
               <legend className="tag-label">Comment récupérer vos pièces ?</legend>
@@ -324,10 +321,10 @@ export default function CartPage() {
                       key={key}
                       className={`flex items-center justify-between gap-3 rounded-lg border p-3 transition-colors ${
                         !quote.available
-                          ? 'cursor-not-allowed border-ligne opacity-50'
+                          ? 'cursor-not-allowed border-hairline opacity-50'
                           : active
-                            ? 'cursor-pointer border-bleu bg-bleu-pale'
-                            : 'cursor-pointer border-ligne hover:border-gris'
+                            ? 'cursor-pointer border-verdigris bg-verdigris/10'
+                            : 'cursor-pointer border-hairline hover:border-hairline-strong'
                       }`}
                     >
                       <input
@@ -340,13 +337,13 @@ export default function CartPage() {
                         className="sr-only"
                       />
                       <span className="min-w-0">
-                        <span className="block text-sm font-semibold text-encre">{SHIPPING_LABELS[key]}</span>
-                        <span className="block text-xs text-gris">
+                        <span className="block text-sm font-semibold text-ink">{SHIPPING_LABELS[key]}</span>
+                        <span className="block text-xs text-dust">
                           {quote.available ? SHIPPING_DETAIL[key] : UNAVAILABLE_REASON[quote.reason!]}
                         </span>
                       </span>
                       {quote.available && (
-                        <span className={`font-mono text-sm font-semibold ${active ? 'text-bleu' : 'text-encre'}`}>
+                        <span className={`font-mono text-sm font-semibold ${active ? 'text-verdigris-deep' : 'text-ink'}`}>
                           {quote.cost === 0 ? '0 €' : `${formatPrice(quote.cost)} €`}
                         </span>
                       )}
@@ -356,16 +353,16 @@ export default function CartPage() {
               </div>
             </fieldset>
 
-            <dl className="mt-5 space-y-2 border-t border-ligne pt-4 text-sm">
+            <dl className="mt-5 space-y-2 border-t border-hairline pt-4 text-sm">
               <div className="flex justify-between">
-                <dt className="text-gris">Sous-total</dt>
+                <dt className="text-dust">Sous-total</dt>
                 <dd className="font-mono">{formatPrice(total())} €</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-gris">Livraison</dt>
+                <dt className="text-dust">Livraison</dt>
                 <dd className="font-mono">{formatPrice(quotes[shippingMethod].cost)} €</dd>
               </div>
-              <div className="flex justify-between border-t border-ligne pt-2 text-base font-semibold">
+              <div className="flex justify-between border-t border-hairline pt-2 text-base font-semibold">
                 <dt>Total</dt>
                 <dd className="font-mono">
                   {formatPrice(total() + quotes[shippingMethod].cost)} €
@@ -374,7 +371,7 @@ export default function CartPage() {
             </dl>
 
             {error && (
-              <p role="alert" className="mt-3 rounded-lg bg-orange-pale px-3 py-2 text-sm text-orange-deep">
+              <p role="alert" className="mt-3 rounded-lg bg-alert-pale px-3 py-2 text-sm text-alert">
                 {error}
               </p>
             )}
@@ -382,18 +379,18 @@ export default function CartPage() {
             <button
               onClick={handleCheckout}
               disabled={isLoading || !customerComplete}
-              className="mt-5 w-full rounded-full bg-bleu py-3.5 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep disabled:opacity-60"
+              className="mt-5 w-full rounded-full bg-verdigris py-3.5 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
             >
               {isLoading ? 'Redirection vers le paiement…' : 'Payer maintenant'}
             </button>
             {!customerComplete && (
-              <p className="mt-2 text-center text-xs text-gris">
+              <p className="mt-2 text-center text-xs text-dust">
                 Complétez vos coordonnées ci-dessus pour continuer.
               </p>
             )}
           </div>
 
-          <p className="text-center font-mono text-[10px] uppercase tracking-widest text-gris">
+          <p className="text-center font-mono text-[10px] uppercase tracking-widest text-dust">
             Paiement sécurisé Stripe · TVA non applicable, art. 293 B du CGI
           </p>
         </div>

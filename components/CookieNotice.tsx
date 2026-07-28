@@ -29,21 +29,21 @@ export default function CookieNotice() {
   return (
     <div
       role="status"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-ligne bg-blanc/97 px-4 py-4 shadow-levee backdrop-blur"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-surface/97 px-4 py-4 shadow-levee backdrop-blur"
     >
       <div className="container mx-auto flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="max-w-2xl text-sm leading-relaxed text-encre">
+        <p className="max-w-2xl text-sm leading-relaxed text-ink">
           Ce site utilise des cookies strictement nécessaires à son fonctionnement (connexion, panier, paiement
           sécurisé Stripe) et une mesure d’audience anonyme, sans cookie ni identifiant. Aucun cookie publicitaire
           ou de traçage.{' '}
-          <Link href="/politique-cookies" className="font-semibold text-bleu hover:underline">
+          <Link href="/politique-cookies" className="font-semibold text-verdigris-deep hover:underline">
             En savoir plus
           </Link>
         </p>
         <button
           type="button"
           onClick={dismiss}
-          className="flex shrink-0 items-center gap-2 self-end rounded-full bg-bleu px-5 py-2 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep sm:self-auto"
+          className="flex shrink-0 items-center gap-2 self-end rounded-full bg-verdigris px-5 py-2 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep sm:self-auto"
         >
           Compris
           <X aria-hidden className="h-3.5 w-3.5" />

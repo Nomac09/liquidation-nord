@@ -49,7 +49,7 @@ export default function NotificationSignupForm({
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+          className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
         />
       </div>
 
@@ -65,7 +65,7 @@ export default function NotificationSignupForm({
                 onClick={() => toggleCategory(c.value)}
                 aria-pressed={active}
                 className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-                  active ? 'border-bleu bg-bleu text-blanc' : 'border-ligne text-encre hover:border-bleu'
+                  active ? 'border-verdigris bg-verdigris text-stone' : 'border-hairline text-ink hover:border-verdigris'
                 }`}
               >
                 {c.label}
@@ -79,13 +79,13 @@ export default function NotificationSignupForm({
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-2 rounded-full bg-bleu px-6 py-2.5 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep disabled:opacity-60"
+          className="flex items-center gap-2 rounded-full bg-verdigris px-6 py-2.5 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
         >
           {saved && <Check aria-hidden className="h-4 w-4" />}
           {saving ? 'Enregistrement…' : saved ? 'Enregistré' : subscribed ? 'Mettre à jour mes alertes' : 'Activer les alertes'}
         </button>
         {subscribed && !saved && (
-          <p className="text-xs text-gris">Vous êtes inscrit(e) aux alertes de nouvel arrivage.</p>
+          <p className="text-xs text-dust">Vous êtes inscrit(e) aux alertes nouveautés.</p>
         )}
       </div>
     </form>

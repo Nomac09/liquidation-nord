@@ -13,9 +13,9 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <section className="border-t border-ligne py-8 first:border-t-0 first:pt-0">
-      <h2 className="font-display text-xl font-bold text-encre">{title}</h2>
-      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-encre/85">
+    <section className="border-t border-hairline py-8 first:border-t-0 first:pt-0">
+      <h2 className="font-display text-xl text-ink">{title}</h2>
+      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-ink/85">
         {children}
       </div>
     </section>
@@ -26,14 +26,14 @@ export default function CGVPage() {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-12">
       <p className="tag-label">Conditions générales de vente</p>
-      <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-encre">
+      <h1 className="mt-2 font-display text-3xl tracking-tight text-ink">
         Conditions générales de vente
       </h1>
-      <p className="mt-3 text-sm text-gris">
+      <p className="mt-3 text-sm text-dust">
         En vigueur au {new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}.
       </p>
 
-      <div className="mt-8 rounded-lg border border-ligne bg-orange-pale px-5 py-4 text-sm text-orange-deep">
+      <div className="mt-8 rounded-lg border border-hairline bg-alert-pale px-5 py-4 text-sm text-alert">
         Brouillon de travail — à faire relire par un professionnel du droit
         avant publication définitive. La dénomination sociale ci-dessous est
         reprise du nom d’entreprise communiqué pour le compte Stripe

@@ -129,7 +129,6 @@ export default async function ProductPage({
               <FavoriteButton
                 productId={product._id}
                 productName={product.name}
-                variant="quiet"
                 className="mt-1 shrink-0"
               />
             </div>

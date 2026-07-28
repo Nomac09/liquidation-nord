@@ -84,15 +84,15 @@ export async function sendNewArrivalNotifications(
         from: `${BRAND_NAME} <${FROM}>`,
         to: t.email,
         subject: info.categoryLabel
-          ? `Nouvel arrivage ${info.categoryLabel} chez ${BRAND_NAME}`
-          : `Nouvel arrivage chez ${BRAND_NAME}`,
+          ? `Nouveautés ${info.categoryLabel} chez ${BRAND_NAME}`
+          : `Nouveautés chez ${BRAND_NAME}`,
         html: `
           <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; color: #111;">
-            <h1 style="font-size: 20px;">Nouvel arrivage${info.categoryLabel ? ` — ${info.categoryLabel}` : ''}</h1>
-            <p>${info.dateLabel ? `Un nouvel arrivage est arrivé le ${info.dateLabel}. ` : 'Un nouvel arrivage vient d’entrer en stock. '}Chaque pièce est en un seul exemplaire — premier arrivé, premier servi.</p>
+            <h1 style="font-size: 20px;">Nouveautés${info.categoryLabel ? ` — ${info.categoryLabel}` : ''}</h1>
+            <p>${info.dateLabel ? `De nouveaux produits sont arrivés le ${info.dateLabel}. ` : 'De nouveaux produits viennent d’entrer en stock. '}Chaque pièce est en un seul exemplaire, à voir avant qu’elle ne trouve preneur.</p>
             <p style="margin: 24px 0;">
               <a href="${siteUrl()}${info.categoryLabel ? `/?category=${encodeURIComponent(info.categoryLabel)}` : ''}" style="background: #1d4ed8; color: #fff; padding: 12px 24px; border-radius: 999px; text-decoration: none; font-weight: 600;">
-                Voir l’arrivage
+                Voir les nouveautés
               </a>
             </p>
             <p style="color: #999; font-size: 12px;"><a href="${unsubscribeLink}" style="color: #999;">Se désinscrire de ces alertes</a></p>

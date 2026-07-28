@@ -13,7 +13,7 @@ export default function EmailVerificationBanner({ className = '' }: { className?
   }
 
   return (
-    <div className={`flex items-start gap-3 rounded-xl border border-orange-deep/30 bg-orange-pale px-4 py-3 text-sm text-orange-deep ${className}`}>
+    <div className={`flex items-start gap-3 rounded-xl border border-alert/30 bg-alert-pale px-4 py-3 text-sm text-alert ${className}`}>
       <MailWarning aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
       <div className="min-w-0">
         <p className="font-semibold">Email non confirmé</p>

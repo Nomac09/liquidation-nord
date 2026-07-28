@@ -23,13 +23,13 @@ export default function Header() {
   const reduce = useReducedMotion()
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ligne bg-blanc/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-hairline bg-surface/92 backdrop-blur">
       <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="shrink-0 leading-none" aria-label={`${BRAND_SYLLABLE_SPLIT.lead}${BRAND_SYLLABLE_SPLIT.tail} — accueil`}>
-          <span className="font-display text-xl font-bold tracking-tight text-encre">
-            {BRAND_SYLLABLE_SPLIT.lead}<span className="text-bleu">{BRAND_SYLLABLE_SPLIT.tail}</span>
+          <span className="font-display text-xl italic tracking-tight text-ink">
+            {BRAND_SYLLABLE_SPLIT.lead}<span className="text-verdigris-deep">{BRAND_SYLLABLE_SPLIT.tail}</span>
           </span>
-          <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-gris">
+          <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-dust">
             Déstockage · Bondues (59)
           </span>
         </Link>
@@ -37,7 +37,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <Link
             href={status === 'authenticated' ? '/account' : '/login'}
-            className="flex items-center gap-2 rounded-full border border-ligne px-4 py-2 text-sm font-medium text-encre transition-colors hover:border-bleu hover:text-bleu"
+            className="flex items-center gap-2 rounded-full border border-hairline px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-verdigris hover:text-verdigris-deep"
           >
             <User aria-hidden className="h-4 w-4" />
             <span className="hidden sm:inline">
@@ -49,7 +49,7 @@ export default function Header() {
 
           <button
             onClick={openCart}
-            className="relative flex items-center gap-2 rounded-full border border-ligne px-4 py-2 text-sm font-medium text-encre transition-colors hover:border-bleu hover:text-bleu"
+            className="relative flex items-center gap-2 rounded-full border border-hairline px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-verdigris hover:text-verdigris-deep"
             aria-label={`Ouvrir le panier, ${count} article${count > 1 ? 's' : ''}`}
           >
             <ShoppingBag aria-hidden className="h-4 w-4" />
@@ -62,7 +62,7 @@ export default function Header() {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.5, opacity: 0 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-                  className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange px-1 font-mono text-[11px] font-semibold text-blanc"
+                  className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-verdigris px-1 font-mono text-[11px] font-semibold text-stone"
                 >
                   {count}
                 </motion.span>

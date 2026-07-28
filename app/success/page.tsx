@@ -41,7 +41,7 @@ function SuccessContent() {
   if (loading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <Loader2 aria-hidden className="h-8 w-8 animate-spin text-bleu" />
+        <Loader2 aria-hidden className="h-8 w-8 animate-spin text-verdigris" />
         <span className="sr-only">Chargement de votre commande…</span>
       </div>
     )
@@ -50,76 +50,78 @@ function SuccessContent() {
   if (!order || !order.orderId) {
     return (
       <div className="container mx-auto px-4 py-24 text-center">
-        <h1 className="font-display text-2xl font-bold text-encre">
+        <h1 className="font-display text-2xl text-ink">
           Commande introuvable
         </h1>
-        <p className="mt-2 text-gris">
+        <p className="mt-2 text-dust">
           Si vous venez de payer, vous recevrez l’email de confirmation dans
           quelques minutes. Toujours rien ? Écrivez-nous à{' '}
-          <a href="mailto:contact@souqify.fr" className="text-bleu hover:underline">
+          <a href="mailto:contact@souqify.fr" className="text-verdigris-deep hover:underline">
             contact@souqify.fr
           </a>.
         </p>
-        <Link href="/" className="mt-6 inline-block font-semibold text-bleu hover:underline">
-          Retour à l’arrivage
+        <Link href="/" className="mt-6 inline-block font-semibold text-verdigris-deep hover:underline">
+          Retour au catalogue
         </Link>
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto max-w-2xl px-4 py-12">
-      <div className="rounded-xl border border-ligne bg-blanc p-8 text-center shadow-carte">
-        <CheckCircle2 aria-hidden className="mx-auto h-12 w-12 text-bleu" />
-        <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-encre">
-          Merci pour votre commande.
-        </h1>
-        <p className="mt-2 text-gris">
-          La confirmation part à{' '}
-          <span className="font-medium text-encre">{order.customerEmail}</span>.
-        </p>
+    <div className="bg-stone">
+      <div className="container mx-auto max-w-2xl px-4 py-12">
+        <div className="rounded-xl border border-hairline bg-surface p-8 text-center shadow-carte">
+          <CheckCircle2 aria-hidden className="mx-auto h-12 w-12 text-verdigris-deep" />
+          <h1 className="mt-4 font-display text-3xl tracking-tight text-ink">
+            Merci pour votre commande.
+          </h1>
+          <p className="mt-2 text-dust">
+            La confirmation part à{' '}
+            <span className="font-medium text-ink">{order.customerEmail}</span>.
+          </p>
 
-        <div className="mt-6 rounded-lg bg-beton p-5 text-left">
-          <p className="tag-label">Commande nº {order.orderId}</p>
-          <ul className="mt-3 space-y-1.5 text-sm">
-            {order.items.map((item, i) => (
-              <li key={i} className="flex justify-between gap-4">
-                <span className="min-w-0 flex-1 truncate">
-                  {item.name} × {item.quantity}
-                </span>
-                <span className="font-mono">{formatPrice(item.price * item.quantity)} €</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-3 flex justify-between border-t border-ligne pt-3 font-semibold">
-            <span>Total</span>
-            <span className="font-mono">{formatPrice(order.total)} €</span>
+          <div className="mt-6 rounded-lg bg-paper p-5 text-left">
+            <p className="tag-label">Commande nº {order.orderId}</p>
+            <ul className="mt-3 space-y-1.5 text-sm text-ink">
+              {order.items.map((item, i) => (
+                <li key={i} className="flex justify-between gap-4">
+                  <span className="min-w-0 flex-1 truncate">
+                    {item.name} × {item.quantity}
+                  </span>
+                  <span className="font-mono">{formatPrice(item.price * item.quantity)} €</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-3 flex justify-between border-t border-hairline pt-3 font-semibold text-ink">
+              <span>Total</span>
+              <span className="font-mono">{formatPrice(order.total)} €</span>
+            </div>
           </div>
-        </div>
 
-        <div className="mt-4 rounded-lg bg-bleu-pale p-4 text-left text-sm leading-relaxed text-bleu-deep">
-          {order.shippingMethod === 'pickup' ? (
-            <>
-              <strong>Votre pièce vous attend à Bondues (59910).</strong> Passez
-              du lundi au samedi, 9h–18h — pensez au coffre ou à la remorque
-              pour les gros meubles.
-            </>
-          ) : (
-            <>
-              <strong>Expédition en préparation.</strong> Vous recevrez le
-              numéro de suivi par email dès que le transporteur prend votre
-              colis en charge.
-            </>
-          )}
-        </div>
+          <div className="mt-4 rounded-lg bg-verdigris/10 p-4 text-left text-sm leading-relaxed text-verdigris-deep">
+            {order.shippingMethod === 'pickup' ? (
+              <>
+                <strong>Votre pièce vous attend à Bondues (59910).</strong> Passez
+                du lundi au samedi, 9h–18h — pensez au coffre ou à la remorque
+                pour les gros meubles.
+              </>
+            ) : (
+              <>
+                <strong>Expédition en préparation.</strong> Vous recevrez le
+                numéro de suivi par email dès que le transporteur prend votre
+                colis en charge.
+              </>
+            )}
+          </div>
 
-        <Link
-          href="/"
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-bleu px-8 py-3 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep"
-        >
-          Continuer à chiner
-          <ArrowRight aria-hidden className="h-4 w-4" />
-        </Link>
+          <Link
+            href="/"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-verdigris px-8 py-3 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep"
+          >
+            Continuer à chiner
+            <ArrowRight aria-hidden className="h-4 w-4" />
+          </Link>
+        </div>
       </div>
     </div>
   )
@@ -130,7 +132,7 @@ export default function SuccessPage() {
     <Suspense
       fallback={
         <div className="flex min-h-[50vh] items-center justify-center">
-          <Loader2 aria-hidden className="h-8 w-8 animate-spin text-bleu" />
+          <Loader2 aria-hidden className="h-8 w-8 animate-spin text-verdigris" />
         </div>
       }
     >

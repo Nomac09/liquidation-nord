@@ -35,34 +35,34 @@ export default async function VerifyEmailPage({
     <div className="container mx-auto max-w-sm px-4 py-24 text-center">
       {result === 'success' ? (
         <>
-          <CheckCircle2 aria-hidden className="mx-auto h-10 w-10 text-bleu" />
-          <h1 className="mt-4 font-display text-2xl font-bold tracking-tight text-encre">
+          <CheckCircle2 aria-hidden className="mx-auto h-10 w-10 text-verdigris" />
+          <h1 className="mt-4 font-display text-2xl tracking-tight text-ink">
             Email confirmé
           </h1>
-          <p className="mt-2 text-sm text-gris">
+          <p className="mt-2 text-sm text-dust">
             Votre adresse email est vérifiée. Vous pouvez maintenant passer commande.
           </p>
           <Link
             href="/account"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-bleu px-8 py-3 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-verdigris px-8 py-3 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep"
           >
             Aller à mon compte
           </Link>
         </>
       ) : (
         <>
-          <XCircle aria-hidden className="mx-auto h-10 w-10 text-orange-deep" />
-          <h1 className="mt-4 font-display text-2xl font-bold tracking-tight text-encre">
+          <XCircle aria-hidden className="mx-auto h-10 w-10 text-alert" />
+          <h1 className="mt-4 font-display text-2xl tracking-tight text-ink">
             {result === 'expired' ? 'Lien expiré' : 'Lien invalide'}
           </h1>
-          <p className="mt-2 text-sm text-gris">
+          <p className="mt-2 text-sm text-dust">
             {result === 'expired'
               ? 'Ce lien de vérification a expiré. Connectez-vous à votre compte pour en recevoir un nouveau.'
               : 'Ce lien de vérification est invalide, ou votre email a peut-être déjà été confirmé.'}
           </p>
           <Link
             href="/login?callbackUrl=/account"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-bleu px-8 py-3 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-verdigris px-8 py-3 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep"
           >
             Se connecter
           </Link>

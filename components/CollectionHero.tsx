@@ -110,7 +110,7 @@ function GalleryFigure({
       />
       {showCaption && (
         <figcaption
-          className="absolute inset-x-0 bottom-0 p-3 font-mono text-[10px] uppercase tracking-wide text-blanc opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+          className="absolute inset-x-0 bottom-0 p-3 font-mono text-[10px] uppercase tracking-wide text-[#F6F5F1] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
           style={{ textShadow: '0 1px 6px rgba(0,0,0,.45)' }}
         >
           {photo.name}

@@ -73,77 +73,79 @@ export default async function AccountPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-2xl px-4 py-10">
-      <h1 className="font-display text-3xl font-bold tracking-tight text-encre">
-        Mon compte
-      </h1>
-      <p className="mt-1 text-sm text-gris">
-        Ces informations servent à préparer votre commande — nous ne les partageons pas.
-      </p>
-
-      {needsVerification && <EmailVerificationBanner className="mt-6" />}
-
-      <div className="mt-8 rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-        <h2 className="tag-label border-b border-dashed border-ligne pb-3">Historique de commandes</h2>
-        {orderList.length === 0 ? (
-          <p className="mt-4 text-sm text-gris">Aucune commande pour l’instant.</p>
-        ) : (
-          <ul className="mt-3 divide-y divide-ligne">
-            {orderList.map((o: { orderId: string; items: { name: string; quantity: number }[]; total: number; paymentStatus: string; deliveryStatus: string; createdAt: string }) => {
-              const status = resolveOrderStatus(o)
-              return (
-                <li key={o.orderId}>
-                  <Link
-                    href={`/account/orders/${o.orderId}`}
-                    className="flex items-center justify-between gap-4 py-3 transition-colors hover:bg-beton/60"
-                  >
-                    <div className="min-w-0">
-                      <p className="font-mono text-[11px] uppercase tracking-widest text-gris">{o.orderId}</p>
-                      <p className="mt-0.5 truncate text-sm text-encre">
-                        {o.items.map((i) => i.name).join(', ')}
-                      </p>
-                      <p className="mt-0.5 text-xs text-gris">
-                        {new Date(o.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                        {' · '}
-                        {status.label}
-                      </p>
-                    </div>
-                    <div className="flex shrink-0 items-center gap-2">
-                      <span className="font-mono text-sm font-semibold text-encre">
-                        {formatPrice(o.total)} €
-                      </span>
-                      <ChevronRight aria-hidden className="h-4 w-4 text-gris" />
-                    </div>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        )}
-      </div>
-
-      <div className="mt-8 rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-        <h2 className="tag-label border-b border-dashed border-ligne pb-3">Mes favoris</h2>
-        <p className="mt-3 text-xs text-gris">
-          Enregistrer une pièce ne la réserve pas — chaque pièce est unique et peut être vendue avant vous.
+    <div className="bg-stone">
+      <div className="container mx-auto max-w-2xl px-4 py-10">
+        <h1 className="font-display text-3xl tracking-tight text-ink">
+          Mon compte
+        </h1>
+        <p className="mt-1 text-sm text-dust">
+          Ces informations servent à préparer votre commande — nous ne les partageons pas.
         </p>
-        <FavoritesList initial={favorites} />
-      </div>
 
-      <div className="mt-8 rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-        <h2 className="tag-label border-b border-dashed border-ligne pb-3">Alertes nouvel arrivage</h2>
-        <p className="mt-3 text-xs text-gris">
-          Soyez prévenu(e) par email dès qu’un nouvel arrivage entre en stock — sur tout, ou juste les catégories qui vous intéressent.
-        </p>
-        <NotificationSignupForm
-          initialEmail={user.email}
-          initialCategories={notificationSub?.categories || []}
-          initialSubscribed={Boolean(notificationSub)}
-        />
-      </div>
+        {needsVerification && <EmailVerificationBanner className="mt-6" />}
 
-      <div className="mt-8">
-        <AccountForm initial={initial} />
+        <div className="mt-8 rounded-xl border border-hairline bg-surface p-6 shadow-carte">
+          <h2 className="tag-label border-b border-dashed border-hairline pb-3">Historique de commandes</h2>
+          {orderList.length === 0 ? (
+            <p className="mt-4 text-sm text-dust">Aucune commande pour l’instant.</p>
+          ) : (
+            <ul className="mt-3 divide-y divide-hairline">
+              {orderList.map((o: { orderId: string; items: { name: string; quantity: number }[]; total: number; paymentStatus: string; deliveryStatus: string; createdAt: string }) => {
+                const status = resolveOrderStatus(o)
+                return (
+                  <li key={o.orderId}>
+                    <Link
+                      href={`/account/orders/${o.orderId}`}
+                      className="flex items-center justify-between gap-4 py-3 transition-colors hover:bg-stone/60"
+                    >
+                      <div className="min-w-0">
+                        <p className="font-mono text-[11px] uppercase tracking-widest text-dust">{o.orderId}</p>
+                        <p className="mt-0.5 truncate text-sm text-ink">
+                          {o.items.map((i) => i.name).join(', ')}
+                        </p>
+                        <p className="mt-0.5 text-xs text-dust">
+                          {new Date(o.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          {' · '}
+                          {status.label}
+                        </p>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-2">
+                        <span className="font-mono text-sm font-semibold text-ink">
+                          {formatPrice(o.total)} €
+                        </span>
+                        <ChevronRight aria-hidden className="h-4 w-4 text-dust" />
+                      </div>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </div>
+
+        <div className="mt-8 rounded-xl border border-hairline bg-surface p-6 shadow-carte">
+          <h2 className="tag-label border-b border-dashed border-hairline pb-3">Mes favoris</h2>
+          <p className="mt-3 text-xs text-dust">
+            Enregistrer une pièce ne la réserve pas — chaque pièce est unique et peut être vendue avant vous.
+          </p>
+          <FavoritesList initial={favorites} />
+        </div>
+
+        <div className="mt-8 rounded-xl border border-hairline bg-surface p-6 shadow-carte">
+          <h2 className="tag-label border-b border-dashed border-hairline pb-3">Alertes nouveautés</h2>
+          <p className="mt-3 text-xs text-dust">
+            Soyez prévenu(e) par email des nouveaux produits en stock — sur tout, ou juste les catégories qui vous intéressent.
+          </p>
+          <NotificationSignupForm
+            initialEmail={user.email}
+            initialCategories={notificationSub?.categories || []}
+            initialSubscribed={Boolean(notificationSub)}
+          />
+        </div>
+
+        <div className="mt-8">
+          <AccountForm initial={initial} />
+        </div>
       </div>
     </div>
   )

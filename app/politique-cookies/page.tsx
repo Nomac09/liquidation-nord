@@ -14,9 +14,9 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <section className="border-t border-ligne py-8 first:border-t-0 first:pt-0">
-      <h2 className="font-display text-xl font-bold text-encre">{title}</h2>
-      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-encre/85">
+    <section className="border-t border-hairline py-8 first:border-t-0 first:pt-0">
+      <h2 className="font-display text-xl text-ink">{title}</h2>
+      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-ink/85">
         {children}
       </div>
     </section>
@@ -25,21 +25,21 @@ function Section({
 
 function Table({ rows }: { rows: { name: string; purpose: string; duration: string }[] }) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-ligne">
+    <div className="overflow-x-auto rounded-lg border border-hairline">
       <table className="w-full text-sm">
-        <thead className="bg-beton text-left">
+        <thead className="bg-paper text-left">
           <tr>
-            <th className="px-4 py-2.5 font-semibold text-encre">Nom</th>
-            <th className="px-4 py-2.5 font-semibold text-encre">Finalité</th>
-            <th className="px-4 py-2.5 font-semibold text-encre">Durée</th>
+            <th className="px-4 py-2.5 font-semibold text-ink">Nom</th>
+            <th className="px-4 py-2.5 font-semibold text-ink">Finalité</th>
+            <th className="px-4 py-2.5 font-semibold text-ink">Durée</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-ligne">
+        <tbody className="divide-y divide-hairline">
           {rows.map((r) => (
             <tr key={r.name}>
-              <td className="px-4 py-2.5 font-mono text-xs text-encre">{r.name}</td>
-              <td className="px-4 py-2.5 text-encre/85">{r.purpose}</td>
-              <td className="px-4 py-2.5 text-gris">{r.duration}</td>
+              <td className="px-4 py-2.5 font-mono text-xs text-ink">{r.name}</td>
+              <td className="px-4 py-2.5 text-ink/85">{r.purpose}</td>
+              <td className="px-4 py-2.5 text-dust">{r.duration}</td>
             </tr>
           ))}
         </tbody>
@@ -52,10 +52,10 @@ export default function CookiePolicyPage() {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-12">
       <p className="tag-label">Politique de cookies</p>
-      <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-encre">
+      <h1 className="mt-2 font-display text-3xl tracking-tight text-ink">
         Politique de cookies
       </h1>
-      <p className="mt-3 text-sm text-gris">
+      <p className="mt-3 text-sm text-dust">
         En vigueur au {new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}.
       </p>
 
@@ -97,10 +97,10 @@ export default function CookiePolicyPage() {
             },
           ]}
         />
-        <p className="text-sm text-gris">
+        <p className="text-sm text-dust">
           Si vous choisissez de vous connecter avec Google, Google dépose ses propres cookies le temps de cette
           connexion — nous ne les contrôlons pas ; leur politique est disponible sur{' '}
-          <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" className="text-bleu hover:underline">
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" className="text-verdigris-deep hover:underline">
             policies.google.com
           </a>.
         </p>
@@ -109,8 +109,8 @@ export default function CookiePolicyPage() {
       <Section title="Stockage local (pas des cookies)">
         <p>
           Certaines informations sont conservées dans votre navigateur (localStorage/sessionStorage), jamais
-          transmises à un serveur tiers : le contenu de votre panier, votre mode d’affichage préféré (Tickets ou
-          Registre), votre position de défilement dans la liste des pièces, et — le temps du paiement — la session
+          transmises à un serveur tiers : le contenu de votre panier, votre mode d’affichage préféré (Galerie ou
+          Liste), votre position de défilement dans la liste des pièces, et — le temps du paiement — la session
           Stripe en cours. Rien de tout cela ne sert à vous suivre d’un site à l’autre.
         </p>
       </Section>
@@ -128,7 +128,7 @@ export default function CookiePolicyPage() {
         <p>
           Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d’un droit d’accès, de
           rectification et de suppression des données vous concernant, exerçable à tout moment auprès de{' '}
-          <a href="mailto:contact@souqify.fr" className="text-bleu hover:underline">contact@souqify.fr</a>.
+          <a href="mailto:contact@souqify.fr" className="text-verdigris-deep hover:underline">contact@souqify.fr</a>.
           Vous pouvez aussi supprimer les cookies déjà déposés à tout moment depuis les réglages de votre
           navigateur — cela vous déconnectera de votre compte et videra votre panier.
         </p>

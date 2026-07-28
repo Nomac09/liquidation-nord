@@ -117,7 +117,7 @@ export default function ImageGallery({
             role="dialog"
             aria-modal="true"
             aria-label={`${productName} — photo agrandie`}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-encre/95 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#22221F]/95 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -128,13 +128,13 @@ export default function ImageGallery({
               type="button"
               onClick={() => setLightboxOpen(false)}
               aria-label="Fermer"
-              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-blanc/10 text-blanc transition-colors hover:bg-blanc/20"
+              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#F6F5F1]/10 text-[#F6F5F1] transition-colors hover:bg-[#F6F5F1]/20"
             >
               <X aria-hidden className="h-5 w-5" />
             </button>
 
             {hasMultiple && (
-              <span className="absolute left-1/2 top-4 -translate-x-1/2 font-mono text-[11px] uppercase tracking-widest text-blanc/70">
+              <span className="absolute left-1/2 top-4 -translate-x-1/2 font-mono text-[11px] uppercase tracking-widest text-[#F6F5F1]/70">
                 {selected + 1} / {validPhotos.length}
               </span>
             )}
@@ -147,7 +147,7 @@ export default function ImageGallery({
                   e.stopPropagation()
                   go(-1)
                 }}
-                className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-blanc/10 text-blanc transition-colors hover:bg-blanc/20 sm:left-6"
+                className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#F6F5F1]/10 text-[#F6F5F1] transition-colors hover:bg-[#F6F5F1]/20 sm:left-6"
               >
                 <ChevronLeft aria-hidden className="h-6 w-6" />
               </button>
@@ -174,7 +174,7 @@ export default function ImageGallery({
                   e.stopPropagation()
                   go(1)
                 }}
-                className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-blanc/10 text-blanc transition-colors hover:bg-blanc/20 sm:right-6"
+                className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#F6F5F1]/10 text-[#F6F5F1] transition-colors hover:bg-[#F6F5F1]/20 sm:right-6"
               >
                 <ChevronRight aria-hidden className="h-6 w-6" />
               </button>

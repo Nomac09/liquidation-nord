@@ -82,10 +82,10 @@ function FilterBarInner() {
   }
 
   return (
-    <div className="border-b border-ligne bg-blanc">
+    <div className="border-b border-hairline bg-surface">
       <div className="container mx-auto flex flex-wrap items-center gap-2 px-4 py-2">
         <div ref={boxRef} className="relative min-w-[200px] flex-1">
-          <Search aria-hidden className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gris" />
+          <Search aria-hidden className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-dust" />
           <input
             type="search"
             value={query}
@@ -96,26 +96,26 @@ function FilterBarInner() {
             onFocus={() => setShowSuggestions(true)}
             onKeyDown={(e) => e.key === 'Enter' && submitSearch()}
             placeholder="Chercher une pièce…"
-            className="w-full rounded-full border border-ligne bg-beton/50 py-1.5 pl-8 pr-3 font-mono text-[11px] text-encre placeholder:text-gris focus:border-bleu focus:bg-blanc"
+            className="w-full rounded-full border border-hairline bg-stone/50 py-1.5 pl-8 pr-3 font-mono text-[11px] text-ink placeholder:text-dust focus:border-verdigris focus:bg-surface"
           />
 
           {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute left-0 right-0 top-full z-30 mt-1.5 max-h-80 overflow-y-auto rounded-lg border border-ligne bg-blanc shadow-levee">
+            <div className="absolute left-0 right-0 top-full z-30 mt-1.5 max-h-80 overflow-y-auto rounded-lg border border-hairline bg-surface shadow-levee">
               {suggestions.map((s) => (
                 <Link
                   key={s._id}
                   href={`/product/${s.slug}`}
                   onClick={() => setShowSuggestions(false)}
-                  className="flex items-center gap-3 border-b border-ligne px-3 py-2 last:border-b-0 hover:bg-beton"
+                  className="flex items-center gap-3 border-b border-hairline px-3 py-2 last:border-b-0 hover:bg-stone"
                 >
-                  <img src={s.photos?.[0] || '/placeholder.png'} alt="" className="h-9 w-9 shrink-0 rounded border border-ligne object-cover" />
-                  <span className="min-w-0 flex-1 truncate text-sm text-encre">{s.name}</span>
-                  <span className="shrink-0 font-mono text-xs font-semibold text-encre">{formatPrice(s.salePrice)} €</span>
+                  <img src={s.photos?.[0] || '/placeholder.png'} alt="" className="h-9 w-9 shrink-0 rounded border border-hairline object-cover" />
+                  <span className="min-w-0 flex-1 truncate text-sm text-ink">{s.name}</span>
+                  <span className="shrink-0 font-mono text-xs font-semibold text-ink">{formatPrice(s.salePrice)} €</span>
                 </Link>
               ))}
               <button
                 onClick={submitSearch}
-                className="block w-full px-3 py-2 text-center font-mono text-[10px] uppercase tracking-widest text-bleu hover:bg-beton"
+                className="block w-full px-3 py-2 text-center font-mono text-[10px] uppercase tracking-widest text-verdigris-deep hover:bg-stone"
               >
                 Voir tous les résultats
               </button>
@@ -127,7 +127,7 @@ function FilterBarInner() {
           <button
             onClick={() => setPanelOpen((v) => !v)}
             className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest transition-colors ${
-              activeFilterCount > 0 ? 'border-bleu bg-bleu-pale text-bleu-deep' : 'border-ligne text-encre hover:bg-beton'
+              activeFilterCount > 0 ? 'border-verdigris bg-verdigris/10 text-verdigris-deep' : 'border-hairline text-ink hover:bg-stone'
             }`}
           >
             <SlidersHorizontal aria-hidden className="h-3 w-3" />
@@ -136,16 +136,16 @@ function FilterBarInner() {
           </button>
 
           {panelOpen && (
-            <div className="absolute right-0 top-full z-30 mt-1.5 w-72 rounded-lg border border-ligne bg-blanc p-4 shadow-levee">
+            <div className="absolute right-0 top-full z-30 mt-1.5 w-72 rounded-lg border border-hairline bg-surface p-4 shadow-levee">
               <div className="flex items-center justify-between">
                 <p className="tag-label">Filtres</p>
                 <button onClick={() => setPanelOpen(false)} aria-label="Fermer">
-                  <X aria-hidden className="h-3.5 w-3.5 text-gris" />
+                  <X aria-hidden className="h-3.5 w-3.5 text-dust" />
                 </button>
               </div>
 
               <div className="mt-3">
-                <p className="mb-1.5 font-mono text-[10px] uppercase tracking-widest text-gris">Prix (€)</p>
+                <p className="mb-1.5 font-mono text-[10px] uppercase tracking-widest text-dust">Prix (€)</p>
                 <div className="flex items-center gap-2">
                   <input
                     type="number"
@@ -153,27 +153,27 @@ function FilterBarInner() {
                     placeholder="Min"
                     defaultValue={priceMin}
                     onBlur={(e) => applyFilter('priceMin', e.target.value)}
-                    className="w-full rounded-lg border border-ligne px-2.5 py-1.5 text-sm focus:border-bleu"
+                    className="w-full rounded-lg border border-hairline px-2.5 py-1.5 text-sm focus:border-verdigris"
                   />
-                  <span className="text-gris">–</span>
+                  <span className="text-dust">–</span>
                   <input
                     type="number"
                     min={0}
                     placeholder="Max"
                     defaultValue={priceMax}
                     onBlur={(e) => applyFilter('priceMax', e.target.value)}
-                    className="w-full rounded-lg border border-ligne px-2.5 py-1.5 text-sm focus:border-bleu"
+                    className="w-full rounded-lg border border-hairline px-2.5 py-1.5 text-sm focus:border-verdigris"
                   />
                 </div>
               </div>
 
               <div className="mt-3">
-                <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-widest text-gris" htmlFor="filter-material">Matière</label>
+                <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-widest text-dust" htmlFor="filter-material">Matière</label>
                 <select
                   id="filter-material"
                   value={material}
                   onChange={(e) => applyFilter('material', e.target.value)}
-                  className="w-full rounded-lg border border-ligne px-2.5 py-1.5 text-sm text-encre focus:border-bleu"
+                  className="w-full rounded-lg border border-hairline px-2.5 py-1.5 text-sm text-ink focus:border-verdigris"
                 >
                   <option value="">Toutes</option>
                   {MATERIALS.map((m) => <option key={m} value={m}>{m}</option>)}
@@ -181,12 +181,12 @@ function FilterBarInner() {
               </div>
 
               <div className="mt-3">
-                <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-widest text-gris" htmlFor="filter-color">Couleur</label>
+                <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-widest text-dust" htmlFor="filter-color">Couleur</label>
                 <select
                   id="filter-color"
                   value={color}
                   onChange={(e) => applyFilter('color', e.target.value)}
-                  className="w-full rounded-lg border border-ligne px-2.5 py-1.5 text-sm text-encre focus:border-bleu"
+                  className="w-full rounded-lg border border-hairline px-2.5 py-1.5 text-sm text-ink focus:border-verdigris"
                 >
                   <option value="">Toutes</option>
                   {COLORS.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -196,7 +196,7 @@ function FilterBarInner() {
               {activeFilterCount > 0 && (
                 <button
                   onClick={clearFilters}
-                  className="mt-4 w-full rounded-full border border-ligne py-1.5 font-mono text-[10px] uppercase tracking-widest text-gris hover:border-orange-deep hover:text-orange-deep"
+                  className="mt-4 w-full rounded-full border border-hairline py-1.5 font-mono text-[10px] uppercase tracking-widest text-dust hover:border-hairline-strong hover:text-ink"
                 >
                   Réinitialiser
                 </button>
@@ -211,7 +211,7 @@ function FilterBarInner() {
 
 export default function FilterBar() {
   return (
-    <Suspense fallback={<div className="h-[49px] border-b border-ligne bg-blanc" />}>
+    <Suspense fallback={<div className="h-[49px] border-b border-hairline bg-surface" />}>
       <FilterBarInner />
     </Suspense>
   )

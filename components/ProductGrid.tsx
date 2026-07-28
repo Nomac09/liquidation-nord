@@ -123,12 +123,12 @@ export default function ProductGrid({
 
   if (items.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-ligne bg-blanc/60 py-16 text-center">
-        <p className="font-display text-xl font-semibold text-encre">
+      <div className="rounded-xl border border-dashed border-hairline bg-surface/60 py-16 text-center">
+        <p className="font-display text-xl text-ink">
           Rien ne correspond à votre recherche.
         </p>
-        <p className="mt-2 text-sm text-gris">
-          Essayez un autre mot-clé, ou parcourez tout l’arrivage — la sélection se renouvelle régulièrement.
+        <p className="mt-2 text-sm text-dust">
+          Essayez un autre mot-clé, ou parcourez toute la collection.
         </p>
       </div>
     )
@@ -137,7 +137,7 @@ export default function ProductGrid({
   const listClass =
     mode === 'tickets'
       ? 'flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4'
-      : 'border border-ligne bg-blanc px-4 lg:grid lg:grid-cols-2 lg:gap-x-8'
+      : 'border border-hairline bg-surface px-4 lg:grid lg:grid-cols-2 lg:gap-x-8'
   const Row = mode === 'tickets' ? TicketRow : RegistreRow
 
   return (
@@ -146,23 +146,23 @@ export default function ProductGrid({
         <div
           role="tablist"
           aria-label="Mode d’affichage"
-          className="inline-flex overflow-hidden rounded-full border border-ligne font-mono text-[10px] uppercase tracking-widest"
+          className="inline-flex overflow-hidden rounded-full border border-hairline font-mono text-[10px] uppercase tracking-widest"
         >
           <button
             role="tab"
             aria-selected={mode === 'tickets'}
             onClick={() => setMode('tickets')}
-            className={`px-3 py-1.5 transition-colors ${mode === 'tickets' ? 'bg-encre text-blanc' : 'text-encre hover:bg-beton'}`}
+            className={`px-3 py-1.5 transition-colors ${mode === 'tickets' ? 'bg-ink text-stone' : 'text-ink hover:bg-stone'}`}
           >
-            Tickets
+            Galerie
           </button>
           <button
             role="tab"
             aria-selected={mode === 'registre'}
             onClick={() => setMode('registre')}
-            className={`border-l border-ligne px-3 py-1.5 transition-colors ${mode === 'registre' ? 'bg-encre text-blanc' : 'text-encre hover:bg-beton'}`}
+            className={`border-l border-hairline px-3 py-1.5 transition-colors ${mode === 'registre' ? 'bg-ink text-stone' : 'text-ink hover:bg-stone'}`}
           >
-            Registre
+            Liste
           </button>
         </div>
       </div>
@@ -213,7 +213,7 @@ export default function ProductGrid({
           <button
             onClick={loadMore}
             disabled={pending}
-            className="inline-flex items-center gap-2 rounded-full bg-bleu px-8 py-3 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-full bg-verdigris px-8 py-3 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
           >
             {pending && <Loader2 aria-hidden className="h-4 w-4 animate-spin" />}
             {pending ? 'Chargement…' : 'Voir plus de pièces'}

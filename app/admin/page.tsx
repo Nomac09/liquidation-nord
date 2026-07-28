@@ -46,7 +46,7 @@ function NotifySubscribersPanel() {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h3 className="text-lg font-semibold mb-4">Alerte nouvel arrivage</h3>
+      <h3 className="text-lg font-semibold mb-4">Alerte nouveautés</h3>
       <p className="text-sm text-gris mb-4">
         Envoie un email aux abonnés inscrits sur le compte client. Choisissez une catégorie pour cibler,
         ou laissez « Toutes » pour tout le monde.

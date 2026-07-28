@@ -62,7 +62,7 @@ function ManifestInner({ counts }: { counts: Record<string, number> }) {
         aria-selected={!activeCategory}
         style={{ width: `${ANCHOR_PCT}%` }}
         className={`relative flex shrink-0 items-center px-3 font-mono text-[10px] uppercase tracking-widest transition-colors sm:px-4 sm:text-[11px] ${
-          !activeCategory ? 'bg-encre text-blanc' : 'bg-encre/95 text-blanc hover:bg-encre'
+          !activeCategory ? 'bg-ink text-stone' : 'bg-ink/95 text-stone hover:bg-ink'
         }`}
       >
         Tout
@@ -78,12 +78,12 @@ function ManifestInner({ counts }: { counts: Record<string, number> }) {
             role="tab"
             aria-selected={active}
             style={{ width: `${pct}%`, minWidth: '84px' }}
-            className={`relative flex shrink-0 items-center border-l border-ligne px-2 font-mono text-[9.5px] uppercase leading-tight tracking-tight transition-colors sm:px-4 sm:text-[11px] sm:tracking-widest ${
+            className={`relative flex shrink-0 items-center border-l border-hairline px-2 font-mono text-[9.5px] uppercase leading-tight tracking-tight transition-colors sm:px-4 sm:text-[11px] sm:tracking-widest ${
               active
-                ? 'bg-bleu text-blanc'
+                ? 'bg-verdigris text-stone'
                 : i % 2 === 0
-                  ? 'bg-blanc text-encre hover:bg-beton'
-                  : 'bg-beton/60 text-encre hover:bg-beton'
+                  ? 'bg-surface text-ink hover:bg-paper'
+                  : 'bg-paper/60 text-ink hover:bg-paper'
             }`}
           >
             {CATEGORY_LABELS[category] || category}
@@ -97,7 +97,7 @@ function ManifestInner({ counts }: { counts: Record<string, number> }) {
 
 export default function StockManifest({ counts }: { counts: Record<string, number> }) {
   return (
-    <div className="border-b border-ligne">
+    <div className="border-b border-hairline">
       <Suspense fallback={<div className="h-11 sm:h-12" />}>
         <ManifestInner counts={counts} />
       </Suspense>

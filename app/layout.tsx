@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
-import { Bricolage_Grotesque, Archivo, IBM_Plex_Mono, Ibarra_Real_Nova, Karla } from 'next/font/google'
+import { IBM_Plex_Mono, Ibarra_Real_Nova, Karla } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -13,28 +13,15 @@ import FilterBar from '@/components/FilterBar'
 import { getCategoryCounts } from '@/lib/catalog'
 import { BRAND_NAME } from '@/lib/brand'
 
-const display = Bricolage_Grotesque({
-  subsets: ['latin'],
-  variable: '--font-display',
-  weight: ['600', '700', '800'],
-})
-
-const body = Archivo({
-  subsets: ['latin'],
-  variable: '--font-body',
-})
-
 const mono = IBM_Plex_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   weight: ['400', '500', '600'],
 })
 
-// New "quiet premium" identity — additive, not a replacement of the fonts
-// above. Only pages migrated to the new design system reference these
-// (via the `serif`/`karla` Tailwind font families); everything else keeps
-// rendering in Bricolage Grotesque/Archivo untouched until the full
-// sitewide rollout.
+// The "quiet premium" identity, sitewide — Bricolage Grotesque and Archivo
+// are fully retired (see tailwind.config.ts: `display`/`sans` now point at
+// these same two fonts, so no component needed to change its className).
 const serif = Ibarra_Real_Nova({
   subsets: ['latin'],
   variable: '--font-serif',
@@ -55,7 +42,7 @@ export const metadata: Metadata = {
     template: `%s — ${BRAND_NAME}`,
   },
   description:
-    'Jardin, mobilier, déco et jardinage vidaXL à Bondues (59), à moitié prix. Chaque pièce est en stock limité — retrait gratuit ou livraison partout en France.',
+    'Jardin, mobilier, déco et jardinage vidaXL à Bondues (59), à moitié prix. Retrait gratuit ou livraison partout en France.',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -78,7 +65,7 @@ export default async function RootLayout({
   const counts = await getCategoryCounts()
 
   return (
-    <html lang="fr" className={`${display.variable} ${body.variable} ${mono.variable} ${serif.variable} ${karla.variable}`}>
+    <html lang="fr" className={`${mono.variable} ${serif.variable} ${karla.variable}`}>
       <body className="font-sans flex min-h-screen flex-col">
         <SessionProvider>
           <FavoritesHydrator />

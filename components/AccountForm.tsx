@@ -46,8 +46,8 @@ export default function AccountForm({ initial }: { initial: Profile }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-        <h2 className="tag-label border-b border-dashed border-ligne pb-3">Coordonnées</h2>
+      <div className="rounded-xl border border-hairline bg-surface p-6 shadow-carte">
+        <h2 className="tag-label border-b border-dashed border-hairline pb-3">Coordonnées</h2>
         <div className="mt-4 space-y-4">
           <div>
             <label htmlFor="acc-email" className="tag-label">Email</label>
@@ -56,7 +56,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
               type="email"
               value={form.email}
               disabled
-              className="mt-1.5 w-full rounded-lg border border-ligne bg-beton px-3.5 py-2.5 text-sm text-gris"
+              className="mt-1.5 w-full rounded-lg border border-hairline bg-stone px-3.5 py-2.5 text-sm text-dust"
             />
           </div>
           <div>
@@ -66,7 +66,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
               type="text"
               value={form.name}
               onChange={(e) => set('name', e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+              className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
             />
           </div>
           <div>
@@ -77,14 +77,14 @@ export default function AccountForm({ initial }: { initial: Profile }) {
               placeholder="06 12 34 56 78"
               value={form.phone}
               onChange={(e) => set('phone', e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+              className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
             />
           </div>
         </div>
       </div>
 
-      <div className="rounded-xl border border-ligne bg-blanc p-6 shadow-carte">
-        <h2 className="tag-label border-b border-dashed border-ligne pb-3">Adresse de livraison</h2>
+      <div className="rounded-xl border border-hairline bg-surface p-6 shadow-carte">
+        <h2 className="tag-label border-b border-dashed border-hairline pb-3">Adresse de livraison</h2>
         <div className="mt-4 space-y-4">
           <div>
             <label htmlFor="acc-line1" className="tag-label">Adresse</label>
@@ -93,7 +93,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
               type="text"
               value={form.address.line1}
               onChange={(e) => setAddr('line1', e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+              className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
             />
           </div>
           <div>
@@ -103,7 +103,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
               type="text"
               value={form.address.line2}
               onChange={(e) => setAddr('line2', e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+              className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -114,7 +114,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
                 type="text"
                 value={form.address.postalCode}
                 onChange={(e) => setAddr('postalCode', e.target.value)}
-                className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+                className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
               />
             </div>
             <div>
@@ -124,7 +124,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
                 type="text"
                 value={form.address.city}
                 onChange={(e) => setAddr('city', e.target.value)}
-                className="mt-1.5 w-full rounded-lg border border-ligne px-3.5 py-2.5 text-sm text-encre focus:border-bleu"
+                className="mt-1.5 w-full rounded-lg border border-hairline px-3.5 py-2.5 text-sm text-ink focus:border-verdigris"
               />
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
         <button
           type="submit"
           disabled={isSaving}
-          className="flex items-center gap-2 rounded-full bg-bleu px-8 py-3 text-sm font-semibold text-blanc transition-colors hover:bg-bleu-deep disabled:opacity-60"
+          className="flex items-center gap-2 rounded-full bg-verdigris px-8 py-3 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
         >
           {saved && <Check aria-hidden className="h-4 w-4" />}
           {isSaving ? 'Enregistrement…' : saved ? 'Enregistré' : 'Enregistrer'}
@@ -143,7 +143,7 @@ export default function AccountForm({ initial }: { initial: Profile }) {
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="text-sm text-gris underline-offset-2 hover:text-encre hover:underline"
+          className="text-sm text-dust underline-offset-2 hover:text-ink hover:underline"
         >
           Se déconnecter
         </button>
