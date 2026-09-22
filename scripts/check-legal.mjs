@@ -11,6 +11,10 @@
 //   2. "TVA non applicable, art. 293 B du CGI" surviving somewhere after
 //      the company became VAT-registered. That is an incorrect tax
 //      statement on a commercial page, not a stale marketing line.
+//   3. A build with no NEXT_PUBLIC_CGV_VERSION_DATE. Every legal page
+//      states "En vigueur au …"; without the variable that date is
+//      whatever the fallback happens to be, and undated terms are terms
+//      nobody can prove were the ones in force on the day of the order.
 //
 // This is static analysis, deliberately: it reads the sources rather than
 // rendering the app, so it costs nothing and runs before the build. It
@@ -140,6 +144,22 @@ if (markerCount !== pending.length) {
 
 const files = PUBLIC_ROOTS.flatMap((d) => walk(join(ROOT, d)))
 const problems = []
+
+// The CGV version date is the one legal value that is not in the file
+// above: it is a fact about a deployment, not about the company, so it
+// comes from the environment. Which puts it outside the reach of the
+// static scan below, and makes this explicit check the only thing
+// standing between production and a set of terms with no date on them.
+const cgvVersionDate = process.env.NEXT_PUBLIC_CGV_VERSION_DATE
+if (!cgvVersionDate || !cgvVersionDate.trim()) {
+  problems.push({
+    at: 'env:NEXT_PUBLIC_CGV_VERSION_DATE',
+    why:
+      'not set — every legal page would state a fallback instead of the date ' +
+      'these terms came into force. Set it on the Vercel project, once, at the ' +
+      'first production deploy, and never change it without publishing new terms.',
+  })
+}
 
 for (const file of files) {
   const source = readFileSync(file, 'utf8')

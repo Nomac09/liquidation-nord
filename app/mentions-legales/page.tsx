@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import LegalPage, { LegalSection } from '@/components/legal/LegalPage'
-import { COMPANY, formatHeadOffice } from '@/lib/company'
+import { COMPANY, formatHeadOffice, formatPhone, phoneHref } from '@/lib/company'
 import { BRAND_NAME } from '@/lib/brand'
 
 export const metadata: Metadata = {
@@ -31,7 +31,11 @@ export default function MentionsLegalesPage() {
           <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             {COMPANY.email}
           </a>{' '}
-          · Téléphone : {COMPANY.phone}.
+          ·{' '}
+          <a href={phoneHref()} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
+            Téléphone : {formatPhone()}
+          </a>
+          .
         </p>
         <p>
           {BRAND_NAME} est une marque commerciale exploitée par {COMPANY.legalName}.

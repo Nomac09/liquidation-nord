@@ -88,9 +88,9 @@ export default function RetractationPage() {
         <p>
           Renvoyez ou rapportez le bien au plus tard 14 jours après nous avoir communiqué votre
           décision. Vous pouvez aussi le rapporter à l’entrepôt de Bondues sur rendez-vous. Les frais
-          directs de renvoi sont à votre charge. Pour les biens qui, en raison de leur taille ou de
-          leur poids, ne peuvent normalement pas être renvoyés par la poste, le coût estimé du renvoi
-          est de {COMPANY.bulkyReturnCost} € ; il est indiqué sur la fiche produit concernée.
+          directs de renvoi sont à votre charge. Pour les articles volumineux qui ne peuvent
+          normalement pas être renvoyés par la poste, le coût estimé du renvoi est indiqué sur la
+          fiche produit et dans votre email de confirmation.
         </p>
       </LegalSection>
 

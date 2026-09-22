@@ -3,7 +3,7 @@ import Link from 'next/link'
 import LegalPage, { LegalSection } from '@/components/legal/LegalPage'
 import LegalGuaranteeBox from '@/components/legal/LegalGuaranteeBox'
 import WithdrawalForm from '@/components/legal/WithdrawalForm'
-import { COMPANY, formatHeadOffice } from '@/lib/company'
+import { COMPANY, formatHeadOffice, formatPhone, phoneHref } from '@/lib/company'
 import { BRAND_NAME } from '@/lib/brand'
 
 export const metadata: Metadata = {
@@ -37,7 +37,11 @@ export default function CGVPage() {
           {COMPANY.vatNumber} (ci-après « le Vendeur »).
         </p>
         <p>
-          Contact : <MailLink /> · {COMPANY.phone} · courrier au siège social.
+          Contact : <MailLink /> ·{' '}
+          <a href={phoneHref()} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
+            {formatPhone()}
+          </a>{' '}
+          · courrier au siège social.
         </p>
       </LegalSection>
 
@@ -119,17 +123,15 @@ export default function CGVPage() {
         <p>Trois modes sont proposés :</p>
         <ul className="list-disc space-y-1.5 pl-5">
           <li>
-            retrait gratuit à l’entrepôt de Bondues (59910), sur rendez-vous, {COMPANY.pickup.hours}.
-            Délai : {COMPANY.deliveryDelays.pickup} ;
+            retrait gratuit à l’entrepôt de Bondues (59910), sur rendez-vous, {COMPANY.pickup.hours} ;
           </li>
-          <li>
-            livraison en point relais Mondial Relay. Délai indicatif :{' '}
-            {COMPANY.deliveryDelays.mondialRelay} ;
-          </li>
-          <li>
-            livraison à domicile par Cocolis. Délai indicatif : {COMPANY.deliveryDelays.cocolis}.
-          </li>
+          <li>livraison en point relais Mondial Relay ;</li>
+          <li>livraison à domicile par Cocolis.</li>
         </ul>
+        <p>
+          Le délai applicable à chaque article et à chaque mode est indiqué sur la fiche produit et
+          rappelé avant le paiement, puis dans l’email de confirmation.
+        </p>
         <p>
           Le mode choisi, son coût et la date ou le délai de livraison sont indiqués avant la
           validation de la commande. À défaut d’indication, la livraison intervient au plus tard 30
@@ -151,7 +153,7 @@ export default function CGVPage() {
           ses droits légaux.
         </p>
         <p>
-          En cas de retrait, l’Acheteur dispose de {COMPANY.pickupBookingDays} jours après la
+          En cas de retrait, l’Acheteur dispose de {COMPANY.delivery.pickup.bookingWindowDays} jours après la
           confirmation de commande pour fixer un rendez-vous ; passé ce délai et après relance restée
           sans réponse, le Vendeur peut annuler la commande et rembourser l’Acheteur.
         </p>
@@ -177,9 +179,10 @@ export default function CGVPage() {
           <strong>8.3 Retour du bien.</strong> L’Acheteur renvoie ou rapporte le bien au Vendeur au
           plus tard 14 jours après avoir communiqué sa décision. Il peut également le rapporter à
           l’entrepôt de Bondues sur rendez-vous. Les frais directs de renvoi sont à la charge de
-          l’Acheteur. Pour les biens qui, en raison de leur taille ou de leur poids, ne peuvent
-          normalement être renvoyés par la poste, le coût estimé du renvoi est de{' '}
-          {COMPANY.bulkyReturnCost} € ; ce coût est indiqué sur la fiche produit concernée.
+          l’Acheteur. Pour les articles volumineux qui ne peuvent normalement être renvoyés par la
+          poste, le coût estimé du renvoi est indiqué sur la fiche produit et dans l’email de
+          confirmation. L’Acheteur peut également rapporter l’article gratuitement à l’entrepôt de
+          Bondues sur rendez-vous.
         </p>
         <p>
           <strong>8.4 Remboursement.</strong> Le Vendeur rembourse la totalité des sommes versées,
