@@ -6,7 +6,13 @@ import Product from '@/lib/schemas/Product'
 import Order from '@/lib/schemas/Order'
 import User from '@/lib/schemas/User'
 import { stripe } from '@/lib/stripe'
-import { SHIPPING_METHODS, SHIPPING_LABELS, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
+import {
+  SHIPPING_METHODS,
+  SHIPPING_LABELS,
+  getShippingQuotes,
+  getReturnCostEstimate,
+  type ShippingMethod,
+} from '@/lib/shipping'
 import { COMPANY } from '@/lib/company'
 import { getCartDeliveryPromise } from '@/lib/delivery'
 
@@ -109,12 +115,16 @@ export async function POST(request: NextRequest) {
 
     const items = requestedIds.map((id) => {
       const p = byId.get(id)!
+      const weight = (p.weight as number) || 0
       return {
         productId: id,
         name: p.name as string,
         price: p.salePrice as number,
         quantity: 1,
         photo: (p.photos as string[] | undefined)?.[0] || '',
+        weight,
+        // The same sentence the product page showed, pinned on the order.
+        returnNote: getReturnCostEstimate({ weight }).label,
       }
     })
 

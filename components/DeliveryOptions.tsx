@@ -1,4 +1,10 @@
-import { getShippingQuotes, SHIPPING_METHODS, SHIPPING_LABELS } from '@/lib/shipping'
+import {
+  getShippingQuotes,
+  getReturnCostEstimate,
+  returnCostLines,
+  SHIPPING_METHODS,
+  SHIPPING_LABELS,
+} from '@/lib/shipping'
 import { getDeliveryPromise } from '@/lib/delivery'
 import { formatPrice } from '@/components/Sticker'
 
@@ -15,6 +21,7 @@ import { formatPrice } from '@/components/Sticker'
  */
 export default function DeliveryOptions({ weightKg = 0 }: { weightKg?: number }) {
   const quotes = getShippingQuotes([weightKg])
+  const returnLines = returnCostLines(getReturnCostEstimate({ weight: weightKg }))
 
   return (
     <section aria-label="Livraison et retrait" className="mt-10 border-t border-hairline pt-8">
@@ -55,6 +62,23 @@ export default function DeliveryOptions({ weightKg = 0 }: { weightKg?: number })
         Les délais courent à compter de la confirmation du paiement. Jours ouvrés, hors samedis,
         dimanches et jours fériés.
       </p>
+
+      {/*
+        Art. L221-5 : the cost of sending a bulky article back has to be
+        stated before the order. Art. L221-23 : a buyer who was never
+        told it does not owe it. So this line is not a courtesy.
+      */}
+      <div className="mt-5 border-t border-hairline pt-5">
+        <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-dust">Retours</h3>
+        <p className="mt-2 font-karla text-[13px] leading-relaxed text-ink/85">
+          Vous disposez de 14 jours après réception pour changer d’avis, sans avoir à vous justifier.
+        </p>
+        {returnLines.map((line) => (
+          <p key={line} className="mt-1.5 font-karla text-[13px] leading-relaxed text-ink/85">
+            {line}
+          </p>
+        ))}
+      </div>
     </section>
   )
 }

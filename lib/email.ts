@@ -123,7 +123,13 @@ export async function sendNewArrivalNotifications(
 export interface OrderForEmail {
   orderId: string
   createdAt: Date | string
-  items: { name: string; price: number; quantity: number }[]
+  items: {
+    name: string
+    price: number
+    quantity: number
+    /** The return-cost sentence pinned on the order at checkout. */
+    returnNote?: string
+  }[]
   shippingMethod: ShippingMethod
   shippingCost: number
   shippingDetails?: {
@@ -169,25 +175,36 @@ function formatOrderDate(value: Date | string): string {
 export async function sendOrderConfirmation(order: OrderForEmail) {
   const site = siteUrl()
 
+  const itemLines = order.items.map((i) => ({
+    label: i.quantity > 1 ? `${i.name} × ${i.quantity}` : i.name,
+    ttc: i.price * i.quantity,
+    // L221-5 again: the return cost has to reach the buyer, and the
+    // confirmation email is the durable copy of it they keep.
+    returnNote: i.returnNote || '',
+  }))
+  const shippingLine =
+    order.shippingCost > 0
+      ? { label: `Livraison : ${SHIPPING_LABELS[order.shippingMethod]}`, ttc: order.shippingCost }
+      : null
+
   const vat = computeVat([
-    ...order.items.map((i) => ({
-      label: i.quantity > 1 ? `${i.name} × ${i.quantity}` : i.name,
-      ttc: i.price * i.quantity,
-    })),
-    ...(order.shippingCost > 0
-      ? [{ label: `Livraison : ${SHIPPING_LABELS[order.shippingMethod]}`, ttc: order.shippingCost }]
-      : []),
+    ...itemLines.map(({ label, ttc }) => ({ label, ttc })),
+    ...(shippingLine ? [shippingLine] : []),
   ])
 
-  const itemRows = vat.lines
-    .map(
-      (l) => `
+  const row = (label: string, ttc: number, note = '') => `
         <tr>
-          <td style="padding:10px 0;border-bottom:1px solid #e7e5df;color:#22221f;">${esc(l.label)}</td>
-          <td style="padding:10px 0;border-bottom:1px solid #e7e5df;text-align:right;white-space:nowrap;color:#22221f;">${formatAmount(l.ttc)}</td>
+          <td style="padding:10px 0;border-bottom:1px solid #e7e5df;color:#22221f;">
+            ${esc(label)}
+            ${note ? `<br /><span style="color:#8a887f;font-size:12px;line-height:1.5;">${esc(note)}</span>` : ''}
+          </td>
+          <td style="padding:10px 0;border-bottom:1px solid #e7e5df;text-align:right;vertical-align:top;white-space:nowrap;color:#22221f;">${formatAmount(ttc)}</td>
         </tr>`
-    )
-    .join('')
+
+  const itemRows = [
+    ...itemLines.map((l) => row(l.label, l.ttc, l.returnNote)),
+    ...(shippingLine ? [row(shippingLine.label, shippingLine.ttc)] : []),
+  ].join('')
 
   const isPickup = order.shippingMethod === 'pickup'
   const address = order.shippingDetails

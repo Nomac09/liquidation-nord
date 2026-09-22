@@ -7,7 +7,15 @@ const OrderSchema = new mongoose.Schema({
     productId: String,
     name: String,
     price: Number,
-    quantity: Number
+    quantity: Number,
+    // Weight at the time of sale, and the return-cost sentence derived
+    // from it. Pinned for the same reason as deliveryPromise below:
+    // L221-5 requires the return cost to be stated before the order, and
+    // L221-23 means the buyer only owes the figure they were actually
+    // given. Recomputing it from a later weight correction would quietly
+    // change what they owe.
+    weight: Number,
+    returnNote: String
   }],
   subtotal: Number,
   shippingMethod: { type: String, enum: ['pickup', 'relay', 'home'] },
