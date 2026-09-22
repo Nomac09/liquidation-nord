@@ -16,6 +16,15 @@
  *   --now=YYYY-MM-DD        pretend today is this, so a run can be
  *                           reproduced exactly.
  *   --limit=N               first N articles only, for a quick look.
+ *   --keep-current           do not touch salePrice at all — the current
+ *                           pricing decision is to reprice nothing. Only
+ *                           discountPercent is back-computed, from rrp
+ *                           against the article's own current price,
+ *                           clamped to 20..60. Never sets comparePrice:
+ *                           rrp has no source or observation date, so it
+ *                           cannot back a displayed comparison (see
+ *                           lib/pricing.ts on why an undated figure is
+ *                           never shown).
  *
  * The comparison basis is `comparePrice` when the article has one, and
  * the imported `rrp` otherwise. That fallback is the honest starting
@@ -34,6 +43,7 @@ import {
   CONDITION_GRID,
   DEFAULT_CONDITION_KEY,
   checkMarginFloor,
+  clampDiscount,
   decideDiscount,
   getComparisonDisplay,
   priceFromCompare,
@@ -79,6 +89,7 @@ function option(name: string): string | null {
 
 const APPLY = flag('apply')
 const LIMIT = Number(option('limit')) || 0
+const KEEP_CURRENT = flag('keep-current')
 
 function parseDay(value: string | null, what: string): Date | null {
   if (!value) return null
@@ -145,6 +156,37 @@ async function main() {
 
   for (const p of products as unknown as Record<string, any>[]) {
     const oldPrice = Number(p.salePrice) || 0
+
+    if (KEEP_CURRENT) {
+      const rrp = Number(p.rrp) || 0
+      const priorDiscount = Number(p.discountPercent) || 0
+      const discountPercent =
+        rrp > 0 ? clampDiscount(((rrp - oldPrice) / rrp) * 100) : priorDiscount
+
+      rows.push({
+        ref: p.internalRef || String(p._id).slice(-6),
+        name: String(p.name || '').slice(0, 58),
+        oldPrice,
+        newPrice: oldPrice,
+        proposedPrice: oldPrice,
+        basis: rrp,
+        discount: discountPercent,
+        condition: '—',
+        guessed: false,
+        agedDays: 0,
+        agedBonus: 0,
+        floor: 'ok',
+        marginHT: null,
+        recheck: null,
+        changed: rrp > 0 && discountPercent !== priorDiscount,
+      })
+
+      if (rrp > 0 && discountPercent !== priorDiscount) {
+        writes.push({ _id: p._id, set: { discountPercent } })
+      }
+      continue
+    }
+
     const basis = Number(p.comparePrice) || Number(p.rrp) || 0
 
     const decision = decideDiscount(p, { now: NOW, fallbackCondition: FALLBACK })
@@ -253,6 +295,13 @@ function report(rows: Row[]) {
     `Généré le ${NOW.toISOString().slice(0, 10)} par \`scripts/reprice.ts\`. ` +
       `Aucune écriture : ce fichier est le résultat d'un \`--dry-run\`.`
   )
+  if (KEEP_CURRENT) {
+    lines.push('')
+    lines.push(
+      '**Mode `--keep-current`** : aucun prix ne bouge. Seul `discountPercent` est ' +
+        'recalculé à partir du `rrp` et du prix actuel, borné à 20–60 %.'
+    )
+  }
   lines.push('')
   lines.push('| | |')
   lines.push('|---|---|')

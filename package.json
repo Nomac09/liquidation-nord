@@ -12,7 +12,8 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "test": "npm run test:unit && npm run test:e2e",
-    "reprice": "vite-node -c vitest.config.ts scripts/reprice.ts --"
+    "reprice": "vite-node -c vitest.config.ts scripts/reprice.ts --",
+    "set-condition": "vite-node -c vitest.config.ts scripts/set-condition.ts --"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
