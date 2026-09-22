@@ -22,7 +22,7 @@ function run(env: Record<string, string | undefined>): { code: number; output: s
     cwd: ROOT,
     encoding: 'utf8',
     // A clean slate, so a developer's own shell cannot make this pass.
-    env: { PATH: process.env.PATH, ...env } as NodeJS.ProcessEnv,
+    env: { PATH: process.env.PATH, ...env } as unknown as NodeJS.ProcessEnv,
   })
   return { code: result.status ?? 1, output: `${result.stdout || ''}${result.stderr || ''}` }
 }
