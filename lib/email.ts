@@ -173,6 +173,20 @@ function formatOrderDate(value: Date | string): string {
  * sale cannot rewrite what the customer was told they paid.
  */
 export async function sendOrderConfirmation(order: OrderForEmail) {
+  const { error } = await getClient().emails.send({
+    from: `${BRAND_NAME} <${FROM}>`,
+    to: order.customerEmail,
+    subject: `Commande ${order.orderId} confirmée`,
+    html: buildOrderConfirmationHtml(order),
+  })
+  if (error) throw new Error(`Resend: ${error.name} — ${error.message}`)
+}
+
+/**
+ * The body of that email, separated from the sending of it so the
+ * contents can be asserted on without a Resend key or a network.
+ */
+export function buildOrderConfirmationHtml(order: OrderForEmail): string {
   const site = siteUrl()
 
   const itemLines = order.items.map((i) => ({
@@ -330,11 +344,5 @@ export async function sendOrderConfirmation(order: OrderForEmail) {
     </div>
   </div>`
 
-  const { error } = await getClient().emails.send({
-    from: `${BRAND_NAME} <${FROM}>`,
-    to: order.customerEmail,
-    subject: `Commande ${order.orderId} confirmée`,
-    html,
-  })
-  if (error) throw new Error(`Resend: ${error.name} — ${error.message}`)
+  return html
 }

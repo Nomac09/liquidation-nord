@@ -3,6 +3,8 @@ import { test, expect } from '@playwright/test'
 const LEGAL_ROUTES = [
   '/mentions-legales',
   '/cgv',
+  '/politique-confidentialite',
+  '/politique-cookies',
   '/retractation',
   '/transparence-affiliation',
   '/guides',
@@ -11,11 +13,9 @@ const LEGAL_ROUTES = [
 
 /**
  * The placeholder assertion is the build gate restated at the HTTP layer.
- * It fails today, on purpose: lib/company.ts still holds twelve unfilled
- * values (docs/PHASE1_AUDIT.md §11) and these pages render several of
- * them. It goes green the moment those are supplied, and a red result
- * here means exactly one thing, which is that something unfinished is
- * reachable.
+ * Phase 1B filled the last of the values it was failing on, so it is
+ * green now, and a red result means exactly one thing: something
+ * unfinished is reachable.
  */
 for (const route of LEGAL_ROUTES) {
   test(`${route} renders and carries nothing unfinished`, async ({ page }) => {
@@ -32,7 +32,7 @@ for (const route of LEGAL_ROUTES) {
 }
 
 test('every legal page states a version date and is indexable', async ({ page }) => {
-  for (const route of ['/mentions-legales', '/cgv', '/retractation', '/transparence-affiliation']) {
+  for (const route of ['/mentions-legales', '/cgv', '/politique-confidentialite', '/retractation', '/transparence-affiliation']) {
     await page.goto(route)
 
     // Its own description, not the homepage's.
@@ -46,7 +46,7 @@ test('every legal page states a version date and is indexable', async ({ page })
     const robots = await page.locator('meta[name="robots"]').getAttribute('content')
     if (robots) expect(robots).not.toContain('noindex')
 
-    await expect(page.getByText(/En vigueur au|Mise[s]? à jour le/)).toBeVisible()
+    await expect(page.getByText(/En vigueur au|Mise[s]? à jour le|Dernière mise à jour le/)).toBeVisible()
   }
 })
 
@@ -60,7 +60,7 @@ test('the footer carries the statutory identity block', async ({ page }) => {
   await expect(footer).toContainText('Prix TTC, TVA 20 % incluse')
   await expect(footer).toContainText(/pas affilié à vidaXL/)
 
-  for (const label of ['Mentions légales', 'CGV', 'Cookies', 'Transparence & affiliation', 'Rétractation']) {
+  for (const label of ['Mentions légales', 'CGV', 'Confidentialité', 'Cookies', 'Transparence & affiliation', 'Rétractation']) {
     await expect(footer.getByRole('link', { name: label, exact: true })).toBeVisible()
   }
   await expect(footer.getByRole('button', { name: 'Gérer mes cookies' })).toBeVisible()
@@ -75,4 +75,67 @@ test('the withdrawal page offers a prefilled email', async ({ page }) => {
   expect(href).toContain('mailto:contact@souqify.fr')
   expect(href).toContain('subject=')
   expect(href).toContain('body=')
+})
+
+/**
+ * /politique-confidentialite is the page Phase 1 deliberately left out,
+ * so these assert the three things that made leaving it out the right
+ * call: it exists, it is reachable from everywhere, and it is a privacy
+ * policy rather than the cookie table renamed.
+ */
+test('the privacy policy answers and says what it has to say', async ({ page }) => {
+  const response = await page.goto('/politique-confidentialite')
+  expect(response?.status()).toBe(200)
+
+  const body = await page.locator('body').innerText()
+  for (const required of [
+    'Responsable du traitement',
+    'AUTOWEB COMMERCE SAS',
+    'SIREN 100 148 469',
+    'Stripe',
+    'Resend',
+    'MongoDB Atlas',
+    'Vercel',
+    'Durées de conservation',
+    'Data Privacy Framework',
+    'CNIL',
+    'portabilité',
+  ]) {
+    expect(body, `the privacy policy never mentions ${required}`).toContain(required)
+  }
+})
+
+test('the privacy policy is linked from the footer and from the order form', async ({ page }) => {
+  await page.goto('/cgv')
+  await expect(
+    page.locator('footer').getByRole('link', { name: 'Confidentialité', exact: true })
+  ).toHaveAttribute('href', '/politique-confidentialite')
+
+  // The CGV acceptance box lives on /cart: /checkout is the embedded
+  // Stripe frame, and consent is given before it, not inside it.
+  await page.goto('/cart')
+  const link = page.getByRole('link', { name: 'politique de confidentialité' })
+  await expect(link.or(page.locator('a[href="/politique-confidentialite"]')).first()).toBeAttached()
+})
+
+test('CGV article 9 carries the guarantee box and its Légifrance references', async ({ page }) => {
+  await page.goto('/cgv')
+  const body = await page.locator('body').innerText()
+
+  expect(body).toContain(
+    "Le consommateur dispose d'un délai de deux ans à compter de la délivrance du bien"
+  )
+  expect(body).toContain('300 000 euros')
+
+  for (const id of ['LEGIARTI000044142587', 'LEGIARTI000044142730', 'LEGIARTI000006441924']) {
+    await expect(page.locator(`a[href*="${id}"]`)).toHaveCount(1)
+  }
+})
+
+test('CGV article 4 does not present the comparison as our own former price', async ({ page }) => {
+  await page.goto('/cgv')
+  const body = await page.locator('body').innerText()
+  expect(body).toContain('TVA française au taux de 20 % incluse')
+  expect(body).toContain('prix de vente constaté chez un autre distributeur')
+  expect(body).toContain("Il ne s’agit pas d’une réduction par rapport à un prix antérieurement")
 })

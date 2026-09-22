@@ -17,6 +17,8 @@ const PAGES = [
   '/guides/exemple',
   '/guides',
   '/cgv',
+  '/politique-confidentialite',
+  '/politique-cookies',
   '/mentions-legales',
   '/retractation',
   '/transparence-affiliation',
