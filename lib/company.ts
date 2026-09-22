@@ -104,4 +104,4 @@ export const PRICE_NOTICE = `Prix TTC, TVA ${VAT_RATE_LABEL} incluse · Paiement
 
 /** Non-affiliation notice, required wherever the vidaXL name is used. */
 export const VIDAXL_DISCLAIMER =
-  "Souqify n'est pas affilié à vidaXL. Les marques citées appartiennent à leurs propriétaires."
+  "Souqify n’est pas affilié à vidaXL. Les marques citées appartiennent à leurs propriétaires."

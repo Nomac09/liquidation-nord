@@ -41,7 +41,7 @@ export default function AffiliateDisclosure({
         {DISCLOSURE_TEXT}{' '}
         <Link
           href="/transparence-affiliation"
-          className="font-semibold text-verdigris-deep hover:underline"
+          className="font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink"
         >
           Transparence &amp; affiliation
         </Link>

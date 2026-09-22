@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 function MailLink() {
   return (
-    <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">
+    <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
       {COMPANY.email}
     </a>
   )
@@ -167,7 +167,7 @@ export default function CGVPage() {
         <p>
           <strong>8.2 Exercice.</strong> L’Acheteur notifie sa décision avant l’expiration du délai,
           au moyen du formulaire de rétractation figurant en annexe (également disponible sur la page{' '}
-          <Link href="/retractation" className="text-verdigris-deep hover:underline">
+          <Link href="/retractation" className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             /retractation
           </Link>
           ) ou de toute autre déclaration dénuée d’ambiguïté, par email à <MailLink /> ou par courrier

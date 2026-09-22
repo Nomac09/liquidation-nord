@@ -144,7 +144,7 @@ export default function Footer() {
             </ul>
           </nav>
           <p>{PRICE_NOTICE}</p>
-          <p className="text-[#F6F5F1]/45">{VIDAXL_DISCLAIMER}</p>
+          <p className="text-[#F6F5F1]/60">{VIDAXL_DISCLAIMER}</p>
         </div>
       </div>
     </footer>

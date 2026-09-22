@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "check:legal": "node scripts/check-legal.mjs",
-    "prebuild": "npm run check:legal"
+    "prebuild": "npm run check:legal",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test": "npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -47,6 +50,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63.0",
     "@types/bcryptjs": "^2.4.6",
     "vitest": "^3.2.7"

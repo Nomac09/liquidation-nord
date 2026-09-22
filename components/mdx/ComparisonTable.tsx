@@ -53,14 +53,14 @@ export default function ComparisonTable({ rows }: { rows: ComparisonRow[] }) {
                     href={row.href}
                     target="_blank"
                     rel="sponsored nofollow noopener"
-                    className="inline-flex items-center gap-1.5 font-semibold text-verdigris-deep hover:underline"
+                    className="inline-flex items-center gap-1.5 font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink"
                   >
                     Voir sur {row.soldBy}
                     <ExternalLink aria-hidden className="h-3 w-3" />
                     <span className="sr-only">Lien partenaire, s’ouvre dans un nouvel onglet</span>
                   </a>
                 ) : (
-                  <Link href={row.href} className="font-semibold text-verdigris-deep hover:underline">
+                  <Link href={row.href} className="font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink">
                     Voir l’article
                   </Link>
                 )}

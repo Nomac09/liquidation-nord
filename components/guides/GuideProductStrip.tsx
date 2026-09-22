@@ -48,7 +48,7 @@ export default async function GuideProductStrip({
         <h2 className="font-display text-2xl tracking-tight text-ink">Nos articles en stock</h2>
         <Link
           href={`/?category=${encodeURIComponent(category)}`}
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-verdigris-deep hover:underline"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink"
         >
           Tout voir en {category}
           <ArrowRight aria-hidden className="h-3.5 w-3.5" />

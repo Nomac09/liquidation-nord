@@ -22,7 +22,7 @@ export default function TransparenceAffiliationPage() {
       <LegalSection title="Ce que nous vendons">
         <p>
           {BRAND_NAME} vend ses propres articles de déstockage, expédiés depuis Bondues. Dans nos{' '}
-          <Link href="/guides" className="text-verdigris-deep hover:underline">
+          <Link href="/guides" className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             guides
           </Link>
           , nous recommandons aussi parfois des produits que nous ne vendons pas, lorsqu’ils

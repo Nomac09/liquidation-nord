@@ -45,7 +45,7 @@ export default function RetractationPage() {
           Vous avez 14 jours pour changer d’avis, sans avoir à vous justifier et sans pénalité. Cette
           page explique comment, et met à votre disposition le formulaire officiel. Les modalités
           complètes figurent à l’article 8 des{' '}
-          <Link href="/cgv" className="text-verdigris-deep hover:underline">
+          <Link href="/cgv" className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             conditions générales de vente
           </Link>
           .
@@ -63,7 +63,7 @@ export default function RetractationPage() {
       <LegalSection title="Comment nous prévenir">
         <p>
           Envoyez-nous votre décision avant la fin du délai, par email à{' '}
-          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">
+          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             {COMPANY.email}
           </a>{' '}
           ou par courrier au siège social, {formatHeadOffice({ withCountry: true })}. Vous pouvez

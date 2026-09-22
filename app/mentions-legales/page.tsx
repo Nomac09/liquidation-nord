@@ -28,7 +28,7 @@ export default function MentionsLegalesPage() {
         <p>Numéro de TVA intracommunautaire : {COMPANY.vatNumber}.</p>
         <p>
           Email :{' '}
-          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">
+          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             {COMPANY.email}
           </a>{' '}
           · Téléphone : {COMPANY.phone}.
@@ -49,7 +49,7 @@ export default function MentionsLegalesPage() {
             href={COMPANY.host.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-verdigris-deep hover:underline"
+            className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
           >
             {COMPANY.host.website}
           </a>
@@ -71,7 +71,7 @@ export default function MentionsLegalesPage() {
       <LegalSection title="Liens partenaires">
         <p>
           Certains contenus du site contiennent des liens partenaires. Voir la page{' '}
-          <Link href="/transparence-affiliation" className="text-verdigris-deep hover:underline">
+          <Link href="/transparence-affiliation" className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             Transparence &amp; affiliation
           </Link>
           .
@@ -81,7 +81,7 @@ export default function MentionsLegalesPage() {
       <LegalSection title="Données personnelles">
         <p>
           Voir la Politique de confidentialité et la{' '}
-          <Link href="/politique-cookies" className="text-verdigris-deep hover:underline">
+          <Link href="/politique-cookies" className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             Politique cookies
           </Link>
           .

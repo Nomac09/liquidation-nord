@@ -10,3 +10,8 @@ build/
 .env*.local
 tsconfig.tsbuildinfo
 .env*
+
+# Playwright
+test-results/
+playwright-report/
+.playwright/

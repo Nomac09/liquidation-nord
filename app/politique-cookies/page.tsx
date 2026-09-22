@@ -97,7 +97,7 @@ export default function CookiePolicyPage() {
             href="https://policies.google.com/privacy"
             target="_blank"
             rel="noreferrer"
-            className="text-verdigris-deep hover:underline"
+            className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
           >
             policies.google.com
           </a>
@@ -182,7 +182,7 @@ export default function CookiePolicyPage() {
           Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d’un droit
           d’accès, de rectification et de suppression des données vous concernant, exerçable à tout
           moment auprès de{' '}
-          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">
+          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
             {COMPANY.email}
           </a>
           . Vous pouvez également introduire une réclamation auprès de la CNIL,{' '}
@@ -190,7 +190,7 @@ export default function CookiePolicyPage() {
             href="https://www.cnil.fr"
             target="_blank"
             rel="noreferrer"
-            className="text-verdigris-deep hover:underline"
+            className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
           >
             www.cnil.fr
           </a>

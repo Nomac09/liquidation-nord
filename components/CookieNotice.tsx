@@ -38,7 +38,6 @@ export default function CookieNotice() {
   return (
     <div
       role={needsDecision ? 'dialog' : 'status'}
-      aria-modal={false}
       aria-label="Gestion des cookies"
       className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-surface/97 px-4 py-4 shadow-levee backdrop-blur print:hidden"
     >
@@ -50,7 +49,7 @@ export default function CookieNotice() {
             aimerions aussi mesurer l’audience avec Google Analytics, ce qui dépose des cookies :
             cela nécessite votre accord, et vous pouvez refuser sans conséquence sur votre
             navigation.{' '}
-            <Link href="/politique-cookies" className="font-semibold text-verdigris-deep hover:underline">
+            <Link href="/politique-cookies" className="font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink">
               En savoir plus
             </Link>
           </p>
@@ -59,7 +58,7 @@ export default function CookieNotice() {
             Ce site utilise des cookies strictement nécessaires à son fonctionnement (connexion,
             panier, paiement sécurisé Stripe) et une mesure d’audience anonyme, sans cookie ni
             identifiant. Aucun cookie publicitaire ou de traçage.{' '}
-            <Link href="/politique-cookies" className="font-semibold text-verdigris-deep hover:underline">
+            <Link href="/politique-cookies" className="font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink">
               En savoir plus
             </Link>
           </p>

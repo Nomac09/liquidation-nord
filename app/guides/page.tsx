@@ -74,7 +74,7 @@ export default function GuidesHubPage() {
 
       <p className="mt-14 border-t border-hairline pt-6 text-sm text-dust">
         Certains guides contiennent des liens partenaires, toujours signalés.{' '}
-        <Link href="/transparence-affiliation" className="text-verdigris-deep hover:underline">
+        <Link href="/transparence-affiliation" className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
           Comment {BRAND_NAME} gagne sa vie
         </Link>
         .

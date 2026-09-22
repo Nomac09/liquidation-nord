@@ -23,7 +23,7 @@ export default function WithdrawalForm() {
 
       <p className="mt-4">
         À l’attention de {COMPANY.legalName} ({BRAND_NAME}), {formatHeadOffice({ withCountry: true })},{' '}
-        <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">
+        <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
           {COMPANY.email}
         </a>{' '}
         :

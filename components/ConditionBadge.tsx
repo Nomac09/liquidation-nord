@@ -27,7 +27,7 @@ export default function ConditionBadge({
     <p className="mt-5 flex items-start gap-2.5 text-[13.5px] leading-relaxed text-dust">
       <ShieldCheck aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-verdigris-deep" />
       Pièce en stock limité — photos contractuelles.{' '}
-      <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">
+      <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
         Contactez-nous
       </a>{' '}
       pour tout détail avant votre commande.

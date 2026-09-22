@@ -69,7 +69,10 @@ export default function AffiliateProduct({
   }
 
   return (
-    <div className="my-6 overflow-hidden rounded-xl border border-dashed border-hairline-strong bg-paper">
+    <div
+      data-testid="affiliate-card"
+      className="my-6 overflow-hidden rounded-xl border border-dashed border-hairline-strong bg-paper"
+    >
       <div className="flex flex-col gap-4 p-5 sm:flex-row">
         {image && (
           <div className="relative h-36 w-full shrink-0 overflow-hidden rounded-lg bg-surface sm:h-32 sm:w-32">
