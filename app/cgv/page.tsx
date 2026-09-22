@@ -3,7 +3,7 @@ import Link from 'next/link'
 import LegalPage, { LegalSection } from '@/components/legal/LegalPage'
 import LegalGuaranteeBox from '@/components/legal/LegalGuaranteeBox'
 import WithdrawalForm from '@/components/legal/WithdrawalForm'
-import { COMPANY, formatHeadOffice, formatPhone, phoneHref } from '@/lib/company'
+import { COMPANY, VAT_RATE_LABEL, formatHeadOffice, formatPhone, phoneHref } from '@/lib/company'
 import { BRAND_NAME } from '@/lib/brand'
 
 export const metadata: Metadata = {
@@ -11,6 +11,33 @@ export const metadata: Metadata = {
   description: `Conditions de vente de ${BRAND_NAME} : produits de déstockage, prix TTC, livraison et retrait à Bondues, droit de rétractation de 14 jours et garanties légales.`,
   alternates: { canonical: '/cgv' },
   robots: { index: true, follow: true },
+}
+
+/**
+ * Légifrance permalinks, checked against the pages themselves rather than
+ * reconstructed from an article number: a link that silently points at
+ * the wrong article is worse than no link, because it reads as a citation.
+ *   L217-1  — LEGIARTI000044142587, Code de la consommation
+ *   L241-5  — LEGIARTI000044142730, Code de la consommation
+ *   art. 1641 — LEGIARTI000006441924, Code civil
+ */
+const LEGIFRANCE = {
+  L217_1: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000044142587',
+  L241_5: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000044142730',
+  CC_1641: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006441924',
+} as const
+
+function Legifrance({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
+    >
+      {children}
+    </a>
+  )
 }
 
 function MailLink() {
@@ -81,14 +108,24 @@ export default function CGVPage() {
 
       <LegalSection title="Article 4. Prix">
         <p>
-          Les prix sont indiqués en euros, toutes taxes comprises (TTC), TVA française au taux
-          applicable incluse. Les frais de livraison sont indiqués avant la validation de la commande
-          et s’ajoutent au prix des produits.
+          Les prix sont indiqués en euros, toutes taxes comprises (TTC), TVA française au taux de{' '}
+          {VAT_RATE_LABEL} incluse. Les frais de livraison sont indiqués avant la validation de la
+          commande et s’ajoutent au prix des produits.
         </p>
+        {/*
+          Directive Omnibus, transposée à l'art. L112-1-1 : an announced
+          price reduction has to be measured against the lowest price the
+          *seller* charged in the preceding 30 days. Ours is not that: it
+          is a comparison with another retailer, so it is not a reduction
+          at all, and this paragraph is what stops the percentage on the
+          product page from being read as one.
+        */}
         <p>
-          Lorsqu’un prix de comparaison est affiché, sa nature est précisée sur la fiche produit (par
-          exemple le prix de vente pratiqué par un autre distributeur à la date indiquée). Il ne
-          constitue pas une réduction de prix pratiquée par le Vendeur, sauf mention expresse.
+          Lorsqu’un prix de comparaison est affiché, il s’agit du prix de vente constaté chez un
+          autre distributeur (par exemple vidaXL.fr) à la date indiquée sur la fiche produit. Le
+          pourcentage affiché exprime l’écart entre ce prix de comparaison et le prix {BRAND_NAME}.
+          Il ne s’agit pas d’une réduction par rapport à un prix antérieurement pratiqué par le
+          Vendeur.
         </p>
         <p>
           Le Vendeur peut modifier ses prix à tout moment ; le prix facturé est celui affiché lors de
@@ -210,6 +247,13 @@ export default function CGVPage() {
           avant l’achat ne constituent pas un défaut de conformité.
         </p>
         <LegalGuaranteeBox />
+        <p className="text-sm text-dust">
+          Textes de référence sur Légifrance :{' '}
+          <Legifrance href={LEGIFRANCE.L217_1}>article L217-1 du Code de la consommation</Legifrance>
+          ,{' '}
+          <Legifrance href={LEGIFRANCE.L241_5}>article L241-5 du Code de la consommation</Legifrance>{' '}
+          et <Legifrance href={LEGIFRANCE.CC_1641}>article 1641 du Code civil</Legifrance>.
+        </p>
         <p>
           Pour mettre en œuvre une garantie, l’Acheteur contacte le Vendeur à <MailLink /> en
           décrivant le défaut, si possible avec photos.
@@ -239,7 +283,20 @@ export default function CGVPage() {
           Toute réclamation est adressée au service client à <MailLink />. En cas d’échec de la
           réclamation écrite, l’Acheteur peut recourir gratuitement au médiateur de la consommation
           dont relève le Vendeur : {COMPANY.mediator.name}, {COMPANY.mediator.address},{' '}
-          {COMPANY.mediator.website}.
+          <a
+            href={COMPANY.mediator.website}
+            target="_blank"
+            rel="noreferrer"
+            className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
+          >
+            {COMPANY.mediator.website.replace(/^https?:\/\//, '')}
+          </a>
+          .
+        </p>
+        <p>
+          Le consommateur peut saisir le médiateur en ligne sur son site internet ou par courrier à
+          l’adresse indiquée, après une réclamation écrite préalable restée sans réponse
+          satisfaisante auprès du Vendeur.
         </p>
       </LegalSection>
 
