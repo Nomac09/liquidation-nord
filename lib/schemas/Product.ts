@@ -147,6 +147,14 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  // Handling/shipping size bucket assigned by scripts/classify-size.ts.
+  // Not set by anything else; absent until that script has run with
+  // --apply, and absent again for anything it could only mark "à
+  // vérifier" rather than resolve.
+  sizeClass: {
+    type: String,
+    enum: ['S', 'M', 'L', 'XL']
+  },
   slug: {
     type: String,
     required: true,

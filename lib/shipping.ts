@@ -12,11 +12,16 @@ export const SHIPPING_LABELS: Record<ShippingMethod, string> = {
   home: 'À domicile',
 }
 
-// Mondial Relay's real per-parcel weight limit. Currently an assumed
-// ~30kg pending confirmation against the actual contracted limit — this
-// is the one number to change once that's confirmed; everything that
-// depends on it (eligibility, the top relay band) reads from here.
+// Mondial Relay's published Point Relais limits (mondialrelay.fr FAQ,
+// "Quelle est la taille maximale des colis ?"): 30 kg per parcel, longest
+// side under 120 cm, and the sum of the three dimensions (L+l+h) no more
+// than 150 cm. These are the public network limits; if this account's own
+// contract with Mondial Relay states different figures, those take
+// precedence and these three constants are the ones to change — every
+// eligibility check and size-class assignment reads from here.
 export const RELAY_MAX_KG = 30
+export const RELAY_MAX_LONGEST_SIDE_CM = 120
+export const RELAY_MAX_SUM_DIMENSIONS_CM = 150
 
 interface WeightBand {
   // Inclusive upper edge of this band, in kg.
