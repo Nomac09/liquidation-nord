@@ -618,3 +618,112 @@ tests under `tests/`.
 
 **Untouched:** everything under `app/admin/`, `app/ayooshi/`, `app/api/upload*`, `lib/cj/`,
 `models/`, `cj-integration-staging/`, the catalogue/cart/Stripe payment path itself.
+
+---
+
+# ADDENDUM: what was actually done
+
+Written after the work, on the same branch. Sections 1 to 13 above are the
+pre-change audit and are left exactly as they were.
+
+## A. Decisions you took on the four contradictions
+
+| § | Question | Your call |
+|---|---|---|
+| 9.1 | Guide categories that do not exist in the catalogue | Editorial `category` + a `productCategory` field mapping each guide to a real catalogue category. Piscine and Vélo & mobilité stay as hub headings; `lib/categories.ts` is untouched. |
+| 9.3 | "Guides" in a header that has no nav | One text link next to account/cart, rendered only when at least one non-draft guide exists. The header is unchanged today, since the only guide is a draft. |
+| 12.2 | The order-confirmation email | Build it. Resend, fired from the existing Stripe webhook, idempotent, with the full HT/TVA/TTC breakdown, company identity, delivery terms, withdrawal rights and the CGV version in force. No PDF invoice. |
+| 2.3 | Stripe Tax | Report only. `create-session` is untouched. |
+
+## B. Gaps that remain open
+
+1. **Invoice generation.** No sequential number, no PDF. The confirmation email
+   is the art. L221-13 written confirmation, not an invoice. Still Phase 2.
+2. **`/politique-confidentialite`.** Not written, per the spec. §4.1's eleven
+   missing items stand. The footer deliberately has no "Confidentialité" link
+   rather than a 404 or a cookie table wearing a privacy policy's name.
+3. **Stripe Tax**: no `automatic_tax`, no `tax_behavior`, no FR registration.
+   Stripe still computes 0 € tax on every order. Add the registration in the
+   Dashboard first; the code change is one commit after that.
+4. **Stripe account `business_type: "individual"`** while the seller is an SAS.
+   Check the live-mode account.
+5. **Stripe Dashboard receipt footer** may still carry "TVA non applicable,
+   art. 293 B". Not readable from the repo or the API; check it by hand.
+6. **Category URL migration** to `/categorie/[slug]`: deferred, see §8.
+7. **No record of CGV acceptance for orders placed before this branch.** Cannot
+   be retrofitted.
+
+## C. Deviations from the spec, and why
+
+1. **`lib/company.ts` has three fields the spec's object does not**:
+   `pickupBookingDays`, `bulkyReturnCost` (both rendered by the CGV text the
+   spec dictates) and `legalGuaranteeBoxText`. The rule "no `[À COMPLÉTER]`
+   outside `lib/company.ts`" forces them here.
+2. **`check:legal` has an escape hatch**, `LEGAL_ALLOW_INCOMPLETE=1`, so the
+   branch can be built and tested while §11 is outstanding. It must never be
+   set on the Vercel project. It also scans `lib/`, because the order email
+   reaches a customer exactly like a page does.
+3. **axe-core instead of a Lighthouse score** for the accessibility gate.
+   Lighthouse's score is a weighted average of these same checks and lets a
+   real violation hide behind a high average. The command to reproduce the
+   Lighthouse number is in `tests/e2e/accessibility.spec.ts`.
+4. **`--dust` darkened from `#6E6C64` to `#605E56`.** It failed AA at 3.73:1 on
+   `--paper` and 4.25:1 on `--stone`. This is a palette token, so it is the one
+   change in this branch that affects the whole site; it was that or ship new
+   pages failing the criterion Task 9 sets. Dark mode already passed, untouched.
+5. **Footer delivery prices** now say "à partir de" (§9.2).
+6. **`next-mdx-remote` could not be used.** Next 15's App Router uses a vendored
+   React; a runtime MDX renderer resolves `react/jsx-runtime` from
+   `node_modules`, and two React copies cannot render one tree. MDX compiles
+   through `@next/mdx` instead, which also required the root
+   `mdx-components.tsx`.
+7. **The full Stripe checkout E2E is skipped, not faked.** It needs
+   `stripe listen --forward-to localhost:3100/api/webhooks/stripe`; without the
+   forward the order never reaches `paid`, because the webhook is the only
+   thing that sets it. The command is in the test.
+
+## D. Test results as of this commit
+
+```
+vitest      10 passed
+playwright  24 passed · 4 failed · 1 skipped
+```
+
+The 4 failures are one assertion ("no `À COMPLÉTER` on the page") on
+`/mentions-legales`, `/cgv`, `/retractation` and `/transparence-affiliation`.
+They are the build gate restated over HTTP and go green the moment §11 is
+answered. The skip is the full Stripe payment, see C.7.
+
+Run them with:
+
+```
+npm run test:unit
+npx playwright test              # builds and starts on :3100 itself
+npm run check:legal
+```
+
+Note: `next build` currently fails on the untracked `cj-integration-staging/`
+WIP, which `tsconfig` picks up (`Cannot find module '@/models/Order'`). It is
+unrelated to this branch and was moved aside for each build here, never
+modified. Either finish it, add it to `tsconfig.exclude`, or keep it outside
+the project directory.
+
+## E. Still needed from you
+
+Unchanged from §11, plus one more that emerged while writing the CGV:
+
+| Key | What |
+|---|---|
+| `shareCapital` | Share capital per the Kbis |
+| `phone` | Customer-facing number, mandatory for distance selling (L221-5) |
+| `mediator.name` / `.website` / `.address` | The mediator you subscribe to. A paid subscription is legally required (L612-1) and cannot be invented |
+| `deliveryDelays.pickup` / `.mondialRelay` / `.cocolis` | Three delivery delays |
+| `cgvVersionDate` | The date these terms go live. Fixed, never `new Date()` |
+| `pickupBookingDays` | CGV art. 7, days to book a collection slot |
+| `bulkyReturnCost` | CGV art. 8.3, estimated return cost for bulky items |
+| `legalGuaranteeBoxText` | **New.** The encadré from the annexe to décret n° 2022-424, copied from Légifrance verbatim, never paraphrased |
+| `NEXT_PUBLIC_GA_ID` | Only if you want GA4. Without it no Google script loads and the banner stays informational |
+| Amazon Associates tag | The real `tag=` for affiliate URLs, currently `VOTRE-TAG-ICI` in the sample guide |
+
+To confirm rather than supply: `rcs` (against the Kbis) and `host.address`
+(against vercel.com/legal).
