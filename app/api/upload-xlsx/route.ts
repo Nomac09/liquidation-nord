@@ -4,6 +4,7 @@ import Product from '@/lib/schemas/Product'
 import * as XLSX from 'xlsx'
 import { requireAdmin } from '@/lib/adminAuth'
 import { generateInternalRef, generatePseudoBarcode } from '@/lib/internalRef'
+import { buildCreateDoc, buildUpdatePatch, parseProductRow } from '@/lib/xlsxImport'
 
 const DIACRITICS_RANGE = new RegExp('[̀-ͯ]', 'g')
 function slugify(name: string, ean: string) {
@@ -16,10 +17,10 @@ export async function POST(request: NextRequest) {
   if (denied) return denied
   try {
     await connectDB()
-    
+
     const data = await request.formData()
     const file: File | null = data.get('file') as unknown as File
-    
+
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
     }
@@ -39,53 +40,23 @@ export async function POST(request: NextRequest) {
     for (let i = 0; i < jsonData.length; i++) {
       const row = jsonData[i]
       try {
-        let ean = String((row as any)['EAN'] || '').trim()
-        const name = String((row as any)['Name'] || '').trim()
-        const category = String((row as any)['Category'] || 'Bazar').trim()
-        const rrpStr = String((row as any)['RRP'] || '0').replace(',', '.')
-        const rrp = parseFloat(rrpStr) || 0
-        const quantity = parseInt(String((row as any)['Quantity'] || '1')) || 1
-
-        // Handle scientific notation for EAN
-        if (ean.includes('E+')) {
-          const num = Number(ean)
-          if (!isNaN(num)) {
-            ean = String(Math.round(num))
-          }
-        }
-
-        if (!name || !ean || ean === '0') {
+        const parsed = parseProductRow(row as Record<string, unknown>)
+        if (!parsed) {
           results.errors.push(`Row ${i+1}: Missing name or valid EAN`)
           continue
         }
 
-        const productData = {
-          ean,
-          sku: String((row as any)['SKU'] || '').trim(),
-          name,
-          category, // Now accepts any category from Excel
-          rrp,
-          quantity,
-          photos: [] as string[],
-          status: 'sellable' as const,
-          condition: '',
-          inspected: false,
-          dimensions: '',
-          weight: 0,
-          slug: slugify(name, ean),
-          salePrice: Math.round(rrp * (rrp > 500 ? 0.4 : 0.5))
-        }
-
-        const existingProduct = await Product.findOne({ ean: productData.ean })
+        const slug = slugify(parsed.name, parsed.ean)
+        const existingProduct = await Product.findOne({ ean: parsed.ean })
 
         if (existingProduct) {
-          await Product.updateOne({ ean: productData.ean }, { $set: productData })
+          await Product.updateOne({ ean: parsed.ean }, { $set: buildUpdatePatch(parsed, slug) })
           results.updated++
         } else {
           const product = new Product({
-            ...productData,
-            internalRef: generateInternalRef(ean),
-            pseudoBarcode: generatePseudoBarcode(ean),
+            ...buildCreateDoc(parsed, slug),
+            internalRef: generateInternalRef(parsed.ean),
+            pseudoBarcode: generatePseudoBarcode(parsed.ean),
           })
           await product.save()
           results.imported++
