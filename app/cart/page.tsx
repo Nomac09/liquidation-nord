@@ -8,7 +8,7 @@ import { AlertCircle, ArrowRight, ShoppingBag, Trash2 } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { formatPrice } from '@/components/Sticker'
 import { SHIPPING_METHODS, SHIPPING_LABELS, RELAY_MAX_KG, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
-import { COMPANY } from '@/lib/company'
+import { COMPANY, PRICE_NOTICE } from '@/lib/company'
 
 const SHIPPING_DETAIL: Record<ShippingMethod, string> = {
   pickup: 'Gratuit · Lun–Sam 9h–18h',
@@ -392,7 +392,7 @@ export default function CartPage() {
           </div>
 
           <p className="text-center font-mono text-[10px] uppercase tracking-widest text-dust">
-            Paiement sécurisé Stripe · TVA non applicable, art. 293 B du CGI
+            {PRICE_NOTICE}
           </p>
         </div>
       </div>

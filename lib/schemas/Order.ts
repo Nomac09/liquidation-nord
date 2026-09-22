@@ -32,6 +32,15 @@ const OrderSchema = new mongoose.Schema({
   // never be non-empty in normal operation, but must not fail silently if
   // it happens.
   soldConflicts: [{ type: String }],
+  // The CGV version the buyer accepted, pinned at checkout rather than
+  // read from lib/company.ts at display time. Without this, a later
+  // revision of the CGV would silently rewrite the terms of every past
+  // order, which is exactly what the record is meant to prevent.
+  cgvVersionDate: String,
+  // Claim marker for the confirmation email, so a redelivered Stripe
+  // event cannot send it twice. Set before the send and unset again if
+  // the send fails, which leaves the next redelivery free to retry.
+  confirmationEmailSentAt: { type: Date, default: null },
   createdAt: { type: Date, default: Date.now }
 });
 

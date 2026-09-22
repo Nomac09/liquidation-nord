@@ -35,8 +35,11 @@ const COMPANY_FILE = join(ROOT, 'lib', 'company.ts')
 
 // Directories whose output a customer can actually see. Admin and API
 // surfaces are excluded: a placeholder in an internal tool is a to-do,
-// not a legal statement.
-const PUBLIC_ROOTS = ['app', 'components', 'content']
+// not a legal statement. lib/ is in scope because the order email is
+// composed there, and an email reaches a customer exactly like a page
+// does; lib/company.ts itself is skipped, being the one file allowed to
+// hold placeholders.
+const PUBLIC_ROOTS = ['app', 'components', 'content', 'lib']
 const EXCLUDED_SEGMENTS = new Set(['admin', 'ayooshi', 'api', 'node_modules', '.next'])
 const SCANNED_EXTENSIONS = ['.tsx', '.ts', '.mdx', '.md']
 
@@ -62,7 +65,7 @@ function walk(dir, out = []) {
     const full = join(dir, entry)
     if (statSync(full).isDirectory()) {
       walk(full, out)
-    } else if (SCANNED_EXTENSIONS.some((ext) => entry.endsWith(ext))) {
+    } else if (SCANNED_EXTENSIONS.some((ext) => entry.endsWith(ext)) && full !== COMPANY_FILE) {
       out.push(full)
     }
   }
@@ -112,6 +115,14 @@ for (const file of files) {
 
   lines.forEach((line, i) => {
     const at = `${rel}:${i + 1}`
+
+    // Comment lines are not rendered, so a placeholder or a retired
+    // phrase quoted in one is documentation, not a statement to a
+    // customer. Skipping them keeps the gate's failures actionable;
+    // a gate that cries wolf gets the escape hatch switched on
+    // permanently, which is the only way it can actually fail.
+    const trimmed = line.trim()
+    if (trimmed.startsWith('//') || trimmed.startsWith('*') || trimmed.startsWith('/*')) return
 
     // A placeholder written out as a literal, bypassing COMPANY entirely.
     if (line.includes(MARKER)) {

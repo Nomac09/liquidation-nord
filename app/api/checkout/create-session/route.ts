@@ -7,6 +7,7 @@ import Order from '@/lib/schemas/Order'
 import User from '@/lib/schemas/User'
 import { stripe } from '@/lib/stripe'
 import { SHIPPING_METHODS, SHIPPING_LABELS, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
+import { COMPANY } from '@/lib/company'
 
 function isShippingMethod(value: unknown): value is ShippingMethod {
   return typeof value === 'string' && (SHIPPING_METHODS as readonly string[]).includes(value)
@@ -170,6 +171,7 @@ export async function POST(request: NextRequest) {
       customerName,
       customerPhone,
       userId: accountUserId,
+      cgvVersionDate: COMPANY.cgvVersionDate,
     })
 
     return NextResponse.json({ clientSecret: session.client_secret })

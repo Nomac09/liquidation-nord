@@ -1,5 +1,8 @@
 import { Resend } from 'resend'
 import { BRAND_NAME } from '@/lib/brand'
+import { COMPANY, PRICE_NOTICE, formatHeadOffice, isPlaceholder } from '@/lib/company'
+import { computeVat, formatAmount } from '@/lib/vat'
+import { SHIPPING_LABELS, type ShippingMethod } from '@/lib/shipping'
 
 // Lazily constructed — importing this module must not throw in
 // environments (build, tests) where RESEND_API_KEY isn't set yet.
@@ -110,4 +113,187 @@ export async function sendNewArrivalNotifications(
   }
 
   return { sent, errors }
+}
+
+// ---------------------------------------------------------------------
+// Order confirmation
+// ---------------------------------------------------------------------
+
+export interface OrderForEmail {
+  orderId: string
+  createdAt: Date | string
+  items: { name: string; price: number; quantity: number }[]
+  shippingMethod: ShippingMethod
+  shippingCost: number
+  shippingDetails?: {
+    line1?: string
+    line2?: string
+    postalCode?: string
+    city?: string
+    country?: string
+  } | null
+  customerEmail: string
+  customerName?: string
+  /** The CGV version the buyer accepted, pinned at checkout. */
+  cgvVersionDate?: string
+}
+
+function esc(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function formatOrderDate(value: Date | string): string {
+  const d = value instanceof Date ? value : new Date(value)
+  return d.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })
+}
+
+/**
+ * The confirmation a buyer gets once Stripe reports the payment as paid.
+ *
+ * This is NOT an invoice: there is no sequential number and no PDF (see
+ * docs/PHASE1_AUDIT.md §12). It is the art. L221-13 written confirmation
+ * of the contract, which is why it carries the seller's identity, the
+ * TTC/HT/TVA split, the delivery terms actually chosen, and the
+ * withdrawal rights. Everything in it is derived from the stored order,
+ * never recomputed from the live catalogue, so a price change after the
+ * sale cannot rewrite what the customer was told they paid.
+ */
+export async function sendOrderConfirmation(order: OrderForEmail) {
+  const site = siteUrl()
+
+  const vat = computeVat([
+    ...order.items.map((i) => ({
+      label: i.quantity > 1 ? `${i.name} × ${i.quantity}` : i.name,
+      ttc: i.price * i.quantity,
+    })),
+    ...(order.shippingCost > 0
+      ? [{ label: `Livraison : ${SHIPPING_LABELS[order.shippingMethod]}`, ttc: order.shippingCost }]
+      : []),
+  ])
+
+  const itemRows = vat.lines
+    .map(
+      (l) => `
+        <tr>
+          <td style="padding:10px 0;border-bottom:1px solid #e7e5df;color:#22221f;">${esc(l.label)}</td>
+          <td style="padding:10px 0;border-bottom:1px solid #e7e5df;text-align:right;white-space:nowrap;color:#22221f;">${formatAmount(l.ttc)}</td>
+        </tr>`
+    )
+    .join('')
+
+  const isPickup = order.shippingMethod === 'pickup'
+  const address = order.shippingDetails
+  const deliveryBlock = isPickup
+    ? `
+      <p style="margin:0 0 6px;font-weight:600;color:#22221f;">Retrait à l'entrepôt</p>
+      <p style="margin:0;color:#57564f;line-height:1.6;">
+        ${esc(COMPANY.pickup.label)}<br />
+        ${esc(formatHeadOffice())}<br />
+        ${esc(COMPANY.pickup.hours)}
+      </p>
+      <p style="margin:10px 0 0;color:#57564f;line-height:1.6;">
+        Écrivez-nous à <a href="mailto:${COMPANY.email}" style="color:#3f6b54;">${COMPANY.email}</a>
+        pour convenir d'un créneau. Pensez au coffre ou à la remorque pour les pièces volumineuses.
+      </p>`
+    : `
+      <p style="margin:0 0 6px;font-weight:600;color:#22221f;">${esc(SHIPPING_LABELS[order.shippingMethod])}</p>
+      <p style="margin:0;color:#57564f;line-height:1.6;">
+        ${address?.line1 ? esc(address.line1) + '<br />' : ''}
+        ${address?.line2 ? esc(address.line2) + '<br />' : ''}
+        ${esc([address?.postalCode, address?.city].filter(Boolean).join(' '))}
+      </p>
+      <p style="margin:10px 0 0;color:#57564f;line-height:1.6;">
+        Vous recevrez le numéro de suivi par email dès la prise en charge par le transporteur.
+      </p>`
+
+  // Only state a version when there is a real one. A confirmation that
+  // cites "[À COMPLÉTER]" as the CGV in force is worse than one that
+  // simply links the page.
+  const cgvLine =
+    order.cgvVersionDate && !isPlaceholder(order.cgvVersionDate)
+      ? `Conditions générales de vente en vigueur au ${esc(order.cgvVersionDate)} :
+         <a href="${site}/cgv" style="color:#3f6b54;">les consulter</a>.`
+      : `<a href="${site}/cgv" style="color:#3f6b54;">Conditions générales de vente</a>.`
+
+  const html = `
+  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#22221f;">
+    <p style="margin:0 0 4px;font-size:22px;font-weight:600;">${BRAND_NAME}</p>
+    <h1 style="margin:0 0 4px;font-size:20px;font-weight:600;">Votre commande est confirmée</h1>
+    <p style="margin:0 0 24px;color:#57564f;">
+      Merci${order.customerName ? ` ${esc(order.customerName.split(' ')[0])}` : ''}, votre paiement a bien été reçu.
+    </p>
+
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <tr>
+        <td style="padding:0 0 4px;color:#57564f;">Commande nº</td>
+        <td style="padding:0 0 4px;text-align:right;font-weight:600;">${esc(order.orderId)}</td>
+      </tr>
+      <tr>
+        <td style="padding:0 0 16px;color:#57564f;">Date</td>
+        <td style="padding:0 0 16px;text-align:right;">${formatOrderDate(order.createdAt)}</td>
+      </tr>
+    </table>
+
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <thead>
+        <tr>
+          <th style="padding:0 0 8px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#8a887f;font-weight:600;">Détail</th>
+          <th style="padding:0 0 8px;text-align:right;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#8a887f;font-weight:600;">Montant TTC</th>
+        </tr>
+      </thead>
+      <tbody>${itemRows}</tbody>
+      <tfoot>
+        <tr>
+          <td style="padding:12px 0 2px;color:#57564f;">Total HT</td>
+          <td style="padding:12px 0 2px;text-align:right;white-space:nowrap;">${formatAmount(vat.totalHT)}</td>
+        </tr>
+        <tr>
+          <td style="padding:2px 0;color:#57564f;">TVA ${vat.rateLabel}</td>
+          <td style="padding:2px 0;text-align:right;white-space:nowrap;">${formatAmount(vat.totalVat)}</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 0 0;border-top:2px solid #22221f;font-weight:600;font-size:16px;">Total TTC</td>
+          <td style="padding:10px 0 0;border-top:2px solid #22221f;text-align:right;white-space:nowrap;font-weight:600;font-size:16px;">${formatAmount(vat.totalTTC)}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div style="margin:28px 0 0;padding:16px;background:#f4f3ef;border-radius:8px;font-size:14px;">
+      ${deliveryBlock}
+    </div>
+
+    <div style="margin:24px 0 0;font-size:13px;color:#57564f;line-height:1.7;">
+      <p style="margin:0 0 6px;font-weight:600;color:#22221f;">Droit de rétractation</p>
+      <p style="margin:0;">
+        Vous disposez de 14 jours à compter de la réception de votre commande, retrait à l'entrepôt
+        compris, pour vous rétracter sans avoir à vous justifier. Les frais de renvoi sont à votre
+        charge. Le formulaire et la marche à suivre sont sur
+        <a href="${site}/retractation" style="color:#3f6b54;">la page Rétractation</a>.
+      </p>
+      <p style="margin:10px 0 0;">${cgvLine}</p>
+    </div>
+
+    <div style="margin:28px 0 0;padding-top:16px;border-top:1px solid #e7e5df;font-size:12px;color:#8a887f;line-height:1.7;">
+      <p style="margin:0;">
+        ${esc(COMPANY.tradeName)}, marque exploitée par ${esc(COMPANY.legalName)}<br />
+        ${esc(COMPANY.legalForm)}, ${esc(COMPANY.rcs)}<br />
+        SIREN ${esc(COMPANY.siren)} · TVA intracommunautaire ${esc(COMPANY.vatNumber)}<br />
+        Siège social : ${esc(formatHeadOffice({ withCountry: true }))}<br />
+        <a href="mailto:${COMPANY.email}" style="color:#8a887f;">${COMPANY.email}</a>
+      </p>
+      <p style="margin:10px 0 0;">${PRICE_NOTICE}</p>
+    </div>
+  </div>`
+
+  const { error } = await getClient().emails.send({
+    from: `${BRAND_NAME} <${FROM}>`,
+    to: order.customerEmail,
+    subject: `Commande ${order.orderId} confirmée`,
+    html,
+  })
+  if (error) throw new Error(`Resend: ${error.name} — ${error.message}`)
 }
