@@ -187,7 +187,14 @@ export default function TicketRow({ product }: { product: CatalogProduct }) {
 
       <div className="relative flex flex-col items-center justify-center gap-2 border-l border-hairline px-2.5 py-3 sm:px-4">
         <span className={sold ? 'opacity-60' : ''}>
-          <PriceMark price={product.salePrice} rrp={product.rrp} size="sm" />
+          <PriceMark
+            price={product.salePrice}
+            comparePrice={product.comparePrice}
+            comparePriceCheckedAt={product.comparePriceCheckedAt}
+            comparePriceSource={product.comparePriceSource}
+            discountPercent={product.discountPercent}
+            size="sm"
+          />
         </span>
         {sold ? (
           <span className="font-mono text-[10px] uppercase tracking-widest text-dust">

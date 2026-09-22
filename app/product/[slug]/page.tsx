@@ -33,7 +33,7 @@ export async function generateMetadata({
   if (!product) return {}
   const description =
     product.description?.slice(0, 155) ||
-    `${product.name} à ${product.salePrice} € au lieu de ${product.rrp} € — retrait gratuit à Bondues (59) ou livraison partout en France.`
+    `${product.name} à ${product.salePrice} € — retrait gratuit à Bondues (59) ou livraison partout en France.`
   return {
     title: product.name,
     description,
@@ -142,7 +142,14 @@ export default async function ProductPage({
             </div>
 
             <div className="mt-6 border-b border-hairline pb-6">
-              <PriceMark price={product.salePrice} rrp={product.rrp} size="lg" />
+              <PriceMark
+                price={product.salePrice}
+                comparePrice={product.comparePrice}
+                comparePriceCheckedAt={product.comparePriceCheckedAt}
+                comparePriceSource={product.comparePriceSource}
+                discountPercent={product.discountPercent}
+                size="lg"
+              />
             </div>
 
             <ConditionBadge inspected={!!product.inspected} note={product.conditionNote} />
