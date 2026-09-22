@@ -155,6 +155,13 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     enum: ['S', 'M', 'L', 'XL']
   },
+  // A human's manual call, set by `npm run set-size`. Always wins over
+  // the computed sizeClass above — for the article the cascade keeps
+  // getting wrong, rather than fighting the classifier's rules for it.
+  sizeClassOverride: {
+    type: String,
+    enum: ['S', 'M', 'L', 'XL']
+  },
   slug: {
     type: String,
     required: true,

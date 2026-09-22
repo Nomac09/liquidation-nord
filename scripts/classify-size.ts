@@ -4,14 +4,15 @@
  *   npm run classify-size -- --dry-run   # writes docs/SIZE_CLASS_DRY_RUN.md only
  *   npm run classify-size -- --apply     # also writes sizeClass to the database
  *
- * See lib/sizeClassifier.ts for the four-rule cascade (supplier data,
- * name-parsed measurements, French keyword dictionary, "à vérifier").
+ * See lib/sizeClassifier.ts for the cascade: a manual sizeClassOverride
+ * (set with `npm run set-size`) always wins first, then supplier data,
+ * name-parsed measurements, a French keyword dictionary, or "à vérifier".
  *
  * Nothing is written to the database without --apply, dry-run flag or
  * not. --apply only ever sets `sizeClass` on articles the cascade
- * actually resolved; an "à vérifier" article is left alone rather than
- * written with no class, so it stays visibly unclassified until a human
- * fills in its weight or dimensions and the script is run again.
+ * actually resolved on its own; an "à vérifier" article is left alone
+ * rather than written with no class, and an overridden article is left
+ * alone too, since sizeClassOverride is already the authoritative value.
  *
  * Flags:
  *   --apply     write sizeClass to the database. Without it, nothing is saved.
@@ -128,7 +129,7 @@ async function main() {
   await mongoose.connect(uri)
 
   const query = Product.find({ status: { $in: ['sellable', 'sold'] } })
-    .select('internalRef name weight dimensions')
+    .select('internalRef name weight dimensions sizeClassOverride')
     .sort({ createdAt: -1 })
   if (LIMIT > 0) query.limit(LIMIT)
   const products = await query.lean()
@@ -137,7 +138,12 @@ async function main() {
   const writes: { _id: unknown; sizeClass: 'S' | 'M' | 'L' | 'XL' }[] = []
 
   for (const p of products as unknown as Record<string, any>[]) {
-    const classification = classifyProductSize({ name: p.name, weight: p.weight, dimensions: p.dimensions })
+    const classification = classifyProductSize({
+      name: p.name,
+      weight: p.weight,
+      dimensions: p.dimensions,
+      sizeClassOverride: p.sizeClassOverride,
+    })
     const shipping = shippingFor(classification)
 
     rows.push({
@@ -154,7 +160,9 @@ async function main() {
       returnCostLabel: shipping.returnCostLabel,
     })
 
-    if (classification.sizeClass !== 'à vérifier') {
+    // An override is already authoritative in sizeClassOverride; writing
+    // it into sizeClass too would just be a second copy of the same call.
+    if (classification.sizeClass !== 'à vérifier' && classification.rule !== 'override') {
       writes.push({ _id: p._id, sizeClass: classification.sizeClass })
     }
   }
@@ -177,6 +185,7 @@ async function main() {
 }
 
 const RULE_LABEL: Record<SizeClassification['rule'], string> = {
+  override: 'forcé manuellement',
   'supplier-data': 'données fournisseur',
   'name-parsed': 'nom du produit',
   keyword: 'mot-clé',
@@ -229,6 +238,21 @@ function report(rows: Row[]) {
   lines.push(`| Via nom du produit | ${byRule['name-parsed'] || 0} |`)
   lines.push(`| Via mot-clé | ${byRule['keyword'] || 0} |`)
   lines.push('')
+
+  if (previousClasses.size > 0) {
+    const previousByClass = new Map<string, number>()
+    previousClasses.forEach((cls) => {
+      previousByClass.set(cls, (previousByClass.get(cls) || 0) + 1)
+    })
+    lines.push('## Comparaison avant / après')
+    lines.push('')
+    lines.push('| Classe | Avant | Après |')
+    lines.push('|---|---:|---:|')
+    for (const cls of ['S', 'M', 'L', 'XL', 'à vérifier']) {
+      lines.push(`| ${cls} | ${previousByClass.get(cls) || 0} | ${byClass[cls] || 0} |`)
+    }
+    lines.push('')
+  }
 
   lines.push('## Tableau')
   lines.push('')

@@ -72,15 +72,19 @@ describe('classifyProductSize', () => {
     expect(result.sizeClass).toBe('XL')
   })
 
-  it('rule (b): falls back to parsing the name when supplier data is absent or zero', () => {
+  it('rule (b/c): with no weight at all, a foldable item with no keyword floor falls through to the keyword dictionary', () => {
     const result = classifyProductSize({
       name: 'vidaXL Toile de rechange pour auvent Beige 380 x 295 cm',
       weight: 0,
       dimensions: '',
     })
-    expect(result.rule).toBe('name-parsed')
-    expect(result.dimsCm).toEqual([380, 295])
-    expect(result.sizeClass).toBe('XL')
+    // "toile" is foldable but has no floor of its own, so with zero weight
+    // there's nothing to classify from there; "auvent" (L) in the keyword
+    // dictionary picks it up instead. The unfolded 380x295 is never used.
+    expect(result.rule).toBe('keyword')
+    expect(result.matchedKeyword).toBe('auvent')
+    expect(result.dimsCm).toBeNull()
+    expect(result.sizeClass).toBe('L')
   })
 
   it('rule (c): falls back to the keyword dictionary when nothing is measurable', () => {
@@ -96,17 +100,65 @@ describe('classifyProductSize', () => {
     expect(result.sizeClass).toBe('à vérifier')
   })
 
-  it('falls back to name-parsed dimensions when supplier weight has no package dimensions, for a non-foldable item', () => {
+  it('weight alone decides flat-pack furniture — name dimensions describe the assembled piece, not the box', () => {
     const result = classifyProductSize({
       name: 'vidaXL Lit surélevé de jardin gris 119,5x82,5x78 cm bois',
       weight: 12,
       dimensions: '',
     })
     expect(result.rule).toBe('supplier-data')
-    expect(result.dimsCm).toEqual([119.5, 82.5, 78])
-    // Longest side 119.5 cm and sum 280 cm both push this to XL even
-    // though 12 kg alone would only be M.
+    expect(result.dimsCm).toBeNull()
+    // 12 kg alone is M; the assembled 119.5x82.5x78 cm bed frame is not
+    // the size of the flat-pack box it actually ships in.
+    expect(result.sizeClass).toBe('M')
+  })
+
+  it('trusts name dimensions for the rigid-near-real-size allowlist (e.g. a dôme de piscine)', () => {
+    const result = classifyProductSize({ name: 'vidaXL Dôme de piscine 559x275 cm', weight: 41.85, dimensions: '' })
+    expect(result.rule).toBe('supplier-data')
+    expect(result.dimsCm).toEqual([559, 275])
     expect(result.sizeClass).toBe('XL')
+  })
+
+  it('excludes "pied de parasol" from the parasol allowlist entry', () => {
+    const result = classifyProductSize({
+      name: 'vidaXL Pied de parasol Noir 40x40x40 cm Béton',
+      weight: 5,
+      dimensions: '',
+    })
+    expect(result.dimsCm).toBeNull()
+    // 5 kg alone is S; the 40x40x40 cm base is not used since it's excluded.
+    expect(result.sizeClass).toBe('S')
+  })
+
+  it('uses name dimensions for a real parasol (not a base)', () => {
+    const result = classifyProductSize({
+      name: 'vidaXL Parasol rectangulaire avec mât 200x300 cm',
+      weight: 8,
+      dimensions: '',
+    })
+    expect(result.dimsCm).toEqual([200, 300])
+    expect(result.sizeClass).toBe('XL')
+  })
+
+  it('a manual override always wins', () => {
+    const result = classifyProductSize({
+      name: 'vidaXL Coussin de sol gris',
+      weight: 1,
+      sizeClassOverride: 'XL',
+    })
+    expect(result.rule).toBe('override')
+    expect(result.sizeClass).toBe('XL')
+  })
+
+  it('newly added foldable keywords (rideau, moustiquaire...) no longer use their unfolded name dimensions', () => {
+    const result = classifyProductSize({
+      name: 'vidaXL Rideaux occultants avec crochets 2 pcs Beige 140x245 cm',
+      weight: 0.72,
+      dimensions: '',
+    })
+    expect(result.dimsCm).toBeNull()
+    expect(result.sizeClass).toBe('S')
   })
 
   it('ignores name dimensions for a foldable/fabric item — they describe the unfolded product, not the parcel', () => {

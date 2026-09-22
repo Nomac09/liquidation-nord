@@ -2,34 +2,46 @@
 // XL — for warehouse packing and for deciding whether an article can
 // realistically travel by Mondial Relay at all.
 //
-// Four rules, tried in order, the first that has real data wins:
+// Weight is the primary signal for everything. Most of this catalogue is
+// vidaXL flat-pack furniture: the dimensions written into the product
+// name describe the assembled or unfolded product, not the box it ships
+// in, so they do not push a class up by default. They are only trusted
+// for a short allowlist of rigid items that genuinely ship near their
+// stated size (a parasol, a paddling-pool dome, a trailer...) — see
+// RIGID_NEAR_REAL_SIZE — and for real package dimensions the supplier
+// sheet itself provides, which are trusted regardless of category.
 //
-//   (a) supplier data   — the product's own `weight` and `dimensions`
-//       fields, when present and non-zero.
-//   (b) name-parsed      — dimensions or a weight written into the
-//       product name itself ("450x300 cm", "60 x 50,5 x 8 cm", "45 kg").
-//   (c) keyword          — a French keyword dictionary matched against
+// A manual override always wins over all of this: see sizeClassOverride.
+//
+// Absent an override, the cascade is:
+//
+//   (a) supplier data     — real package dimensions from the product's
+//       own `dimensions` field, or, lacking those, its `weight` combined
+//       with the name-dimensions allowlist / foldable-keyword floor below.
+//   (b) name-parsed        — a weight and/or dimensions written into the
+//       product name itself ("450x300 cm", "60 x 50,5 x 8 cm", "45 kg"),
+//       used the same way, for products with no supplier weight at all.
+//   (c) keyword            — a French keyword dictionary matched against
 //       the name, for articles that carry no measurement anywhere.
-//   (d) unknown          — none of the above found anything; flagged
+//   (d) unknown            — none of the above found anything; flagged
 //       "à vérifier" rather than guessed.
 //
-// Whenever a weight and/or dimensions are known, the class is the worse
-// (larger) of what the weight alone implies and what the longest single
-// dimension and the summed dimensions imply — a long, light item (a
-// parasol pole, a length of fencing) must not be waved into a relay
-// parcel just because it weighs nothing.
+// Whenever both a weight and a *trusted* set of dimensions are known, the
+// class is the worse (larger) of what the weight alone implies and what
+// the longest single dimension and the summed dimensions imply — a long,
+// light item (a parasol pole, a length of fencing) must not be waved into
+// a relay parcel just because it weighs nothing.
 //
-// Exception: when the supplier gives a weight but no package dimensions,
-// the name's dimensions are used as a stand-in for the package's — EXCEPT
-// for foldable/rollable fabric articles (tissu, toile, tente, tapis,
-// housse, bâche...), whose name states the size of the unfolded product,
-// not the folded parcel. Those are classified by weight plus a fixed
-// keyword floor instead (see FOLDABLE_MIN_CLASS below).
+// Foldable/rollable fabric articles (tissu, toile, tente, tapis, housse,
+// rideau, store, moustiquaire, bâche...) never get name dimensions at
+// all, trusted or not: their name states the size of the unfolded
+// product, not the folded parcel. Those are classified by weight plus a
+// fixed keyword floor instead (see FOLDABLE_MIN_CLASS).
 
 import { RELAY_MAX_KG, RELAY_MAX_LONGEST_SIDE_CM, RELAY_MAX_SUM_DIMENSIONS_CM } from './shipping'
 
 export type SizeClass = 'S' | 'M' | 'L' | 'XL'
-export type SizeRule = 'supplier-data' | 'name-parsed' | 'keyword' | 'unknown'
+export type SizeRule = 'override' | 'supplier-data' | 'name-parsed' | 'keyword' | 'unknown'
 
 const CLASS_ORDER: SizeClass[] = ['S', 'M', 'L', 'XL']
 
@@ -121,6 +133,15 @@ const FOLDABLE_FABRIC_KEYWORDS = [
   'tapis',
   'housse',
   'couverture de piscine',
+  'rideau',
+  'store',
+  'voilage',
+  'moustiquaire',
+  'écran de balcon',
+  'écran de porte',
+  'brise-vue',
+  'brise vue',
+  'canisse',
 ]
 
 function isFoldableFabric(name: string): boolean {
@@ -148,6 +169,107 @@ function foldableFloor(name: string): { rank: number; phrase: string | null } {
     }
   }
   return best ? { rank: best.rank, phrase: best.phrase } : { rank: 0, phrase: null }
+}
+
+// Rigid items that genuinely ship at (or close to) the size the name
+// states — unlike flat-pack furniture, which ships as a much smaller box
+// than the assembled piece. Only these get their name dimensions used
+// for the longest-side/sum check when the supplier gives no package
+// dimensions of its own. "pied de parasol" is excluded from "parasol": a
+// parasol base ships as a compact, heavy block, not at the parasol's own
+// span.
+interface RigidRule {
+  include: string
+  exclude?: string
+}
+const RIGID_NEAR_REAL_SIZE: RigidRule[] = [
+  { include: 'parasol', exclude: 'pied de parasol' },
+  { include: 'dôme de piscine' },
+  { include: 'dome de piscine' },
+  { include: 'remorque' },
+  { include: 'arceau de tente de réception' },
+  { include: 'arceau de tente de reception' },
+  { include: 'structure de tente de réception' },
+  { include: 'structure de tente de reception' },
+  { include: 'abri' },
+  { include: 'serre' },
+  { include: 'jardinière en bois massif' },
+  { include: 'jardiniere en bois massif' },
+  { include: 'bac en bois massif' },
+  { include: 'canapé' },
+  { include: 'canape' },
+  { include: 'fauteuil' },
+  { include: 'salon de jardin' },
+  { include: 'chaise longue' },
+  { include: 'transat' },
+  { include: 'matelas' },
+]
+
+function isRigidNearRealSize(name: string): boolean {
+  const normalized = name.toLowerCase()
+  return RIGID_NEAR_REAL_SIZE.some(({ include, exclude }) => {
+    if (!normalized.includes(include)) return false
+    if (exclude && normalized.includes(exclude)) return false
+    return true
+  })
+}
+
+/**
+ * Weight is always the base signal. Name dimensions are folded in only
+ * for the foldable-keyword floor or the rigid-near-real-size allowlist;
+ * everything else is weight alone. Returns null when there is truly
+ * nothing to go on (no weight, not foldable with a floor, not rigid).
+ */
+function classifyFromWeightAndName(
+  weightKg: number | null,
+  name: string,
+  rule: SizeRule
+): SizeClassification | null {
+  if (isFoldableFabric(name)) {
+    const floor = foldableFloor(name)
+    if (weightKg === null && floor.rank === 0) return null
+    const weightRank = weightKg !== null ? rankFromWeight(weightKg) : 0
+    const rank = Math.max(weightRank, floor.rank)
+    return {
+      sizeClass: CLASS_ORDER[rank],
+      rule,
+      weightKg,
+      dimsCm: null,
+      matchedKeyword: floor.phrase,
+      detail: floor.phrase
+        ? `poids + plancher mot-clé « ${floor.phrase} » (article pliable/enroulable)`
+        : 'poids seul (article pliable/enroulable, dimensions du nom ignorées)',
+    }
+  }
+
+  if (isRigidNearRealSize(name)) {
+    const dims = parseDimensionsCm(name)
+    if (dims !== null || weightKg !== null) {
+      return {
+        sizeClass: classifyFromMeasurements(weightKg, dims),
+        rule,
+        weightKg,
+        dimsCm: dims,
+        matchedKeyword: null,
+        detail: dims
+          ? 'poids + dimensions du nom (article rigide proche de sa taille réelle)'
+          : 'poids seul (article rigide, aucune dimension dans le nom)',
+      }
+    }
+  }
+
+  if (weightKg !== null) {
+    return {
+      sizeClass: CLASS_ORDER[rankFromWeight(weightKg)],
+      rule,
+      weightKg,
+      dimsCm: null,
+      matchedKeyword: null,
+      detail: 'poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit)',
+    }
+  }
+
+  return null
 }
 
 interface KeywordGroup {
@@ -192,67 +314,52 @@ export interface ProductForSizeClassification {
   name: string
   weight?: number | null
   dimensions?: string | null
+  /** A human's manual call. Always wins when set. */
+  sizeClassOverride?: SizeClass | null
 }
 
 export function classifyProductSize(p: ProductForSizeClassification): SizeClassification {
-  const supplierWeight = p.weight && p.weight > 0 ? p.weight : null
-  const supplierDims = p.dimensions ? parseDimensionsCm(p.dimensions) : null
-
-  if (supplierWeight !== null || supplierDims !== null) {
-    // Supplier package dimensions exist — trust them as-is, fabric or not.
-    if (supplierDims !== null) {
-      return {
-        sizeClass: classifyFromMeasurements(supplierWeight, supplierDims),
-        rule: 'supplier-data',
-        weightKg: supplierWeight,
-        dimsCm: supplierDims,
-        matchedKeyword: null,
-        detail: null,
-      }
-    }
-
-    // Weight only, no package dimensions. A foldable/fabric item's name
-    // describes the unfolded product, not the parcel, so name dimensions
-    // are never used for these — weight plus a keyword floor instead.
-    if (supplierWeight !== null && isFoldableFabric(p.name)) {
-      const floor = foldableFloor(p.name)
-      const rank = Math.max(rankFromWeight(supplierWeight), floor.rank)
-      return {
-        sizeClass: CLASS_ORDER[rank],
-        rule: 'supplier-data',
-        weightKg: supplierWeight,
-        dimsCm: null,
-        matchedKeyword: floor.phrase,
-        detail: floor.phrase
-          ? `poids + plancher mot-clé « ${floor.phrase} » (article pliable/enroulable)`
-          : 'poids seul (article pliable/enroulable, dimensions du nom ignorées)',
-      }
-    }
-
-    // Not a foldable item: the name's dimensions are a reasonable stand-in
-    // for the package's, so use them for the longest-side/sum check.
-    const nameDimsFallback = supplierWeight !== null ? parseDimensionsCm(p.name) : null
+  if (p.sizeClassOverride) {
     return {
-      sizeClass: classifyFromMeasurements(supplierWeight, nameDimsFallback),
-      rule: 'supplier-data',
-      weightKg: supplierWeight,
-      dimsCm: nameDimsFallback,
+      sizeClass: p.sizeClassOverride,
+      rule: 'override',
+      weightKg: null,
+      dimsCm: null,
       matchedKeyword: null,
-      detail: nameDimsFallback ? 'poids fournisseur + dimensions du nom (secours)' : null,
+      detail: 'sizeClassOverride',
     }
   }
 
-  const nameDims = parseDimensionsCm(p.name)
-  const nameWeight = parseWeightKg(p.name)
-  if (nameDims !== null || nameWeight !== null) {
+  const supplierWeight = p.weight && p.weight > 0 ? p.weight : null
+  const supplierDims = p.dimensions ? parseDimensionsCm(p.dimensions) : null
+
+  // Real package dimensions from the supplier sheet — trusted as-is,
+  // whatever the category.
+  if (supplierDims !== null) {
     return {
-      sizeClass: classifyFromMeasurements(nameWeight, nameDims),
-      rule: 'name-parsed',
-      weightKg: nameWeight,
-      dimsCm: nameDims,
+      sizeClass: classifyFromMeasurements(supplierWeight, supplierDims),
+      rule: 'supplier-data',
+      weightKg: supplierWeight,
+      dimsCm: supplierDims,
       matchedKeyword: null,
       detail: null,
     }
+  }
+
+  if (supplierWeight !== null) {
+    const result = classifyFromWeightAndName(supplierWeight, p.name, 'supplier-data')
+    if (result) return result
+  }
+
+  const nameWeight = supplierWeight === null ? parseWeightKg(p.name) : null
+  if (nameWeight !== null) {
+    const result = classifyFromWeightAndName(nameWeight, p.name, 'name-parsed')
+    if (result) return result
+  }
+
+  if (supplierWeight === null && nameWeight === null) {
+    const result = classifyFromWeightAndName(null, p.name, 'name-parsed')
+    if (result) return result
   }
 
   const keyword = classifyByKeyword(p.name)
