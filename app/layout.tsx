@@ -12,6 +12,7 @@ import StockManifest from '@/components/StockManifest'
 import FilterBar from '@/components/FilterBar'
 import { getCategoryCounts } from '@/lib/catalog'
 import { BRAND_NAME } from '@/lib/brand'
+import { hasPublishedGuides } from '@/lib/guides'
 
 const mono = IBM_Plex_Mono({
   subsets: ['latin'],
@@ -63,13 +64,17 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const counts = await getCategoryCounts()
+  // Computed here, in the one server component that already wraps the
+  // header, so Header itself stays a client component without needing to
+  // read the filesystem.
+  const showGuides = hasPublishedGuides()
 
   return (
     <html lang="fr" className={`${mono.variable} ${serif.variable} ${karla.variable}`}>
       <body className="font-sans flex min-h-screen flex-col">
         <SessionProvider>
           <FavoritesHydrator />
-          <Header />
+          <Header showGuides={showGuides} />
           <div className="sticky top-[60px] z-30 sm:top-[65px] print:hidden">
             <StockManifest counts={counts} />
           </div>
