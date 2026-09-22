@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { BRAND_NAME } from '@/lib/brand'
+import { COMPANY } from '@/lib/company'
 
 export const metadata: Metadata = {
   title: 'Politique de cookies',
@@ -128,7 +129,7 @@ export default function CookiePolicyPage() {
         <p>
           Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d’un droit d’accès, de
           rectification et de suppression des données vous concernant, exerçable à tout moment auprès de{' '}
-          <a href="mailto:contact@souqify.fr" className="text-verdigris-deep hover:underline">contact@souqify.fr</a>.
+          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">{COMPANY.email}</a>.
           Vous pouvez aussi supprimer les cookies déjà déposés à tout moment depuis les réglages de votre
           navigateur — cela vous déconnectera de votre compte et videra votre panier.
         </p>

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check:legal": "node scripts/check-legal.mjs",
+    "prebuild": "npm run check:legal"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^6.8.0",

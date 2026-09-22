@@ -6,6 +6,7 @@ import connectDB from '@/lib/mongodb'
 import Order from '@/lib/schemas/Order'
 import { formatPrice } from '@/components/Sticker'
 import { resolveOrderStatus } from '@/lib/orderStatus'
+import { COMPANY } from '@/lib/company'
 
 export const dynamic = 'force-dynamic'
 
@@ -131,7 +132,7 @@ export default async function OrderDetailPage({
 
       <p className="mt-6 text-center text-xs text-dust">
         Une question sur cette commande ?{' '}
-        <a href="mailto:contact@souqify.fr" className="text-verdigris-deep hover:underline">contact@souqify.fr</a>
+        <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">{COMPANY.email}</a>
       </p>
     </div>
   )

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { MailWarning } from 'lucide-react'
+import { COMPANY } from '@/lib/company'
 
 export default function EmailVerificationBanner({ className = '' }: { className?: string }) {
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
@@ -34,7 +35,7 @@ export default function EmailVerificationBanner({ className = '' }: { className?
         )}
         {state === 'error' && (
           <p className="mt-1 text-xs">
-            L’envoi a échoué — réessayez dans une minute, ou écrivez-nous à contact@souqify.fr.
+            L’envoi a échoué, réessayez dans une minute, ou écrivez-nous à {COMPANY.email}.
           </p>
         )}
       </div>

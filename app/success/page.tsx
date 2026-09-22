@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { ArrowRight, CheckCircle2, Loader2 } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { formatPrice } from '@/components/Sticker'
+import { COMPANY } from '@/lib/company'
 
 interface OrderDetails {
   orderId: string
@@ -56,8 +57,8 @@ function SuccessContent() {
         <p className="mt-2 text-dust">
           Si vous venez de payer, vous recevrez l’email de confirmation dans
           quelques minutes. Toujours rien ? Écrivez-nous à{' '}
-          <a href="mailto:contact@souqify.fr" className="text-verdigris-deep hover:underline">
-            contact@souqify.fr
+          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">
+            {COMPANY.email}
           </a>.
         </p>
         <Link href="/" className="mt-6 inline-block font-semibold text-verdigris-deep hover:underline">
