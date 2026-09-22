@@ -51,6 +51,10 @@ export default function CookieNotice() {
             navigation.{' '}
             <Link href="/politique-cookies" className="font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink">
               En savoir plus
+            </Link>{' '}
+            ·{' '}
+            <Link href="/politique-confidentialite" className="font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink">
+              Confidentialité
             </Link>
           </p>
         ) : (
@@ -60,6 +64,10 @@ export default function CookieNotice() {
             identifiant. Aucun cookie publicitaire ou de traçage.{' '}
             <Link href="/politique-cookies" className="font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink">
               En savoir plus
+            </Link>{' '}
+            ·{' '}
+            <Link href="/politique-confidentialite" className="font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink">
+              Confidentialité
             </Link>
           </p>
         )}

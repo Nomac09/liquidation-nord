@@ -12,17 +12,13 @@ import ManageCookiesButton from '@/components/ManageCookiesButton'
 
 // The statutory links, in the order the spec fixes them.
 //
-// "Confidentialité" is missing on purpose. It belongs here, pointing at
-// /politique-confidentialite, but that page is deliberately not written
-// in this phase: it needs genuinely new legal text rather than a
-// rearrangement of the cookie table (docs/PHASE1_AUDIT.md §4.1 lists the
-// eleven mandatory items it is missing). Linking it now would put a 404
-// in the footer of every page, and re-labelling the cookie policy as a
-// privacy policy would be the same misstatement in a nicer font. It goes
-// in the moment the page exists.
+// "Confidentialité" sat out Phase 1 because the page did not exist and a
+// footer link to a 404 is worse than a missing one. It exists now, as its
+// own document rather than the cookie table under a new name.
 const LEGAL_LINKS = [
   { href: '/mentions-legales', label: 'Mentions légales' },
   { href: '/cgv', label: 'CGV' },
+  { href: '/politique-confidentialite', label: 'Confidentialité' },
   { href: '/politique-cookies', label: 'Cookies' },
   { href: '/transparence-affiliation', label: 'Transparence & affiliation' },
   { href: '/retractation', label: 'Rétractation' },

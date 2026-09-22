@@ -35,6 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/retractation',
     '/transparence-affiliation',
     '/politique-cookies',
+    '/politique-confidentialite',
   ].map((path) => ({
     url: `${SITE_URL}${path}`,
     changeFrequency: 'yearly',

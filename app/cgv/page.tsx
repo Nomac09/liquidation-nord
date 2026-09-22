@@ -273,8 +273,14 @@ export default function CGVPage() {
         <p>
           Les données collectées lors de la commande sont traitées par {COMPANY.legalName} pour
           l’exécution de la commande et le respect des obligations légales. Leur traitement est
-          décrit dans la Politique de confidentialité, accessible depuis chaque page du Site.
-          L’Acheteur peut exercer ses droits à <MailLink />.
+          décrit dans la{' '}
+          <Link
+            href="/politique-confidentialite"
+            className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
+          >
+            politique de confidentialité
+          </Link>
+          , accessible depuis chaque page du Site. L’Acheteur peut exercer ses droits à <MailLink />.
         </p>
       </LegalSection>
 

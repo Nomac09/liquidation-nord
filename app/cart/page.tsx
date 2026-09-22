@@ -446,6 +446,13 @@ export default function CartPage() {
                 J’ai lu et j’accepte les{' '}
                 <Link href="/cgv" className="font-semibold text-verdigris-deep hover:underline">
                   conditions générales de vente
+                </Link>{' '}
+                et la{' '}
+                <Link
+                  href="/politique-confidentialite"
+                  className="font-semibold text-verdigris-deep hover:underline"
+                >
+                  politique de confidentialité
                 </Link>
                 .
               </span>
