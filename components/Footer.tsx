@@ -50,7 +50,8 @@ export default function Footer() {
             {BRAND_SYLLABLE_SPLIT.lead}<span className="text-[#9BB08D]">{BRAND_SYLLABLE_SPLIT.tail}</span>
           </p>
           <p className="mt-2 text-sm leading-relaxed text-[#F6F5F1]/70">
-            Jardin, mobilier, déco et jardinage vidaXL à Bondues (59), à moitié prix.
+            Surstocks et retours open-box à moitié prix, dont des articles vidaXL.
+            Retrait gratuit à Bondues (59).
           </p>
         </div>
 

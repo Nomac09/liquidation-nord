@@ -39,19 +39,25 @@ const karla = Karla({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.souqify.fr'),
+  // vidaXL stays as a descriptor of what is in the crates, but it is no
+  // longer the headline noun: Souqify is a liquidation shop that happens
+  // to carry a lot of vidaXL stock, not a vidaXL store, and the old title
+  // said the opposite to anyone reading a search result.
   title: {
-    default: `${BRAND_NAME} — Mobilier & déco vidaXL à −50 %`,
+    default: `${BRAND_NAME} : déstockage jardin, mobilier et déco à Bondues (59)`,
     template: `%s — ${BRAND_NAME}`,
   },
   description:
-    'Jardin, mobilier, déco et jardinage vidaXL à Bondues (59), à moitié prix. Retrait gratuit ou livraison partout en France.',
+    'Surstocks et retours open-box à moitié prix, dont des articles vidaXL. Retrait gratuit à Bondues (59) ou livraison partout en France.',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
     siteName: BRAND_NAME,
   },
   twitter: {
-    card: 'summary',
+    // Pairs with app/opengraph-image.tsx; a summary card would crop that
+    // 1200x630 image into a thumbnail.
+    card: 'summary_large_image',
   },
   robots: {
     index: true,
