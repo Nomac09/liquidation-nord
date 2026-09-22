@@ -3,6 +3,7 @@ import { BRAND_NAME } from '@/lib/brand'
 import { COMPANY, PRICE_NOTICE, formatHeadOffice, isPlaceholder } from '@/lib/company'
 import { computeVat, formatAmount } from '@/lib/vat'
 import { SHIPPING_LABELS, type ShippingMethod } from '@/lib/shipping'
+import { formatDeliveryDate } from '@/lib/delivery'
 
 // Lazily constructed — importing this module must not throw in
 // environments (build, tests) where RESEND_API_KEY isn't set yet.
@@ -136,6 +137,9 @@ export interface OrderForEmail {
   customerName?: string
   /** The CGV version the buyer accepted, pinned at checkout. */
   cgvVersionDate?: string
+  /** The delivery promise as made in the cart, pinned at checkout. */
+  deliveryPromise?: string
+  deliveryLatestDate?: Date | string | null
 }
 
 function esc(value: string): string {
@@ -187,6 +191,21 @@ export async function sendOrderConfirmation(order: OrderForEmail) {
 
   const isPickup = order.shippingMethod === 'pickup'
   const address = order.shippingDetails
+
+  // Art. L221-13: the confirmation restates the terms actually agreed,
+  // which includes the delay. Read from the order, never recomputed:
+  // this is what the buyer was shown before paying.
+  const latest = order.deliveryLatestDate ? new Date(order.deliveryLatestDate) : null
+  const promiseBlock = order.deliveryPromise
+    ? `
+      <p style="margin:10px 0 0;color:#57564f;line-height:1.6;">
+        ${esc(order.deliveryPromise)}${
+          latest && !Number.isNaN(latest.getTime())
+            ? `<br /><strong style="color:#22221f;">${isPickup ? 'Prêt' : 'Livré'} au plus tard le ${formatDeliveryDate(latest)}.</strong>`
+            : ''
+        }
+      </p>`
+    : ''
   const deliveryBlock = isPickup
     ? `
       <p style="margin:0 0 6px;font-weight:600;color:#22221f;">Retrait à l'entrepôt</p>
@@ -195,6 +214,7 @@ export async function sendOrderConfirmation(order: OrderForEmail) {
         ${esc(formatHeadOffice())}<br />
         ${esc(COMPANY.pickup.hours)}
       </p>
+      ${promiseBlock}
       <p style="margin:10px 0 0;color:#57564f;line-height:1.6;">
         Écrivez-nous à <a href="mailto:${COMPANY.email}" style="color:#3f6b54;">${COMPANY.email}</a>
         pour convenir d'un créneau. Pensez au coffre ou à la remorque pour les pièces volumineuses.
@@ -206,6 +226,7 @@ export async function sendOrderConfirmation(order: OrderForEmail) {
         ${address?.line2 ? esc(address.line2) + '<br />' : ''}
         ${esc([address?.postalCode, address?.city].filter(Boolean).join(' '))}
       </p>
+      ${promiseBlock}
       <p style="margin:10px 0 0;color:#57564f;line-height:1.6;">
         Vous recevrez le numéro de suivi par email dès la prise en charge par le transporteur.
       </p>`

@@ -137,6 +137,8 @@ async function sendConfirmationOnce(orderId: unknown) {
       customerEmail: claimed.customerEmail,
       customerName: claimed.customerName,
       cgvVersionDate: claimed.cgvVersionDate,
+      deliveryPromise: claimed.deliveryPromise,
+      deliveryLatestDate: claimed.deliveryLatestDate,
     })
   } catch (err) {
     console.error('webhook: order confirmation email failed', claimed.orderId, err)

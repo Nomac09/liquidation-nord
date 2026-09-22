@@ -13,6 +13,7 @@ import { Reveal } from '@/components/motion'
 import { CATEGORY_LABELS } from '@/lib/categories'
 import { BRAND_NAME } from '@/lib/brand'
 import ViewItemTracker from '@/components/analytics/ViewItemTracker'
+import DeliveryOptions from '@/components/DeliveryOptions'
 
 export const dynamic = 'force-dynamic'
 
@@ -155,6 +156,10 @@ export default async function ProductPage({
                 weight={product.weight}
               />
             </div>
+
+            <Reveal>
+              <DeliveryOptions weightKg={product.weight || 0} />
+            </Reveal>
 
             {product.description && (
               <Reveal>

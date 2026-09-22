@@ -13,6 +13,11 @@ const OrderSchema = new mongoose.Schema({
   shippingMethod: { type: String, enum: ['pickup', 'relay', 'home'] },
   shippingCost: Number,
   shippingDetails: Object,
+  // The delivery promise as it was made, pinned at checkout rather than
+  // recomputed at display time. The numbers in COMPANY.delivery will
+  // change; what this buyer was told before paying must not.
+  deliveryPromise: String,
+  deliveryLatestDate: Date,
   total: Number,
   stripeSessionId: { type: String, unique: true, sparse: true, index: true },
   paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },

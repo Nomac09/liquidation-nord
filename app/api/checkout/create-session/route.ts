@@ -8,6 +8,7 @@ import User from '@/lib/schemas/User'
 import { stripe } from '@/lib/stripe'
 import { SHIPPING_METHODS, SHIPPING_LABELS, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
 import { COMPANY } from '@/lib/company'
+import { getCartDeliveryPromise } from '@/lib/delivery'
 
 function isShippingMethod(value: unknown): value is ShippingMethod {
   return typeof value === 'string' && (SHIPPING_METHODS as readonly string[]).includes(value)
@@ -126,6 +127,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'shipping-unavailable', reason: quote.reason }, { status: 409 })
     }
 
+    // Computed once, here, and stored: this is the sentence the buyer was
+    // shown in the cart, and the one the confirmation email repeats.
+    // Recomputing it later would let a change to COMPANY.delivery rewrite
+    // what a past order was promised.
+    const promise = getCartDeliveryPromise(itemWeights, shippingMethod)
+
     const subtotal = items.reduce((sum, i) => sum + i.price, 0)
     const shippingCost = quote.cost
     const total = subtotal + shippingCost
@@ -174,6 +181,8 @@ export async function POST(request: NextRequest) {
       shippingMethod,
       shippingCost,
       shippingDetails: address,
+      deliveryPromise: promise.text,
+      deliveryLatestDate: promise.latestDate,
       total,
       stripeSessionId: session.id,
       paymentStatus: 'pending',

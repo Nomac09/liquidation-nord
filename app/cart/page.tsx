@@ -9,12 +9,18 @@ import { useCart } from '@/lib/cart'
 import { formatPrice } from '@/components/Sticker'
 import { SHIPPING_METHODS, SHIPPING_LABELS, RELAY_MAX_KG, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
 import { COMPANY, PRICE_NOTICE } from '@/lib/company'
+import { getCartDeliveryPromise, formatDeliveryDate } from '@/lib/delivery'
 import { trackEvent } from '@/lib/analytics'
 
+// What the mode is, in one line. The *delay* is not written here: it
+// comes from lib/delivery.ts, so the sentence under each option is the
+// same sentence the product page showed and the confirmation email will
+// repeat. The previous hardcoded "Cocolis · 3 à 5 jours" is exactly the
+// drift that cost this file its delay strings.
 const SHIPPING_DETAIL: Record<ShippingMethod, string> = {
-  pickup: 'Gratuit · Lun–Sam 9h–18h',
+  pickup: 'Gratuit, à Bondues (59)',
   relay: `Mondial Relay · max ${RELAY_MAX_KG} kg`,
-  home: 'Cocolis · 3 à 5 jours',
+  home: 'Cocolis',
 }
 
 const UNAVAILABLE_REASON: Record<string, string> = {
@@ -48,6 +54,18 @@ export default function CartPage() {
     () => getShippingQuotes(items.map((i) => i.weight || 0)),
     [items]
   )
+
+  // The delay the buyer is shown before paying, for the mode they picked.
+  // Same function as the product page and the confirmation email, so the
+  // three cannot disagree about what was promised.
+  const promises = useMemo(() => {
+    const weights = items.map((i) => i.weight || 0)
+    return {
+      pickup: getCartDeliveryPromise(weights, 'pickup'),
+      relay: getCartDeliveryPromise(weights, 'relay'),
+      home: getCartDeliveryPromise(weights, 'home'),
+    } as Record<ShippingMethod, ReturnType<typeof getCartDeliveryPromise>>
+  }, [items])
 
   // If the cart changes (an item added/removed) and that makes the
   // currently-selected method no longer available, fall back to pickup —
@@ -356,6 +374,11 @@ export default function CartPage() {
                         <span className="block text-xs text-dust">
                           {quote.available ? SHIPPING_DETAIL[key] : UNAVAILABLE_REASON[quote.reason!]}
                         </span>
+                        {quote.available && (
+                          <span className="mt-0.5 block text-xs leading-relaxed text-ink/70">
+                            {promises[key].text}
+                          </span>
+                        )}
                       </span>
                       {quote.available && (
                         <span className={`font-mono text-sm font-semibold ${active ? 'text-verdigris-deep' : 'text-ink'}`}>
@@ -384,6 +407,20 @@ export default function CartPage() {
                 </dd>
               </div>
             </dl>
+
+            {/*
+              Art. L111-1 : the delay has to be known before the order is
+              placed, not discovered in the confirmation email. This is
+              the exact sentence stored on the order and repeated in that
+              email, plus the date it resolves to.
+            */}
+            <p className="mt-4 rounded-lg bg-paper px-3.5 py-3 text-[13px] leading-relaxed text-ink/80">
+              {promises[shippingMethod].text}
+              <span className="mt-1 block text-dust">
+                {shippingMethod === 'pickup' ? 'Prêt' : 'Livré'} au plus tard le{' '}
+                {formatDeliveryDate(promises[shippingMethod].latestDate)}.
+              </span>
+            </p>
 
             {error && (
               <p role="alert" className="mt-3 rounded-lg bg-alert-pale px-3 py-2 text-sm text-alert">
