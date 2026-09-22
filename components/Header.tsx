@@ -23,7 +23,7 @@ export default function Header() {
   const reduce = useReducedMotion()
 
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-surface/92 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-hairline bg-surface/92 backdrop-blur print:hidden">
       <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="shrink-0 leading-none" aria-label={`${BRAND_SYLLABLE_SPLIT.lead}${BRAND_SYLLABLE_SPLIT.tail} — accueil`}>
           <span className="font-display text-xl italic tracking-tight text-ink">

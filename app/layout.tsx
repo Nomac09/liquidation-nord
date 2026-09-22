@@ -70,7 +70,7 @@ export default async function RootLayout({
         <SessionProvider>
           <FavoritesHydrator />
           <Header />
-          <div className="sticky top-[60px] z-30 sm:top-[65px]">
+          <div className="sticky top-[60px] z-30 sm:top-[65px] print:hidden">
             <StockManifest counts={counts} />
           </div>
           <FilterBar />

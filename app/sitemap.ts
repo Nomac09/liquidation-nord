@@ -28,10 +28,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
+  const legalEntries: MetadataRoute.Sitemap = [
+    '/mentions-legales',
+    '/cgv',
+    '/retractation',
+    '/transparence-affiliation',
+    '/politique-cookies',
+  ].map((path) => ({
+    url: `${SITE_URL}${path}`,
+    changeFrequency: 'yearly',
+    priority: 0.2,
+  }))
+
   return [
     { url: SITE_URL, changeFrequency: 'daily', priority: 1 },
-    { url: `${SITE_URL}/cgv`, changeFrequency: 'yearly', priority: 0.2 },
-    { url: `${SITE_URL}/politique-cookies`, changeFrequency: 'yearly', priority: 0.2 },
+    ...legalEntries,
     ...categoryEntries,
     ...productEntries,
   ]

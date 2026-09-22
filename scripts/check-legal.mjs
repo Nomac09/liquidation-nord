@@ -80,7 +80,14 @@ function walk(dir, out = []) {
 function placeholderPaths(source) {
   const paths = []
   const stack = []
-  for (const rawLine of source.split('\n')) {
+
+  // A long value is often wrapped onto its own line by the formatter
+  // ("key:\n  'value'"). Rejoin those before matching, or the key reads as
+  // having no value and its placeholder goes unnoticed, which is the one
+  // failure mode this whole script exists to prevent.
+  const joined = source.replace(/^(\s*\w+:)\s*\n\s*/gm, '$1 ')
+
+  for (const rawLine of joined.split('\n')) {
     const line = rawLine.trim()
     if (line.startsWith('//')) continue
 
@@ -104,6 +111,32 @@ function placeholderPaths(source) {
 
 const companySource = readFileSync(COMPANY_FILE, 'utf8')
 const pending = placeholderPaths(companySource)
+
+// Self-check: the parser is a regex over a TypeScript literal, so it can
+// drift from the file it reads. Count the markers directly (ignoring
+// comments, which explain the placeholders rather than being them) and
+// insist the parser found the same number. A gate that silently stops
+// seeing a value is indistinguishable from one that passes.
+const markerCount = companySource
+  .split('\n')
+  .filter((l) => {
+    const t = l.trim()
+    // Comments explain the placeholders rather than being them, and the
+    // PLACEHOLDER_MARKER constant is the definition of the marker itself.
+    return !t.startsWith('//') && !t.startsWith('*') && !/PLACEHOLDER_MARKER\s*=/.test(t)
+  })
+  .join('\n')
+  .split(MARKER).length - 1
+
+if (markerCount !== pending.length) {
+  console.error(
+    `\ncheck:legal ABORTED — parser found ${pending.length} placeholder key(s) in ` +
+      `lib/company.ts but the file contains ${markerCount} marker(s).\n` +
+      'The parser in scripts/check-legal.mjs is out of step with the file it reads;\n' +
+      'fix it rather than trusting this run.\n'
+  )
+  process.exit(2)
+}
 
 const files = PUBLIC_ROOTS.flatMap((d) => walk(join(ROOT, d)))
 const problems = []

@@ -97,7 +97,7 @@ function ManifestInner({ counts }: { counts: Record<string, number> }) {
 
 export default function StockManifest({ counts }: { counts: Record<string, number> }) {
   return (
-    <div className="border-b border-hairline">
+    <div className="border-b border-hairline print:hidden">
       <Suspense fallback={<div className="h-11 sm:h-12" />}>
         <ManifestInner counts={counts} />
       </Suspense>

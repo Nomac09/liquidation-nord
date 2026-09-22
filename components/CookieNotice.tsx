@@ -29,7 +29,7 @@ export default function CookieNotice() {
   return (
     <div
       role="status"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-surface/97 px-4 py-4 shadow-levee backdrop-blur"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-surface/97 px-4 py-4 shadow-levee backdrop-blur print:hidden"
     >
       <div className="container mx-auto flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-2xl text-sm leading-relaxed text-ink">

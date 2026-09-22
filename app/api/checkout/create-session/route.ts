@@ -51,6 +51,12 @@ export async function POST(request: NextRequest) {
     if (!customerName || !customerPhone || !address.line1 || !address.postalCode || !address.city) {
       return NextResponse.json({ error: 'missing-customer-details' }, { status: 400 })
     }
+    // Re-checked here, not just in the cart UI. A box that only the client
+    // enforces proves nothing about what the buyer agreed to, which is the
+    // one thing this record exists to establish.
+    if (body?.cgvAccepted !== true) {
+      return NextResponse.json({ error: 'cgv-not-accepted' }, { status: 400 })
+    }
 
     const requestedIds = Array.from(new Set(rawIds)).filter((id) => mongoose.Types.ObjectId.isValid(id))
     if (requestedIds.length !== rawIds.length) {
@@ -129,6 +135,9 @@ export async function POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       ui_mode: 'embedded_page',
+      // Explicit rather than the 'auto' default, so the embedded button's
+      // wording is ours to know rather than Stripe's to change.
+      submit_type: 'pay',
       redirect_on_completion: 'always',
       line_items: [
         ...items.map((i) => ({
@@ -172,6 +181,7 @@ export async function POST(request: NextRequest) {
       customerPhone,
       userId: accountUserId,
       cgvVersionDate: COMPANY.cgvVersionDate,
+      cgvAcceptedAt: new Date(),
     })
 
     return NextResponse.json({ clientSecret: session.client_secret })

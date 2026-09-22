@@ -82,7 +82,7 @@ function FilterBarInner() {
   }
 
   return (
-    <div className="border-b border-hairline bg-surface">
+    <div className="border-b border-hairline bg-surface print:hidden">
       <div className="container mx-auto flex flex-wrap items-center gap-2 px-4 py-2">
         <div ref={boxRef} className="relative min-w-[200px] flex-1">
           <Search aria-hidden className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-dust" />

@@ -63,6 +63,16 @@ export const COMPANY = {
   //   without it, the buyer does not owe that cost at all.
   pickupBookingDays: "[À COMPLÉTER]",
   bulkyReturnCost: "[À COMPLÉTER]",
+
+  // CGV art. 9. The encadré on the garantie légale de conformité and the
+  // garantie des vices cachés is imposed word for word by the annexe to
+  // décret n° 2022-424 du 25 mars 2022. It must be COPIED from Légifrance,
+  // never paraphrased and never written from memory: the wording is the
+  // legal obligation, and an approximation of it is a breach dressed up as
+  // compliance. Paste the official text here, in full, and the build gate
+  // will stop complaining.
+  legalGuaranteeBoxText:
+    "[À COMPLÉTER: encadré officiel, annexe du décret n° 2022-424 du 25 mars 2022, à copier depuis Légifrance sans le réécrire]",
 } as const
 
 /** True when a value is still an unfilled placeholder. */

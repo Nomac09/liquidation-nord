@@ -37,6 +37,10 @@ const OrderSchema = new mongoose.Schema({
   // revision of the CGV would silently rewrite the terms of every past
   // order, which is exactly what the record is meant to prevent.
   cgvVersionDate: String,
+  // When the buyer ticked the CGV box. Proof of acceptance: before this,
+  // no past order recorded that the terms had been accepted at all, let
+  // alone which version.
+  cgvAcceptedAt: Date,
   // Claim marker for the confirmation email, so a redelivered Stripe
   // event cannot send it twice. Set before the send and unset again if
   // the send fails, which leaves the next redelivery free to retry.

@@ -42,7 +42,7 @@ function formatFrom(price: number) {
 // the same way a magazine's colophon page holds its own ground.
 export default function Footer() {
   return (
-    <footer className="border-t border-[#383B33] bg-[#22221F] text-[#F6F5F1]">
+    <footer className="border-t border-[#383B33] bg-[#22221F] text-[#F6F5F1] print:hidden">
       <div className="container mx-auto grid gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-5">
         <div>
           <p className="font-display text-lg italic">

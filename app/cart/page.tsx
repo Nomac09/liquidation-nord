@@ -40,6 +40,7 @@ export default function CartPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [unavailable, setUnavailable] = useState<string[]>([])
+  const [cgvAccepted, setCgvAccepted] = useState(false)
   const router = useRouter()
 
   const quotes = useMemo(
@@ -89,6 +90,7 @@ export default function CartPage() {
         body: JSON.stringify({
           items: items.map((item) => ({ productId: item.productId })),
           shippingMethod,
+          cgvAccepted,
           customer: {
             name: customer.name,
             phone: customer.phone,
@@ -124,7 +126,12 @@ export default function CartPage() {
       }
 
       if (response.status === 400) {
-        setError('Merci de renseigner vos coordonnées complètes avant de payer.')
+        const data = await response.json().catch(() => null)
+        setError(
+          data?.error === 'cgv-not-accepted'
+            ? 'Merci d’accepter les conditions générales de vente avant de payer.'
+            : 'Merci de renseigner vos coordonnées complètes avant de payer.'
+        )
         setIsLoading(false)
         return
       }
@@ -377,16 +384,44 @@ export default function CartPage() {
               </p>
             )}
 
+            {/*
+              Unticked by default and never pre-ticked: a pre-accepted box
+              is not acceptance. The server re-checks this, because a
+              checkbox the client could simply not send would be proof of
+              nothing.
+            */}
+            <label className="mt-5 flex cursor-pointer items-start gap-2.5 text-sm text-ink">
+              <input
+                type="checkbox"
+                checked={cgvAccepted}
+                onChange={(e) => setCgvAccepted(e.target.checked)}
+                required
+                className="mt-0.5 h-4 w-4 shrink-0 accent-verdigris"
+              />
+              <span>
+                J’ai lu et j’accepte les{' '}
+                <Link href="/cgv" className="font-semibold text-verdigris-deep hover:underline">
+                  conditions générales de vente
+                </Link>
+                .
+              </span>
+            </label>
+
             <button
               onClick={handleCheckout}
-              disabled={isLoading || !customerComplete}
-              className="mt-5 w-full rounded-full bg-verdigris py-3.5 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
+              disabled={isLoading || !customerComplete || !cgvAccepted}
+              className="mt-4 w-full rounded-full bg-verdigris py-3.5 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
             >
-              {isLoading ? 'Redirection vers le paiement…' : 'Payer maintenant'}
+              {isLoading ? 'Redirection vers le paiement…' : 'Commander avec obligation de paiement'}
             </button>
             {!customerComplete && (
               <p className="mt-2 text-center text-xs text-dust">
                 Complétez vos coordonnées ci-dessus pour continuer.
+              </p>
+            )}
+            {customerComplete && !cgvAccepted && (
+              <p className="mt-2 text-center text-xs text-dust">
+                Acceptez les conditions générales de vente pour continuer.
               </p>
             )}
           </div>
