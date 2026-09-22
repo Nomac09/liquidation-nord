@@ -12,6 +12,7 @@ import ConditionBadge from '@/components/ConditionBadge'
 import { Reveal } from '@/components/motion'
 import { CATEGORY_LABELS } from '@/lib/categories'
 import { BRAND_NAME } from '@/lib/brand'
+import ViewItemTracker from '@/components/analytics/ViewItemTracker'
 
 export const dynamic = 'force-dynamic'
 
@@ -95,6 +96,12 @@ export default async function ProductPage({
   return (
     <div className="bg-stone">
       <div className="container mx-auto px-4 py-10 sm:py-14">
+        <ViewItemTracker
+          productId={product.internalRef || product.slug}
+          name={product.name}
+          category={product.category}
+          price={product.salePrice}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -13,6 +13,7 @@ import FilterBar from '@/components/FilterBar'
 import { getCategoryCounts } from '@/lib/catalog'
 import { BRAND_NAME } from '@/lib/brand'
 import { hasPublishedGuides } from '@/lib/guides'
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 
 const mono = IBM_Plex_Mono({
   subsets: ['latin'],
@@ -84,7 +85,9 @@ export default async function RootLayout({
           <CartDrawer />
           <CookieNotice />
         </SessionProvider>
+        {/* Cookieless and consent-exempt; stays regardless of the banner. */}
         <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   )

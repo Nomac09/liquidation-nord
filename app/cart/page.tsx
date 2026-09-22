@@ -9,6 +9,7 @@ import { useCart } from '@/lib/cart'
 import { formatPrice } from '@/components/Sticker'
 import { SHIPPING_METHODS, SHIPPING_LABELS, RELAY_MAX_KG, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
 import { COMPANY, PRICE_NOTICE } from '@/lib/company'
+import { trackEvent } from '@/lib/analytics'
 
 const SHIPPING_DETAIL: Record<ShippingMethod, string> = {
   pickup: 'Gratuit · Lun–Sam 9h–18h',
@@ -83,6 +84,12 @@ export default function CartPage() {
     setIsLoading(true)
     setError('')
     setUnavailable([])
+    trackEvent('begin_checkout', {
+      currency: 'EUR',
+      value: total() + quotes[shippingMethod].cost,
+      shipping_tier: shippingMethod,
+      items_count: items.length,
+    })
     try {
       const response = await fetch('/api/checkout/create-session', {
         method: 'POST',

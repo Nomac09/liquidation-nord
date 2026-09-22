@@ -8,6 +8,7 @@ import {
   formatHeadOffice,
 } from '@/lib/company'
 import { RELAY_BANDS, HOME_BANDS } from '@/lib/shipping'
+import ManageCookiesButton from '@/components/ManageCookiesButton'
 
 // The statutory links, in the order the spec fixes them.
 //
@@ -135,6 +136,10 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li className="flex items-center gap-3">
+                <span aria-hidden className="text-[#F6F5F1]/25">·</span>
+                <ManageCookiesButton />
+              </li>
             </ul>
           </nav>
           <p>{PRICE_NOTICE}</p>
