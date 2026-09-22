@@ -6,13 +6,22 @@
 // is only to split an amount the customer already agreed to into the HT
 // and TVA parts a French invoice has to state.
 //
-// The one subtlety worth spelling out: rounding each line's HT to the
-// cent and then summing those gives a total that will not, in general,
-// equal the TTC total minus a separately-rounded TVA total. Off-by-a-cent
+// The one subtlety worth spelling out: rounding each part independently
+// gives a total that will not, in general, reconcile. Off-by-a-cent
 // invoices are the classic way an accounts payable department bounces a
-// document. So the TVA figure is never computed independently: it is
-// defined as totalTTC - totalHT, which makes HT + TVA = TTC an identity
-// rather than something that happens to hold most of the time.
+// document. So exactly one of the three numbers is rounded, and the
+// others fall out of it:
+//
+//   vatAmount = round(ttc / 6)      i.e. round(ttc * rate / (1 + rate))
+//   amountHT  = ttc - vatAmount
+//
+// which makes HT + TVA = TTC an identity rather than something that
+// happens to hold most of the time. The rounded one is the TVA, not the
+// HT, because the TVA is the figure that gets declared: it is the one
+// that should be computed rather than inferred. (Phase 1 rounded the HT
+// instead. The two disagree by a cent on roughly one amount in six —
+// 12,09 € splits as 2,01 € one way and 2,02 € the other — so the
+// direction is a decision, not a detail.)
 
 import { COMPANY } from '@/lib/company'
 
@@ -36,6 +45,7 @@ export interface VatLineInput {
 
 export interface VatLine extends VatLineInput {
   ht: number
+  vat: number
 }
 
 export interface VatBreakdown {
@@ -47,9 +57,14 @@ export interface VatBreakdown {
   rateLabel: string
 }
 
-/** HT for a single TTC amount, rounded to the cent. */
+/** The TVA contained in a TTC amount. At 20 %, this is ttc / 6. */
+export function vatFromTtc(ttc: number): number {
+  return round2((ttc * VAT_RATE) / (1 + VAT_RATE))
+}
+
+/** HT for a single TTC amount. Always exactly ttc - vatFromTtc(ttc). */
 export function htFromTtc(ttc: number): number {
-  return round2(ttc / (1 + VAT_RATE))
+  return round2(ttc - vatFromTtc(ttc))
 }
 
 /**
@@ -62,14 +77,17 @@ export function computeVat(inputs: VatLineInput[]): VatBreakdown {
   const lines: VatLine[] = inputs.map((l) => ({
     ...l,
     ttc: round2(l.ttc),
+    vat: vatFromTtc(l.ttc),
     ht: htFromTtc(l.ttc),
   }))
 
   const totalTTC = round2(lines.reduce((sum, l) => sum + l.ttc, 0))
-  const totalHT = round2(lines.reduce((sum, l) => sum + l.ht, 0))
-  // Deliberately the remainder, not round2(totalHT * VAT_RATE). See the
-  // note at the top of this file.
-  const totalVat = round2(totalTTC - totalHT)
+  // Computed on the total, not summed from the lines: a French invoice
+  // declares one TVA figure per rate, and summing rounded line amounts
+  // would make it disagree with that figure by a cent or two. The lines
+  // are the breakdown; this is the number.
+  const totalVat = vatFromTtc(totalTTC)
+  const totalHT = round2(totalTTC - totalVat)
 
   return { lines, totalHT, totalVat, totalTTC, rate: VAT_RATE, rateLabel: VAT_RATE_LABEL }
 }

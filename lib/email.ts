@@ -167,8 +167,8 @@ function formatOrderDate(value: Date | string): string {
  * This is NOT an invoice: there is no sequential number and no PDF (see
  * docs/PHASE1_AUDIT.md §12). It is the art. L221-13 written confirmation
  * of the contract, which is why it carries the seller's identity, the
- * TTC/HT/TVA split, the delivery terms actually chosen, and the
- * withdrawal rights. Everything in it is derived from the stored order,
+ * amount charged and the TVA it contains, the delivery terms actually
+ * chosen, the return cost per article, and the withdrawal rights. Everything in it is derived from the stored order,
  * never recomputed from the live catalogue, so a price change after the
  * sale cannot rewrite what the customer was told they paid.
  */
@@ -257,6 +257,13 @@ export async function sendOrderConfirmation(order: OrderForEmail) {
          <a href="${site}/cgv" style="color:#3f6b54;">les consulter</a>.`
       : `<a href="${site}/cgv" style="color:#3f6b54;">Conditions générales de vente</a>.`
 
+  // One total, and it is the amount charged. The tax-exclusive line that
+  // used to sit above it is gone: this is a consumer sale, every price on
+  // the site is the price paid, and a buyer doing arithmetic across three
+  // rows to find what left their account is a buyer being made to work.
+  // The TVA is still stated, because art. 242 nonies A of the annexe II
+  // au CGI requires the amount of tax to appear, but as one small line
+  // under the total rather than as a column of its own.
   const html = `
   <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#22221f;">
     <p style="margin:0 0 4px;font-size:22px;font-weight:600;">${BRAND_NAME}</p>
@@ -280,22 +287,18 @@ export async function sendOrderConfirmation(order: OrderForEmail) {
       <thead>
         <tr>
           <th style="padding:0 0 8px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#8a887f;font-weight:600;">Détail</th>
-          <th style="padding:0 0 8px;text-align:right;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#8a887f;font-weight:600;">Montant TTC</th>
+          <th style="padding:0 0 8px;text-align:right;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#8a887f;font-weight:600;">Montant</th>
         </tr>
       </thead>
       <tbody>${itemRows}</tbody>
       <tfoot>
         <tr>
-          <td style="padding:12px 0 2px;color:#57564f;">Total HT</td>
-          <td style="padding:12px 0 2px;text-align:right;white-space:nowrap;">${formatAmount(vat.totalHT)}</td>
+          <td style="padding:12px 0 0;border-top:2px solid #22221f;font-weight:600;font-size:16px;">Total</td>
+          <td style="padding:12px 0 0;border-top:2px solid #22221f;text-align:right;white-space:nowrap;font-weight:600;font-size:16px;">${formatAmount(vat.totalTTC)}</td>
         </tr>
         <tr>
-          <td style="padding:2px 0;color:#57564f;">TVA ${vat.rateLabel}</td>
-          <td style="padding:2px 0;text-align:right;white-space:nowrap;">${formatAmount(vat.totalVat)}</td>
-        </tr>
-        <tr>
-          <td style="padding:10px 0 0;border-top:2px solid #22221f;font-weight:600;font-size:16px;">Total TTC</td>
-          <td style="padding:10px 0 0;border-top:2px solid #22221f;text-align:right;white-space:nowrap;font-weight:600;font-size:16px;">${formatAmount(vat.totalTTC)}</td>
+          <td style="padding:4px 0 0;color:#8a887f;font-size:12px;">dont TVA ${vat.rateLabel} : ${formatAmount(vat.totalVat)}</td>
+          <td></td>
         </tr>
       </tfoot>
     </table>

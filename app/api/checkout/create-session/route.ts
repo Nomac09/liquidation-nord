@@ -15,6 +15,7 @@ import {
 } from '@/lib/shipping'
 import { COMPANY } from '@/lib/company'
 import { getCartDeliveryPromise } from '@/lib/delivery'
+import { computeVat, VAT_RATE } from '@/lib/vat'
 
 function isShippingMethod(value: unknown): value is ShippingMethod {
   return typeof value === 'string' && (SHIPPING_METHODS as readonly string[]).includes(value)
@@ -146,6 +147,28 @@ export async function POST(request: NextRequest) {
     const subtotal = items.reduce((sum, i) => sum + i.price, 0)
     const shippingCost = quote.cost
     const total = subtotal + shippingCost
+
+    // The TVA breakdown, computed once and stored with the order. The
+    // customer never sees it; the accountant exports it from
+    // /api/admin/orders/vat-export.
+    const vatInputs = [
+      ...items.map((i) => ({ label: i.name, ttc: i.price * i.quantity, kind: 'item' as const })),
+      ...(shippingCost > 0
+        ? [{
+            label: `Livraison : ${SHIPPING_LABELS[shippingMethod]}`,
+            ttc: shippingCost,
+            kind: 'shipping' as const,
+          }]
+        : []),
+    ]
+    const vat = computeVat(vatInputs.map(({ label, ttc }) => ({ label, ttc })))
+    const vatLines = vat.lines.map((line, index) => ({
+      label: line.label,
+      kind: vatInputs[index].kind,
+      amountTTC: line.ttc,
+      vatAmount: line.vat,
+      amountHT: line.ht,
+    }))
     const orderId = generateOrderId()
     const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '')
 
@@ -194,6 +217,11 @@ export async function POST(request: NextRequest) {
       deliveryPromise: promise.text,
       deliveryLatestDate: promise.latestDate,
       total,
+      vatLines,
+      amountTTC: vat.totalTTC,
+      vatAmount: vat.totalVat,
+      amountHT: vat.totalHT,
+      vatRate: VAT_RATE,
       stripeSessionId: session.id,
       paymentStatus: 'pending',
       customerName,

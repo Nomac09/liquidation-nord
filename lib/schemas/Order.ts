@@ -27,6 +27,28 @@ const OrderSchema = new mongoose.Schema({
   deliveryPromise: String,
   deliveryLatestDate: Date,
   total: Number,
+
+  // The accountant's view, never shown to a customer.
+  //
+  // One line per taxable element, the delivery fee included as a line of
+  // its own, plus the order-level figures below. Stored rather than
+  // derived because a TVA return is filed against what was charged on the
+  // day, and lib/vat.ts's rounding direction is allowed to change; a
+  // recomputed history is not a history. `vatAmount` is the rounded
+  // figure and `amountHT` is the remainder, so the three always
+  // reconcile exactly.
+  vatLines: [{
+    label: String,
+    kind: { type: String, enum: ['item', 'shipping'] },
+    amountTTC: Number,
+    vatAmount: Number,
+    amountHT: Number
+  }],
+  amountTTC: Number,
+  vatAmount: Number,
+  amountHT: Number,
+  vatRate: Number,
+
   stripeSessionId: { type: String, unique: true, sparse: true, index: true },
   paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },
   // 'ready_for_pickup' only applies to shippingMethod: 'pickup'; the
