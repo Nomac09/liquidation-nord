@@ -6,6 +6,8 @@ import { useSearchParams } from 'next/navigation'
 import { ArrowRight, CheckCircle2, Loader2 } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { formatPrice } from '@/components/Sticker'
+import { COMPANY } from '@/lib/company'
+import { trackEvent } from '@/lib/analytics'
 
 interface OrderDetails {
   orderId: string
@@ -13,6 +15,25 @@ interface OrderDetails {
   total: number
   shippingMethod: string
   customerEmail: string
+}
+
+// Guarded by sessionStorage rather than a ref: a ref survives neither a
+// refresh of this page nor a back-navigation onto it, and either would
+// report the same sale to GA4 twice.
+function trackPurchaseOnce(order: OrderDetails) {
+  const key = `souqify-purchase-tracked-${order.orderId}`
+  try {
+    if (sessionStorage.getItem(key)) return
+    sessionStorage.setItem(key, '1')
+  } catch {
+    // Private mode: measuring twice beats not measuring at all.
+  }
+  trackEvent('purchase', {
+    transaction_id: order.orderId,
+    currency: 'EUR',
+    value: order.total,
+    items_count: order.items.length,
+  })
 }
 
 function SuccessContent() {
@@ -30,9 +51,12 @@ function SuccessContent() {
     }
     fetch(`/api/orders/by-session?session_id=${sessionId}`)
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: OrderDetails | null) => {
         setOrder(data)
-        if (data?.orderId) clearCart()
+        if (data?.orderId) {
+          clearCart()
+          trackPurchaseOnce(data)
+        }
       })
       .catch(() => {})
       .finally(() => setLoading(false))
@@ -56,8 +80,8 @@ function SuccessContent() {
         <p className="mt-2 text-dust">
           Si vous venez de payer, vous recevrez l’email de confirmation dans
           quelques minutes. Toujours rien ? Écrivez-nous à{' '}
-          <a href="mailto:contact@souqify.fr" className="text-verdigris-deep hover:underline">
-            contact@souqify.fr
+          <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep hover:underline">
+            {COMPANY.email}
           </a>.
         </p>
         <Link href="/" className="mt-6 inline-block font-semibold text-verdigris-deep hover:underline">

@@ -1,39 +1,72 @@
 import Link from 'next/link'
 import { BRAND_NAME, BRAND_SYLLABLE_SPLIT } from '@/lib/brand'
 import { CATEGORIES } from '@/lib/categories'
+import {
+  COMPANY,
+  PRICE_NOTICE,
+  VIDAXL_DISCLAIMER,
+  formatHeadOffice,
+} from '@/lib/company'
+import { RELAY_BANDS, HOME_BANDS } from '@/lib/shipping'
+import ManageCookiesButton from '@/components/ManageCookiesButton'
+
+// The statutory links, in the order the spec fixes them.
+//
+// "Confidentialité" sat out Phase 1 because the page did not exist and a
+// footer link to a 404 is worse than a missing one. It exists now, as its
+// own document rather than the cookie table under a new name.
+const LEGAL_LINKS = [
+  { href: '/mentions-legales', label: 'Mentions légales' },
+  { href: '/cgv', label: 'CGV' },
+  { href: '/politique-confidentialite', label: 'Confidentialité' },
+  { href: '/politique-cookies', label: 'Cookies' },
+  { href: '/transparence-affiliation', label: 'Transparence & affiliation' },
+  { href: '/retractation', label: 'Rétractation' },
+]
+
+// "à partir de", not a flat price: both carriers are weight-banded in
+// lib/shipping.ts, and quoting only the cheapest band as if it were the
+// price contradicts the checkout two clicks later, and CGV art. 4.
+const relayFrom = RELAY_BANDS[0].price
+const homeFrom = HOME_BANDS[0].price
+
+function formatFrom(price: number) {
+  return price.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
 
 // A fixed dark plinth, deliberately not theme-reactive — an anchor at the
 // foot of every page regardless of the visitor's light/dark preference,
 // the same way a magazine's colophon page holds its own ground.
 export default function Footer() {
   return (
-    <footer className="border-t border-[#383B33] bg-[#22221F] text-[#F6F5F1]">
+    <footer className="border-t border-[#383B33] bg-[#22221F] text-[#F6F5F1] print:hidden">
       <div className="container mx-auto grid gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-5">
         <div>
           <p className="font-display text-lg italic">
             {BRAND_SYLLABLE_SPLIT.lead}<span className="text-[#9BB08D]">{BRAND_SYLLABLE_SPLIT.tail}</span>
           </p>
           <p className="mt-2 text-sm leading-relaxed text-[#F6F5F1]/70">
-            Jardin, mobilier, déco et jardinage vidaXL à Bondues (59), à moitié prix.
+            Surstocks et retours open-box à moitié prix, dont des articles vidaXL.
+            Retrait gratuit à Bondues (59).
           </p>
         </div>
 
         <div>
           <p className="font-mono text-micro uppercase tracking-widest text-[#F6F5F1]/50">Entrepôt</p>
           <address className="mt-3 text-sm not-italic leading-relaxed text-[#F6F5F1]/85">
-            Bondues (59910), Nord
+            {COMPANY.pickup.label}
             <br />
             Retrait gratuit sur rendez-vous
             <br />
-            Lun–Sam · 9h–18h
+            {COMPANY.pickup.hours}
           </address>
         </div>
 
         <div>
           <p className="font-mono text-micro uppercase tracking-widest text-[#F6F5F1]/50">Contact</p>
           <p className="mt-3 text-sm leading-relaxed text-[#F6F5F1]/85">
-            <a href="mailto:contact@souqify.fr" className="hover:text-[#F6F5F1]">
-              contact@souqify.fr
+            <a href={`mailto:${COMPANY.email}`} className="hover:text-[#F6F5F1]">
+              {COMPANY.email}
             </a>
           </p>
         </div>
@@ -41,9 +74,9 @@ export default function Footer() {
         <div>
           <p className="font-mono text-micro uppercase tracking-widest text-[#F6F5F1]/50">Livraison</p>
           <ul className="mt-3 space-y-1.5 text-sm text-[#F6F5F1]/85">
-            <li>Retrait entrepôt — gratuit</li>
-            <li>Point relais Mondial Relay — 29,99 €</li>
-            <li>À domicile par Cocolis — 79,99 €</li>
+            <li>Retrait entrepôt, gratuit</li>
+            <li>Point relais Mondial Relay, à partir de {formatFrom(relayFrom)} €</li>
+            <li>À domicile par Cocolis, à partir de {formatFrom(homeFrom)} €</li>
           </ul>
         </div>
 
@@ -63,6 +96,11 @@ export default function Footer() {
               </li>
             ))}
             <li>
+              <Link href="/guides" className="text-[#F6F5F1]/85 hover:text-[#F6F5F1]">
+                Guides
+              </Link>
+            </li>
+            <li>
               <Link href="/cart" className="text-[#F6F5F1]/85 hover:text-[#F6F5F1]">
                 Mon panier
               </Link>
@@ -71,18 +109,38 @@ export default function Footer() {
         </div>
       </div>
 
+      {/*
+        The legal plinth. Set in normal case rather than the uppercase
+        mono the rest of the footer uses: a SIREN, a VAT number and a
+        postal address are read character by character when they are read
+        at all, and letter-spaced caps make that measurably harder.
+      */}
       <div className="border-t border-[#F6F5F1]/10">
-        <div className="container mx-auto flex flex-col items-start justify-between gap-2 px-4 py-4 font-mono text-[11px] uppercase tracking-widest text-[#F6F5F1]/50 sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} {BRAND_NAME} — souqify.fr</p>
-          <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <Link href="/cgv" className="hover:text-[#F6F5F1]">
-              CGV
-            </Link>
-            <Link href="/politique-cookies" className="hover:text-[#F6F5F1]">
-              Cookies & vie privée
-            </Link>
-            <span>Paiement sécurisé Stripe · TVA non applicable, art. 293 B du CGI</span>
+        <div className="container mx-auto space-y-2 px-4 py-5 text-[12px] leading-relaxed text-[#F6F5F1]/55">
+          <p>
+            © {new Date().getFullYear()} {BRAND_NAME}, marque exploitée par {COMPANY.legalName}
           </p>
+          <p>
+            SIREN {COMPANY.siren} · TVA {COMPANY.vatNumber} · Siège : {formatHeadOffice()}
+          </p>
+          <nav aria-label="Informations légales">
+            <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              {LEGAL_LINKS.map((link, i) => (
+                <li key={link.href} className="flex items-center gap-3">
+                  {i > 0 && <span aria-hidden className="text-[#F6F5F1]/25">·</span>}
+                  <Link href={link.href} className="hover:text-[#F6F5F1] hover:underline">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li className="flex items-center gap-3">
+                <span aria-hidden className="text-[#F6F5F1]/25">·</span>
+                <ManageCookiesButton />
+              </li>
+            </ul>
+          </nav>
+          <p>{PRICE_NOTICE}</p>
+          <p className="text-[#F6F5F1]/60">{VIDAXL_DISCLAIMER}</p>
         </div>
       </div>
     </footer>

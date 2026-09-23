@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js'
 import { ChevronLeft } from 'lucide-react'
 import { getStripe } from '@/lib/stripeClient'
+import { PRICE_NOTICE } from '@/lib/company'
 
 // Payment happens on-site now, not on a separate Stripe-branded page —
 // the cart already created the session and stashed its clientSecret here
@@ -54,7 +55,7 @@ export default function CheckoutPage() {
         </div>
 
         <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-widest text-dust">
-          Paiement traité par Stripe · TVA non applicable, art. 293 B du CGI
+          {PRICE_NOTICE}
         </p>
       </div>
     </div>

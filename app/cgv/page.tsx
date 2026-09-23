@@ -1,175 +1,323 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import LegalPage, { LegalSection } from '@/components/legal/LegalPage'
+import LegalGuaranteeBox from '@/components/legal/LegalGuaranteeBox'
+import WithdrawalForm from '@/components/legal/WithdrawalForm'
+import { COMPANY, VAT_RATE_LABEL, formatHeadOffice, formatPhone, phoneHref } from '@/lib/company'
 import { BRAND_NAME } from '@/lib/brand'
 
 export const metadata: Metadata = {
   title: 'Conditions générales de vente',
+  description: `Conditions de vente de ${BRAND_NAME} : produits de déstockage, prix TTC, livraison et retrait à Bondues, droit de rétractation de 14 jours et garanties légales.`,
+  alternates: { canonical: '/cgv' },
+  robots: { index: true, follow: true },
 }
 
-function Section({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
-}) {
+/**
+ * Légifrance permalinks, checked against the pages themselves rather than
+ * reconstructed from an article number: a link that silently points at
+ * the wrong article is worse than no link, because it reads as a citation.
+ *   L217-1  — LEGIARTI000044142587, Code de la consommation
+ *   L241-5  — LEGIARTI000044142730, Code de la consommation
+ *   art. 1641 — LEGIARTI000006441924, Code civil
+ */
+const LEGIFRANCE = {
+  L217_1: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000044142587',
+  L241_5: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000044142730',
+  CC_1641: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006441924',
+} as const
+
+function Legifrance({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-hairline py-8 first:border-t-0 first:pt-0">
-      <h2 className="font-display text-xl text-ink">{title}</h2>
-      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-ink/85">
-        {children}
-      </div>
-    </section>
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
+    >
+      {children}
+    </a>
+  )
+}
+
+function MailLink() {
+  return (
+    <a href={`mailto:${COMPANY.email}`} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
+      {COMPANY.email}
+    </a>
   )
 }
 
 export default function CGVPage() {
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12">
-      <p className="tag-label">Conditions générales de vente</p>
-      <h1 className="mt-2 font-display text-3xl tracking-tight text-ink">
-        Conditions générales de vente
-      </h1>
-      <p className="mt-3 text-sm text-dust">
-        En vigueur au {new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}.
-      </p>
-
-      <div className="mt-8 rounded-lg border border-hairline bg-alert-pale px-5 py-4 text-sm text-alert">
-        Brouillon de travail — à faire relire par un professionnel du droit
-        avant publication définitive. La dénomination sociale ci-dessous est
-        reprise du nom d’entreprise communiqué pour le compte Stripe
-        (« AutoWeb Commerce ») — à confirmer que c’est bien l’entité qui
-        exploite ce site avant publication.
-      </div>
-
-      <Section title="1. Objet">
+    <LegalPage
+      eyebrow="Conditions générales de vente"
+      title="Conditions générales de vente"
+      lastUpdated={COMPANY.cgvVersionDate}
+    >
+      <LegalSection title="Article 1. Identification du vendeur">
         <p>
-          Les présentes conditions générales de vente (CGV) régissent les
-          ventes réalisées sur le site {BRAND_NAME.toLowerCase()}, exploité
-          par AutoWeb Commerce, dont le siège social est situé au 2 Allée de
-          la Mannée, Apt 21, 59910 Bondues, immatriculée sous le numéro SIRET
-          10014846900016 (nº de TVA intracommunautaire FR44100148469). Toute
-          commande passée sur le site implique l’acceptation sans réserve
-          des présentes CGV.
-        </p>
-      </Section>
-
-      <Section title="2. Produits proposés">
-        <p>
-          Les produits proposés à la vente sont des articles de déstockage
-          (surstock, invendus, retours de type « open-box »), vendus à
-          l’unité et en stock limité — chaque référence n’existe qu’en un
-          seul exemplaire tant qu’elle reste en ligne.
+          Le site souqify.fr (ci-après « le Site ») est exploité sous la marque {BRAND_NAME} par{' '}
+          {COMPANY.legalName}, société par actions simplifiée au capital de {COMPANY.shareCapital},
+          immatriculée au {COMPANY.rcs}, SIRET {COMPANY.siret}, dont le siège social est situé{' '}
+          {formatHeadOffice({ withCountry: true })}, numéro de TVA intracommunautaire{' '}
+          {COMPANY.vatNumber} (ci-après « le Vendeur »).
         </p>
         <p>
-          Chaque article est contrôlé et filtré avant sa mise en ligne, et
-          proposé dans un état comme neuf. La fiche produit précise, le cas
-          échéant, toute particularité propre à l’exemplaire mis en vente
-          (accessoire manquant, léger défaut esthétique, etc.). Les photos
-          présentées sont contractuelles ; en cas de doute sur l’état d’un
-          article, l’acheteur est invité à contacter le vendeur avant de
+          Contact : <MailLink /> ·{' '}
+          <a href={phoneHref()} className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
+            {formatPhone()}
+          </a>{' '}
+          · courrier au siège social.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Article 2. Champ d’application">
+        <p>
+          Les présentes conditions générales de vente (CGV) s’appliquent à toute vente conclue sur le
+          Site entre le Vendeur et un acheteur agissant en qualité de consommateur (ci-après
+          « l’Acheteur »), pour une livraison ou un retrait en France métropolitaine. L’Acheteur
+          déclare avoir pris connaissance des CGV et les accepter avant de passer commande, par une
+          case à cocher lors de la validation de la commande. Les CGV applicables sont celles en
+          vigueur à la date de la commande.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Article 3. Produits">
+        <p>
+          Les produits proposés sont des articles de déstockage : surstocks, fins de série, invendus
+          et retours de type « open-box ». Sauf mention contraire, chaque article est vendu à l’unité
+          et n’existe qu’en un seul exemplaire.
+        </p>
+        <p>
+          Chaque article est contrôlé avant sa mise en ligne. La fiche produit décrit ses
+          caractéristiques essentielles et précise, le cas échéant, les particularités propres à
+          l’exemplaire vendu (emballage ouvert ou abîmé, accessoire manquant, défaut esthétique,
+          etc.). Les photographies illustrent l’article ; lorsqu’une particularité de l’exemplaire
+          est signalée, une photo de cette particularité est jointe dans la mesure du possible. En
+          cas de doute sur l’état d’un article, l’Acheteur peut contacter le Vendeur avant de
           commander.
         </p>
-      </Section>
+        <p>
+          Les offres sont valables dans la limite des stocks disponibles. Si un article devient
+          indisponible après la commande (vente simultanée d’un exemplaire unique), le Vendeur en
+          informe l’Acheteur sans délai et le rembourse intégralement dans un délai de 14 jours au
+          plus tard.
+        </p>
+      </LegalSection>
 
-      <Section title="3. Prix">
+      <LegalSection title="Article 4. Prix">
         <p>
-          Les prix sont indiqués en euros, toutes taxes comprises. La TVA
-          n’est pas applicable, conformément à l’article 293 B du Code
-          général des impôts. Les frais de livraison sont indiqués avant la
-          validation de la commande et s’ajoutent au prix des produits.
+          Les prix sont indiqués en euros, toutes taxes comprises (TTC), TVA française au taux de{' '}
+          {VAT_RATE_LABEL} incluse. Les frais de livraison sont indiqués avant la validation de la
+          commande et s’ajoutent au prix des produits.
         </p>
-      </Section>
+        {/*
+          Directive Omnibus, transposée à l'art. L112-1-1 : an announced
+          price reduction has to be measured against the lowest price the
+          *seller* charged in the preceding 30 days. Ours is not that: it
+          is a comparison with another retailer, so it is not a reduction
+          at all, and this paragraph is what stops the percentage on the
+          product page from being read as one.
+        */}
+        <p>
+          Lorsqu’un prix de comparaison est affiché, il s’agit du prix de vente constaté chez un
+          autre distributeur (par exemple vidaXL.fr) à la date indiquée sur la fiche produit. Le
+          pourcentage affiché exprime l’écart entre ce prix de comparaison et le prix {BRAND_NAME}.
+          Il ne s’agit pas d’une réduction par rapport à un prix antérieurement pratiqué par le
+          Vendeur.
+        </p>
+        <p>
+          Le Vendeur peut modifier ses prix à tout moment ; le prix facturé est celui affiché lors de
+          la validation de la commande.
+        </p>
+      </LegalSection>
 
-      <Section title="4. Commande et paiement">
+      <LegalSection title="Article 5. Commande">
         <p>
-          Les commandes sont passées directement sur le site. Le paiement
-          s’effectue en ligne, par carte bancaire, via la solution
-          sécurisée Stripe. La commande est considérée comme définitive
-          après confirmation du paiement.
+          L’Acheteur sélectionne les articles, choisit le mode de livraison ou de retrait, vérifie le
+          récapitulatif de sa commande et son prix total, puis accepte les CGV et valide la commande
+          par le bouton « Commander avec obligation de paiement » (ou formulation équivalente). La
+          vente est conclue à la confirmation du paiement. Un email de confirmation récapitulant la
+          commande et reprenant les présentes CGV (ou un lien durable vers celles-ci) est envoyé à
+          l’Acheteur.
         </p>
-      </Section>
+        <p>
+          Le Vendeur peut refuser une commande en cas de litige existant avec l’Acheteur ou de
+          suspicion de fraude.
+        </p>
+      </LegalSection>
 
-      <Section title="5. Livraison">
+      <LegalSection title="Article 6. Paiement">
         <p>
-          Trois modes de récupération sont proposés au choix : retrait
-          gratuit à l’entrepôt de Bondues (59910) sur rendez-vous, livraison
-          en point relais (Mondial Relay), ou livraison à domicile
-          (Cocolis). Le mode choisi et son coût sont indiqués avant le
-          paiement.
+          Le paiement s’effectue en ligne par carte bancaire via la solution sécurisée Stripe. Le
+          montant est débité lors de la validation de la commande. Le Vendeur n’a pas accès aux
+          données bancaires de l’Acheteur.
         </p>
-      </Section>
+      </LegalSection>
 
-      <Section title="6. Droit de rétractation">
+      <LegalSection title="Article 7. Livraison et retrait">
+        <p>Trois modes sont proposés :</p>
+        <ul className="list-disc space-y-1.5 pl-5">
+          <li>
+            retrait gratuit à l’entrepôt de Bondues (59910), sur rendez-vous, {COMPANY.pickup.hours} ;
+          </li>
+          <li>livraison en point relais Mondial Relay ;</li>
+          <li>livraison à domicile par Cocolis.</li>
+        </ul>
         <p>
-          Conformément aux articles L221-18 et suivants du Code de la
-          consommation, l’acheteur dispose d’un délai de 14 jours à compter
-          de la réception du produit pour exercer son droit de
-          rétractation, sans avoir à justifier de motif ni à payer de
-          pénalité. Les frais de retour sont à la charge de l’acheteur, sauf
-          disposition contraire précisée au moment de la commande.
+          Le délai applicable à chaque article et à chaque mode est indiqué sur la fiche produit et
+          rappelé avant le paiement, puis dans l’email de confirmation.
         </p>
         <p>
-          Pour exercer ce droit, l’acheteur notifie sa décision par écrit
-          (email) à l’adresse contact@souqify.fr. Le remboursement intervient
-          dans un délai de 14 jours à compter de la réception du produit
-          retourné, ou de la preuve de son expédition.
+          Le mode choisi, son coût et la date ou le délai de livraison sont indiqués avant la
+          validation de la commande. À défaut d’indication, la livraison intervient au plus tard 30
+          jours après la conclusion du contrat.
         </p>
-      </Section>
+        <p>
+          En cas de retard, l’Acheteur peut, après avoir enjoint le Vendeur par écrit de livrer dans
+          un délai supplémentaire raisonnable, résoudre le contrat si la livraison n’intervient pas
+          dans ce délai, conformément aux articles L216-2 et suivants du Code de la consommation. Il
+          est alors remboursé de la totalité des sommes versées au plus tard dans les 14 jours.
+        </p>
+        <p>
+          Le risque de perte ou d’endommagement des produits est transféré à l’Acheteur au moment où
+          il prend physiquement possession des produits, ou un tiers désigné par lui.
+        </p>
+        <p>
+          Il est recommandé à l’Acheteur de vérifier l’état du colis à la réception et de signaler
+          toute anomalie au transporteur et au Vendeur. Cette vérification ne prive pas l’Acheteur de
+          ses droits légaux.
+        </p>
+        <p>
+          En cas de retrait, l’Acheteur dispose de {COMPANY.delivery.pickup.bookingWindowDays} jours après la
+          confirmation de commande pour fixer un rendez-vous ; passé ce délai et après relance restée
+          sans réponse, le Vendeur peut annuler la commande et rembourser l’Acheteur.
+        </p>
+      </LegalSection>
 
-      <Section title="7. Garanties légales">
+      <LegalSection title="Article 8. Droit de rétractation">
         <p>
-          Tous les produits vendus bénéficient, indépendamment de leur état
-          annoncé, des garanties légales prévues par le Code civil et le
-          Code de la consommation : garantie légale de conformité (articles
-          L217-3 et suivants du Code de la consommation) et garantie contre
-          les vices cachés (articles 1641 et suivants du Code civil). Ces
-          garanties s’appliquent de plein droit et ne peuvent être écartées
-          par les présentes CGV.
+          <strong>8.1 Délai.</strong> L’Acheteur dispose d’un délai de 14 jours pour se rétracter,
+          sans motif ni pénalité. Ce délai court à compter de la prise de possession physique du bien
+          par l’Acheteur (y compris lors d’un retrait à l’entrepôt). Pour une commande de plusieurs
+          biens livrés séparément, il court à compter de la réception du dernier bien.
         </p>
         <p>
-          En cas de non-conformité ou de défaut non signalé sur la fiche
-          produit, l’acheteur peut contacter le vendeur pour obtenir une
-          réparation, un remplacement, ou un remboursement, selon les
-          modalités prévues par la loi.
+          <strong>8.2 Exercice.</strong> L’Acheteur notifie sa décision avant l’expiration du délai,
+          au moyen du formulaire de rétractation figurant en annexe (également disponible sur la page{' '}
+          <Link href="/retractation" className="text-verdigris-deep underline underline-offset-2 hover:text-ink">
+            /retractation
+          </Link>
+          ) ou de toute autre déclaration dénuée d’ambiguïté, par email à <MailLink /> ou par courrier
+          au siège social.
         </p>
-      </Section>
+        <p>
+          <strong>8.3 Retour du bien.</strong> L’Acheteur renvoie ou rapporte le bien au Vendeur au
+          plus tard 14 jours après avoir communiqué sa décision. Il peut également le rapporter à
+          l’entrepôt de Bondues sur rendez-vous. Les frais directs de renvoi sont à la charge de
+          l’Acheteur. Pour les articles volumineux qui ne peuvent normalement être renvoyés par la
+          poste, le coût estimé du renvoi est indiqué sur la fiche produit et dans l’email de
+          confirmation. L’Acheteur peut également rapporter l’article gratuitement à l’entrepôt de
+          Bondues sur rendez-vous.
+        </p>
+        <p>
+          <strong>8.4 Remboursement.</strong> Le Vendeur rembourse la totalité des sommes versées,
+          frais de livraison initiaux inclus (dans la limite du mode de livraison standard le moins
+          coûteux proposé), au plus tard 14 jours après avoir été informé de la décision de
+          rétractation. Le Vendeur peut différer le remboursement jusqu’à la récupération du bien ou
+          jusqu’à ce que l’Acheteur ait fourni une preuve de l’expédition du bien, la date retenue
+          étant celle du premier de ces faits. Le remboursement est effectué par le même moyen de
+          paiement que celui utilisé pour la commande.
+        </p>
+        <p>
+          <strong>8.5 Dépréciation.</strong> La responsabilité de l’Acheteur peut être engagée en cas
+          de dépréciation du bien résultant de manipulations autres que celles nécessaires pour
+          établir la nature, les caractéristiques et le bon fonctionnement du bien. L’état initial de
+          l’exemplaire décrit sur la fiche produit sert de référence.
+        </p>
+      </LegalSection>
 
-      <Section title="8. Responsabilité">
+      <LegalSection title="Article 9. Garanties légales">
         <p>
-          Le vendeur ne saurait être tenu responsable des dommages résultant
-          d’une mauvaise utilisation du produit acheté, ou d’un usage non
-          conforme à sa destination.
+          Tous les produits, y compris les articles de déstockage et open-box, bénéficient de plein
+          droit de la garantie légale de conformité (articles L217-1 et suivants du Code de la
+          consommation) et de la garantie légale des vices cachés (articles 1641 à 1649 du Code
+          civil). Les particularités de l’exemplaire expressément signalées sur la fiche produit
+          avant l’achat ne constituent pas un défaut de conformité.
         </p>
-      </Section>
+        <LegalGuaranteeBox />
+        <p className="text-sm text-dust">
+          Textes de référence sur Légifrance :{' '}
+          <Legifrance href={LEGIFRANCE.L217_1}>article L217-1 du Code de la consommation</Legifrance>
+          ,{' '}
+          <Legifrance href={LEGIFRANCE.L241_5}>article L241-5 du Code de la consommation</Legifrance>{' '}
+          et <Legifrance href={LEGIFRANCE.CC_1641}>article 1641 du Code civil</Legifrance>.
+        </p>
+        <p>
+          Pour mettre en œuvre une garantie, l’Acheteur contacte le Vendeur à <MailLink /> en
+          décrivant le défaut, si possible avec photos.
+        </p>
+      </LegalSection>
 
-      <Section title="9. Données personnelles">
+      <LegalSection title="Article 10. Responsabilité">
         <p>
-          Les informations collectées lors de la commande sont nécessaires
-          au traitement de celle-ci et sont destinées au vendeur. Elles ne
-          sont pas transmises à des tiers en dehors des prestataires
-          nécessaires à l’exécution de la commande (paiement, livraison).
-          Conformément à la réglementation applicable, l’acheteur dispose
-          d’un droit d’accès, de rectification et de suppression de ses
-          données, exerçable auprès de contact@souqify.fr, ou par courrier au
-          2 Allée de la Mannée, Apt 21, 59910 Bondues.
+          Le Vendeur n’est pas responsable des dommages résultant d’une utilisation du produit non
+          conforme à sa destination ou aux instructions du fabricant, ni de l’inexécution due à un
+          cas de force majeure. Cette clause ne limite en rien les garanties légales ni la
+          responsabilité du Vendeur envers un consommateur telle que prévue par la loi.
         </p>
-      </Section>
+      </LegalSection>
 
-      <Section title="10. Droit applicable et litiges">
+      <LegalSection title="Article 11. Données personnelles">
         <p>
-          Les présentes CGV sont soumises au droit français. En cas de
-          litige, l’acheteur peut recourir à une médiation de la
-          consommation ou saisir la juridiction compétente.
+          Les données collectées lors de la commande sont traitées par {COMPANY.legalName} pour
+          l’exécution de la commande et le respect des obligations légales. Leur traitement est
+          décrit dans la{' '}
+          <Link
+            href="/politique-confidentialite"
+            className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
+          >
+            politique de confidentialité
+          </Link>
+          , accessible depuis chaque page du Site. L’Acheteur peut exercer ses droits à <MailLink />.
         </p>
-      </Section>
+      </LegalSection>
 
-      <Section title="11. Contact">
+      <LegalSection title="Article 12. Réclamations et médiation">
         <p>
-          Pour toute question relative à une commande ou aux présentes CGV,
-          l’acheteur peut contacter le vendeur à l’adresse contact@souqify.fr,
-          ou par courrier au 2 Allée de la Mannée, Apt 21, 59910 Bondues.
+          Toute réclamation est adressée au service client à <MailLink />. En cas d’échec de la
+          réclamation écrite, l’Acheteur peut recourir gratuitement au médiateur de la consommation
+          dont relève le Vendeur : {COMPANY.mediator.name}, {COMPANY.mediator.address},{' '}
+          <a
+            href={COMPANY.mediator.website}
+            target="_blank"
+            rel="noreferrer"
+            className="text-verdigris-deep underline underline-offset-2 hover:text-ink"
+          >
+            {COMPANY.mediator.website.replace(/^https?:\/\//, '')}
+          </a>
+          .
         </p>
-      </Section>
-    </div>
+        <p>
+          Le consommateur peut saisir le médiateur en ligne sur son site internet ou par courrier à
+          l’adresse indiquée, après une réclamation écrite préalable restée sans réponse
+          satisfaisante auprès du Vendeur.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Article 13. Droit applicable">
+        <p>
+          Les présentes CGV sont soumises au droit français. À défaut de résolution amiable, le
+          litige est porté devant la juridiction compétente selon les règles de droit commun ; le
+          consommateur peut notamment saisir la juridiction du lieu où il demeurait au moment de la
+          conclusion du contrat ou de la survenance du fait dommageable.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Annexe. Formulaire de rétractation">
+        <WithdrawalForm />
+      </LegalSection>
+    </LegalPage>
   )
 }

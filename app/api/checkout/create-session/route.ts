@@ -6,7 +6,16 @@ import Product from '@/lib/schemas/Product'
 import Order from '@/lib/schemas/Order'
 import User from '@/lib/schemas/User'
 import { stripe } from '@/lib/stripe'
-import { SHIPPING_METHODS, SHIPPING_LABELS, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
+import {
+  SHIPPING_METHODS,
+  SHIPPING_LABELS,
+  getShippingQuotes,
+  getReturnCostEstimate,
+  type ShippingMethod,
+} from '@/lib/shipping'
+import { COMPANY } from '@/lib/company'
+import { getCartDeliveryPromise } from '@/lib/delivery'
+import { computeVat, VAT_RATE } from '@/lib/vat'
 
 function isShippingMethod(value: unknown): value is ShippingMethod {
   return typeof value === 'string' && (SHIPPING_METHODS as readonly string[]).includes(value)
@@ -49,6 +58,12 @@ export async function POST(request: NextRequest) {
     }
     if (!customerName || !customerPhone || !address.line1 || !address.postalCode || !address.city) {
       return NextResponse.json({ error: 'missing-customer-details' }, { status: 400 })
+    }
+    // Re-checked here, not just in the cart UI. A box that only the client
+    // enforces proves nothing about what the buyer agreed to, which is the
+    // one thing this record exists to establish.
+    if (body?.cgvAccepted !== true) {
+      return NextResponse.json({ error: 'cgv-not-accepted' }, { status: 400 })
     }
 
     const requestedIds = Array.from(new Set(rawIds)).filter((id) => mongoose.Types.ObjectId.isValid(id))
@@ -101,12 +116,16 @@ export async function POST(request: NextRequest) {
 
     const items = requestedIds.map((id) => {
       const p = byId.get(id)!
+      const weight = (p.weight as number) || 0
       return {
         productId: id,
         name: p.name as string,
         price: p.salePrice as number,
         quantity: 1,
         photo: (p.photos as string[] | undefined)?.[0] || '',
+        weight,
+        // The same sentence the product page showed, pinned on the order.
+        returnNote: getReturnCostEstimate({ weight }).label,
       }
     })
 
@@ -119,15 +138,46 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'shipping-unavailable', reason: quote.reason }, { status: 409 })
     }
 
+    // Computed once, here, and stored: this is the sentence the buyer was
+    // shown in the cart, and the one the confirmation email repeats.
+    // Recomputing it later would let a change to COMPANY.delivery rewrite
+    // what a past order was promised.
+    const promise = getCartDeliveryPromise(itemWeights, shippingMethod)
+
     const subtotal = items.reduce((sum, i) => sum + i.price, 0)
     const shippingCost = quote.cost
     const total = subtotal + shippingCost
+
+    // The TVA breakdown, computed once and stored with the order. The
+    // customer never sees it; the accountant exports it from
+    // /api/admin/orders/vat-export.
+    const vatInputs = [
+      ...items.map((i) => ({ label: i.name, ttc: i.price * i.quantity, kind: 'item' as const })),
+      ...(shippingCost > 0
+        ? [{
+            label: `Livraison : ${SHIPPING_LABELS[shippingMethod]}`,
+            ttc: shippingCost,
+            kind: 'shipping' as const,
+          }]
+        : []),
+    ]
+    const vat = computeVat(vatInputs.map(({ label, ttc }) => ({ label, ttc })))
+    const vatLines = vat.lines.map((line, index) => ({
+      label: line.label,
+      kind: vatInputs[index].kind,
+      amountTTC: line.ttc,
+      vatAmount: line.vat,
+      amountHT: line.ht,
+    }))
     const orderId = generateOrderId()
     const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '')
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       ui_mode: 'embedded_page',
+      // Explicit rather than the 'auto' default, so the embedded button's
+      // wording is ours to know rather than Stripe's to change.
+      submit_type: 'pay',
       redirect_on_completion: 'always',
       line_items: [
         ...items.map((i) => ({
@@ -164,12 +214,21 @@ export async function POST(request: NextRequest) {
       shippingMethod,
       shippingCost,
       shippingDetails: address,
+      deliveryPromise: promise.text,
+      deliveryLatestDate: promise.latestDate,
       total,
+      vatLines,
+      amountTTC: vat.totalTTC,
+      vatAmount: vat.totalVat,
+      amountHT: vat.totalHT,
+      vatRate: VAT_RATE,
       stripeSessionId: session.id,
       paymentStatus: 'pending',
       customerName,
       customerPhone,
       userId: accountUserId,
+      cgvVersionDate: COMPANY.cgvVersionDate,
+      cgvAcceptedAt: new Date(),
     })
 
     return NextResponse.json({ clientSecret: session.client_secret })

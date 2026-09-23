@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/schemas/Product'
 import { CATEGORIES } from '@/lib/categories'
+import { getAllGuides } from '@/lib/guides'
 
 const SITE_URL = 'https://www.souqify.fr'
 
@@ -28,10 +29,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
+  const legalEntries: MetadataRoute.Sitemap = [
+    '/mentions-legales',
+    '/cgv',
+    '/retractation',
+    '/transparence-affiliation',
+    '/politique-cookies',
+    '/politique-confidentialite',
+  ].map((path) => ({
+    url: `${SITE_URL}${path}`,
+    changeFrequency: 'yearly',
+    priority: 0.2,
+  }))
+
+  const guideEntries: MetadataRoute.Sitemap = getAllGuides().map((g) => ({
+    url: `${SITE_URL}/guides/${g.frontmatter.slug}`,
+    lastModified: new Date(g.frontmatter.updatedAt),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }))
+
   return [
     { url: SITE_URL, changeFrequency: 'daily', priority: 1 },
-    { url: `${SITE_URL}/cgv`, changeFrequency: 'yearly', priority: 0.2 },
-    { url: `${SITE_URL}/politique-cookies`, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${SITE_URL}/guides`, changeFrequency: 'weekly', priority: 0.7 },
+    ...guideEntries,
+    ...legalEntries,
     ...categoryEntries,
     ...productEntries,
   ]

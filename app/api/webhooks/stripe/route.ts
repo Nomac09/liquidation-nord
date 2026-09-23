@@ -4,6 +4,7 @@ import connectDB from '@/lib/mongodb'
 import Order from '@/lib/schemas/Order'
 import Product from '@/lib/schemas/Product'
 import { stripe } from '@/lib/stripe'
+import { sendOrderConfirmation } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   const signature = request.headers.get('stripe-signature')
@@ -71,22 +72,76 @@ async function markOrderPaid(session: Stripe.Checkout.Session) {
     console.error('webhook: no order for session', session.id)
     return
   }
+
   // Idempotent against event redelivery: once paid, re-running the
   // conditional updates would find products already flipped to 'sold'
   // and wrongly report them as conflicts.
-  if (order.paymentStatus === 'paid') return
+  if (order.paymentStatus !== 'paid') {
+    const conflicts: string[] = []
+    for (const item of order.items) {
+      const result = await Product.findOneAndUpdate(
+        { _id: item.productId, status: 'sellable' },
+        { status: 'sold', soldAt: new Date() }
+      )
+      if (!result) conflicts.push(item.productId)
+    }
 
-  const conflicts: string[] = []
-  for (const item of order.items) {
-    const result = await Product.findOneAndUpdate(
-      { _id: item.productId, status: 'sellable' },
-      { status: 'sold', soldAt: new Date() }
-    )
-    if (!result) conflicts.push(item.productId)
+    order.paymentStatus = 'paid'
+    order.customerEmail = session.customer_details?.email || session.customer_email || ''
+    if (conflicts.length > 0) order.soldConflicts = conflicts
+    await order.save()
   }
 
-  order.paymentStatus = 'paid'
-  order.customerEmail = session.customer_details?.email || session.customer_email || ''
-  if (conflicts.length > 0) order.soldConflicts = conflicts
-  await order.save()
+  // Deliberately outside the block above: a redelivered event for an
+  // already-paid order is the retry path for a confirmation that failed
+  // to send the first time. The claim below is what keeps that from
+  // becoming a duplicate.
+  await sendConfirmationOnce(order._id)
+}
+
+/**
+ * Sends the order confirmation at most once, ever.
+ *
+ * The claim is a conditional update, not a read-then-write: two Stripe
+ * events arriving concurrently (checkout.session.completed and an
+ * immediate redelivery) would both pass a naive `if (!sentAt)` check and
+ * both send. Only one of them can win findOneAndUpdate against
+ * `confirmationEmailSentAt: null`.
+ *
+ * If the send then fails, the marker is released so the next redelivery
+ * retries. The failure is logged and swallowed: a webhook that 500s
+ * because Resend was briefly down would have Stripe retry the whole
+ * handler, and the part that matters, marking the order paid and the
+ * stock sold, has already succeeded.
+ */
+async function sendConfirmationOnce(orderId: unknown) {
+  const claimed = await Order.findOneAndUpdate(
+    { _id: orderId, confirmationEmailSentAt: null },
+    { $set: { confirmationEmailSentAt: new Date() } },
+    { new: true }
+  )
+  if (!claimed) return
+  if (!claimed.customerEmail) {
+    console.error('webhook: order has no customer email, confirmation skipped', claimed.orderId)
+    return
+  }
+
+  try {
+    await sendOrderConfirmation({
+      orderId: claimed.orderId,
+      createdAt: claimed.createdAt,
+      items: claimed.items,
+      shippingMethod: claimed.shippingMethod,
+      shippingCost: claimed.shippingCost,
+      shippingDetails: claimed.shippingDetails,
+      customerEmail: claimed.customerEmail,
+      customerName: claimed.customerName,
+      cgvVersionDate: claimed.cgvVersionDate,
+      deliveryPromise: claimed.deliveryPromise,
+      deliveryLatestDate: claimed.deliveryLatestDate,
+    })
+  } catch (err) {
+    console.error('webhook: order confirmation email failed', claimed.orderId, err)
+    await Order.updateOne({ _id: orderId }, { $set: { confirmationEmailSentAt: null } })
+  }
 }

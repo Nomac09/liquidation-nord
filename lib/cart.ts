@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { trackEvent } from '@/lib/analytics'
 
 interface CartItem {
   productId: string
@@ -30,6 +31,15 @@ export const useCart = create<CartState>()(
         const items = get().items
         if (items.some((i) => i.productId === item.productId)) return
         set({ items: [...items, { ...item, quantity: 1 }] })
+        // Fired here rather than in the buttons, because there are two
+        // call sites (the product page and the grid row) and a third
+        // would silently go unmeasured.
+        trackEvent('add_to_cart', {
+          currency: 'EUR',
+          value: item.price,
+          item_id: item.productId,
+          item_name: item.name,
+        })
       },
       removeItem: (productId) => {
         set({ items: get().items.filter(i => i.productId !== productId) })

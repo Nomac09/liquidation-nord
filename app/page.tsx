@@ -31,8 +31,8 @@ export async function generateMetadata({
   if (category && CATEGORY_LABELS[category]) {
     const label = CATEGORY_LABELS[category]
     return {
-      title: `${label} — vidaXL à −50 %`,
-      description: `${label} vidaXL à Bondues (59), à moitié prix. Retrait gratuit ou livraison partout en France.`,
+      title: `${label} en déstockage à Bondues (59)`,
+      description: `${label} en surstock et retour open-box, à moitié prix. Retrait gratuit à Bondues (59) ou livraison partout en France.`,
       // No `alternates.canonical` here: Next's URL resolver collapses any
       // root-path URL ("/") down to the bare origin, silently dropping
       // the ?category= query string — a canonical that would wrongly

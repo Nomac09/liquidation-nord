@@ -5,6 +5,10 @@ export interface CatalogProduct {
   category: string
   rrp: number
   salePrice: number
+  comparePrice?: number
+  comparePriceSource?: string
+  comparePriceCheckedAt?: string
+  discountPercent?: number
   photos: string[]
   condition?: string
   slug: string

@@ -13,7 +13,7 @@
   --surface: #F6F5F1;
   --paper: #DDD9CE;
   --ink: #22221F;
-  --dust: #6E6C64;
+  --dust: #605E56;
   --hairline: #D3D0C8;
   --hairline-strong: #B9B5A9;
   --verdigris: #4B5A46;
@@ -46,7 +46,7 @@
 }
 :root[data-theme="light"] {
   --stone: #E8E7E2; --surface: #F6F5F1; --paper: #DDD9CE;
-  --ink: #22221F; --dust: #6E6C64;
+  --ink: #22221F; --dust: #605E56;
   --hairline: #D3D0C8; --hairline-strong: #B9B5A9;
   --verdigris: #4B5A46; --verdigris-deep: #37422F;
   --alert: #9B4A3F; --alert-pale: #F3E7E4;

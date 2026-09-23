@@ -8,11 +8,19 @@ import { AlertCircle, ArrowRight, ShoppingBag, Trash2 } from 'lucide-react'
 import { useCart } from '@/lib/cart'
 import { formatPrice } from '@/components/Sticker'
 import { SHIPPING_METHODS, SHIPPING_LABELS, RELAY_MAX_KG, getShippingQuotes, type ShippingMethod } from '@/lib/shipping'
+import { COMPANY, PRICE_NOTICE } from '@/lib/company'
+import { getCartDeliveryPromise, formatDeliveryDate } from '@/lib/delivery'
+import { trackEvent } from '@/lib/analytics'
 
+// What the mode is, in one line. The *delay* is not written here: it
+// comes from lib/delivery.ts, so the sentence under each option is the
+// same sentence the product page showed and the confirmation email will
+// repeat. The previous hardcoded "Cocolis · 3 à 5 jours" is exactly the
+// drift that cost this file its delay strings.
 const SHIPPING_DETAIL: Record<ShippingMethod, string> = {
-  pickup: 'Gratuit · Lun–Sam 9h–18h',
+  pickup: 'Gratuit, à Bondues (59)',
   relay: `Mondial Relay · max ${RELAY_MAX_KG} kg`,
-  home: 'Cocolis · 3 à 5 jours',
+  home: 'Cocolis',
 }
 
 const UNAVAILABLE_REASON: Record<string, string> = {
@@ -39,12 +47,25 @@ export default function CartPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [unavailable, setUnavailable] = useState<string[]>([])
+  const [cgvAccepted, setCgvAccepted] = useState(false)
   const router = useRouter()
 
   const quotes = useMemo(
     () => getShippingQuotes(items.map((i) => i.weight || 0)),
     [items]
   )
+
+  // The delay the buyer is shown before paying, for the mode they picked.
+  // Same function as the product page and the confirmation email, so the
+  // three cannot disagree about what was promised.
+  const promises = useMemo(() => {
+    const weights = items.map((i) => i.weight || 0)
+    return {
+      pickup: getCartDeliveryPromise(weights, 'pickup'),
+      relay: getCartDeliveryPromise(weights, 'relay'),
+      home: getCartDeliveryPromise(weights, 'home'),
+    } as Record<ShippingMethod, ReturnType<typeof getCartDeliveryPromise>>
+  }, [items])
 
   // If the cart changes (an item added/removed) and that makes the
   // currently-selected method no longer available, fall back to pickup —
@@ -81,6 +102,12 @@ export default function CartPage() {
     setIsLoading(true)
     setError('')
     setUnavailable([])
+    trackEvent('begin_checkout', {
+      currency: 'EUR',
+      value: total() + quotes[shippingMethod].cost,
+      shipping_tier: shippingMethod,
+      items_count: items.length,
+    })
     try {
       const response = await fetch('/api/checkout/create-session', {
         method: 'POST',
@@ -88,6 +115,7 @@ export default function CartPage() {
         body: JSON.stringify({
           items: items.map((item) => ({ productId: item.productId })),
           shippingMethod,
+          cgvAccepted,
           customer: {
             name: customer.name,
             phone: customer.phone,
@@ -123,7 +151,12 @@ export default function CartPage() {
       }
 
       if (response.status === 400) {
-        setError('Merci de renseigner vos coordonnées complètes avant de payer.')
+        const data = await response.json().catch(() => null)
+        setError(
+          data?.error === 'cgv-not-accepted'
+            ? 'Merci d’accepter les conditions générales de vente avant de payer.'
+            : 'Merci de renseigner vos coordonnées complètes avant de payer.'
+        )
         setIsLoading(false)
         return
       }
@@ -142,7 +175,7 @@ export default function CartPage() {
       sessionStorage.setItem('souqify-checkout-secret', clientSecret)
       router.push('/checkout')
     } catch {
-      setError('Le paiement n’a pas pu démarrer. Réessayez, ou écrivez-nous à contact@souqify.fr.')
+      setError(`Le paiement n’a pas pu démarrer. Réessayez, ou écrivez-nous à ${COMPANY.email}.`)
       setIsLoading(false)
     }
   }
@@ -341,6 +374,11 @@ export default function CartPage() {
                         <span className="block text-xs text-dust">
                           {quote.available ? SHIPPING_DETAIL[key] : UNAVAILABLE_REASON[quote.reason!]}
                         </span>
+                        {quote.available && (
+                          <span className="mt-0.5 block text-xs leading-relaxed text-ink/70">
+                            {promises[key].text}
+                          </span>
+                        )}
                       </span>
                       {quote.available && (
                         <span className={`font-mono text-sm font-semibold ${active ? 'text-verdigris-deep' : 'text-ink'}`}>
@@ -370,28 +408,77 @@ export default function CartPage() {
               </div>
             </dl>
 
+            {/*
+              Art. L111-1 : the delay has to be known before the order is
+              placed, not discovered in the confirmation email. This is
+              the exact sentence stored on the order and repeated in that
+              email, plus the date it resolves to.
+            */}
+            <p className="mt-4 rounded-lg bg-paper px-3.5 py-3 text-[13px] leading-relaxed text-ink/80">
+              {promises[shippingMethod].text}
+              <span className="mt-1 block text-dust">
+                {shippingMethod === 'pickup' ? 'Prêt' : 'Livré'} au plus tard le{' '}
+                {formatDeliveryDate(promises[shippingMethod].latestDate)}.
+              </span>
+            </p>
+
             {error && (
               <p role="alert" className="mt-3 rounded-lg bg-alert-pale px-3 py-2 text-sm text-alert">
                 {error}
               </p>
             )}
 
+            {/*
+              Unticked by default and never pre-ticked: a pre-accepted box
+              is not acceptance. The server re-checks this, because a
+              checkbox the client could simply not send would be proof of
+              nothing.
+            */}
+            <label className="mt-5 flex cursor-pointer items-start gap-2.5 text-sm text-ink">
+              <input
+                type="checkbox"
+                checked={cgvAccepted}
+                onChange={(e) => setCgvAccepted(e.target.checked)}
+                required
+                className="mt-0.5 h-4 w-4 shrink-0 accent-verdigris"
+              />
+              <span>
+                J’ai lu et j’accepte les{' '}
+                <Link href="/cgv" className="font-semibold text-verdigris-deep hover:underline">
+                  conditions générales de vente
+                </Link>{' '}
+                et la{' '}
+                <Link
+                  href="/politique-confidentialite"
+                  className="font-semibold text-verdigris-deep hover:underline"
+                >
+                  politique de confidentialité
+                </Link>
+                .
+              </span>
+            </label>
+
             <button
               onClick={handleCheckout}
-              disabled={isLoading || !customerComplete}
-              className="mt-5 w-full rounded-full bg-verdigris py-3.5 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
+              disabled={isLoading || !customerComplete || !cgvAccepted}
+              className="mt-4 w-full rounded-full bg-verdigris py-3.5 text-sm font-semibold text-stone transition-colors hover:bg-verdigris-deep disabled:opacity-60"
             >
-              {isLoading ? 'Redirection vers le paiement…' : 'Payer maintenant'}
+              {isLoading ? 'Redirection vers le paiement…' : 'Commander avec obligation de paiement'}
             </button>
             {!customerComplete && (
               <p className="mt-2 text-center text-xs text-dust">
                 Complétez vos coordonnées ci-dessus pour continuer.
               </p>
             )}
+            {customerComplete && !cgvAccepted && (
+              <p className="mt-2 text-center text-xs text-dust">
+                Acceptez les conditions générales de vente pour continuer.
+              </p>
+            )}
           </div>
 
           <p className="text-center font-mono text-[10px] uppercase tracking-widest text-dust">
-            Paiement sécurisé Stripe · TVA non applicable, art. 293 B du CGI
+            {PRICE_NOTICE}
           </p>
         </div>
       </div>

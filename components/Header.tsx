@@ -13,7 +13,7 @@ import { BRAND_SYLLABLE_SPLIT } from '@/lib/brand'
 // The category tab row that used to live here is gone — the manifest bar
 // (rendered sitewide, directly below this header) is now the only
 // navigation instrument, not a nav plus a decorative widget.
-export default function Header() {
+export default function Header({ showGuides = false }: { showGuides?: boolean }) {
   const { items } = useCart()
   const { openCart } = useUI()
   const { data: session, status } = useSession()
@@ -23,7 +23,7 @@ export default function Header() {
   const reduce = useReducedMotion()
 
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-surface/92 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-hairline bg-surface/92 backdrop-blur print:hidden">
       <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="shrink-0 leading-none" aria-label={`${BRAND_SYLLABLE_SPLIT.lead}${BRAND_SYLLABLE_SPLIT.tail} — accueil`}>
           <span className="font-display text-xl italic tracking-tight text-ink">
@@ -35,6 +35,22 @@ export default function Header() {
         </Link>
 
         <div className="flex items-center gap-2">
+          {/*
+            The category row that used to live here is still gone. This is
+            one text link, not its return: guides are a destination the
+            manifest bar cannot express, since it counts stock. It only
+            renders once a guide is actually published, so the header is
+            unchanged until there is something to click.
+          */}
+          {showGuides && (
+            <Link
+              href="/guides"
+              className="hidden rounded-full px-3 py-2 text-sm font-medium text-ink transition-colors hover:text-verdigris-deep sm:inline-flex"
+            >
+              Guides
+            </Link>
+          )}
+
           <Link
             href={status === 'authenticated' ? '/account' : '/login'}
             className="flex items-center gap-2 rounded-full border border-hairline px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-verdigris hover:text-verdigris-deep"
