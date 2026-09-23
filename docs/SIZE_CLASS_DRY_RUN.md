@@ -22,10 +22,10 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 
 | Classe | Avant | Après |
 |---|---:|---:|
-| S | 278 | 280 |
-| M | 240 | 239 |
+| S | 280 | 280 |
+| M | 239 | 239 |
 | L | 139 | 139 |
-| XL | 54 | 53 |
+| XL | 53 | 53 |
 | à vérifier | 0 | 0 |
 
 ## Tableau
@@ -746,10 +746,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 
 ## Changements vs la version précédente
 
-| Réf | Article | Ancienne classe | Nouvelle classe | Règle qui a décidé |
-|---|---|---|---|---|
-| SQ-WLZTG | vidaXL Coussin de canapé d'extérieur Polyester Gris 60 x 5 | M | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-XEY9K | vidaXL Coussin de canapé palette beige 70x70x12 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
+Aucun changement de classe.
 
 ## 20 articles S les plus lourds (à vérifier les bornes)
 
