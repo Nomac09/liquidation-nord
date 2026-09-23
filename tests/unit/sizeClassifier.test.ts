@@ -161,6 +161,44 @@ describe('classifyProductSize', () => {
     expect(result.sizeClass).toBe('S')
   })
 
+  it('newly added foldable keywords (coussin, galette, assise, dossier, taie, plaid) are checked before the rigid allowlist', () => {
+    const result = classifyProductSize({
+      name: 'vidaXL Coussin de canapé palette beige 70x70x12 cm',
+      weight: 1.8,
+      dimensions: '',
+    })
+    // "coussin" is foldable and matches first — "canapé" (rigid) is never
+    // even reached, so the 70x70x12 cm cushion dimensions are ignored.
+    expect(result.dimsCm).toBeNull()
+    expect(result.sizeClass).toBe('S')
+  })
+
+  it('does not treat an accessory reference ("housse de parasol") as the rigid item itself', () => {
+    const result = classifyProductSize({
+      name: 'vidaXL Housse de parasol Noir 200 cm Oxford',
+      weight: 0.4,
+      dimensions: '',
+    })
+    // "housse" is foldable and wins outright; even without that, "parasol"
+    // here is an accessory reference ("de parasol"), not the head noun.
+    expect(result.dimsCm).toBeNull()
+    expect(result.sizeClass).toBe('S')
+  })
+
+  it('still matches a rigid keyword as the head noun even when a different rigid keyword appears elsewhere only as an accessory reference', () => {
+    const result = classifyProductSize({
+      name: 'vidaXL Canapé de jardin avec pied de parasol assorti 200x90x85 cm',
+      weight: 20,
+      dimensions: '',
+    })
+    // "canapé" leads the name — a real head-noun match — while "parasol"
+    // only ever appears as "pied de parasol", an accessory reference that
+    // must not count on its own. The dimensions are still used, decided
+    // by "canapé".
+    expect(result.dimsCm).toEqual([200, 90, 85])
+    expect(result.sizeClass).toBe('XL')
+  })
+
   it('ignores name dimensions for a foldable/fabric item — they describe the unfolded product, not the parcel', () => {
     const result = classifyProductSize({
       name: 'vidaXL Toile de rechange pour auvent Beige 380 x 295 cm',

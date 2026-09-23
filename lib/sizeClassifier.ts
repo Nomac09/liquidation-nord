@@ -142,6 +142,12 @@ const FOLDABLE_FABRIC_KEYWORDS = [
   'brise-vue',
   'brise vue',
   'canisse',
+  'coussin',
+  'galette',
+  'assise',
+  'dossier',
+  'taie',
+  'plaid',
 ]
 
 function isFoldableFabric(name: string): boolean {
@@ -175,43 +181,55 @@ function foldableFloor(name: string): { rank: number; phrase: string | null } {
 // states — unlike flat-pack furniture, which ships as a much smaller box
 // than the assembled piece. Only these get their name dimensions used
 // for the longest-side/sum check when the supplier gives no package
-// dimensions of its own. "pied de parasol" is excluded from "parasol": a
-// parasol base ships as a compact, heavy block, not at the parasol's own
-// span.
-interface RigidRule {
-  include: string
-  exclude?: string
-}
-const RIGID_NEAR_REAL_SIZE: RigidRule[] = [
-  { include: 'parasol', exclude: 'pied de parasol' },
-  { include: 'dôme de piscine' },
-  { include: 'dome de piscine' },
-  { include: 'remorque' },
-  { include: 'arceau de tente de réception' },
-  { include: 'arceau de tente de reception' },
-  { include: 'structure de tente de réception' },
-  { include: 'structure de tente de reception' },
-  { include: 'abri' },
-  { include: 'serre' },
-  { include: 'jardinière en bois massif' },
-  { include: 'jardiniere en bois massif' },
-  { include: 'bac en bois massif' },
-  { include: 'canapé' },
-  { include: 'canape' },
-  { include: 'fauteuil' },
-  { include: 'salon de jardin' },
-  { include: 'chaise longue' },
-  { include: 'transat' },
-  { include: 'matelas' },
+// dimensions of its own.
+const RIGID_NEAR_REAL_SIZE = [
+  'parasol',
+  'dôme de piscine',
+  'dome de piscine',
+  'remorque',
+  'arceau de tente de réception',
+  'arceau de tente de reception',
+  'structure de tente de réception',
+  'structure de tente de reception',
+  'abri',
+  'serre',
+  'jardinière en bois massif',
+  'jardiniere en bois massif',
+  'bac en bois massif',
+  'canapé',
+  'canape',
+  'fauteuil',
+  'salon de jardin',
+  'chaise longue',
+  'transat',
+  'matelas',
 ]
+
+// A vidaXL product name puts the head noun first — "Parasol ...", "Canapé
+// ..." — and a name for an accessory *for* something reads "... de
+// parasol", "... pour parasol" or "... d'auvent". A rigid keyword right
+// after "de", "pour" or "d'"/"d’" names the thing the accessory is *for*,
+// not the product itself: "Housse de parasol", "Pied de parasol" and
+// "Toile pour auvent" are accessories that ship at their own, usually
+// much smaller, size — not at the referenced item's. A keyword counts as
+// the head noun only if at least one of its occurrences in the name is
+// not immediately preceded by one of those three words.
+const ACCESSORY_PREFIX = /(?:^|[^a-zà-üç])(de|pour|d['’])\s*$/i
+
+function isHeadNounMatch(normalized: string, phrase: string): boolean {
+  const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const re = new RegExp(escaped, 'gi')
+  let match: RegExpExecArray | null
+  while ((match = re.exec(normalized))) {
+    const before = normalized.slice(0, match.index)
+    if (!ACCESSORY_PREFIX.test(before)) return true
+  }
+  return false
+}
 
 function isRigidNearRealSize(name: string): boolean {
   const normalized = name.toLowerCase()
-  return RIGID_NEAR_REAL_SIZE.some(({ include, exclude }) => {
-    if (!normalized.includes(include)) return false
-    if (exclude && normalized.includes(exclude)) return false
-    return true
-  })
+  return RIGID_NEAR_REAL_SIZE.some((phrase) => isHeadNounMatch(normalized, phrase))
 }
 
 /**

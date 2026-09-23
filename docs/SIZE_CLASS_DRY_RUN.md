@@ -9,10 +9,10 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | | |
 |---|---|
 | Articles examinés | 711 |
-| Classe S | 278 |
-| Classe M | 240 |
+| Classe S | 280 |
+| Classe M | 239 |
 | Classe L | 139 |
-| Classe XL | 54 |
+| Classe XL | 53 |
 | À vérifier | 0 |
 | Via données fournisseur | 711 |
 | Via nom du produit | 0 |
@@ -22,10 +22,10 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 
 | Classe | Avant | Après |
 |---|---:|---:|
-| S | 199 | 278 |
-| M | 160 | 240 |
-| L | 76 | 139 |
-| XL | 276 | 54 |
+| S | 278 | 280 |
+| M | 240 | 239 |
+| L | 139 | 139 |
+| XL | 54 | 53 |
 | à vérifier | 0 | 0 |
 
 ## Tableau
@@ -54,7 +54,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-T4CNZ | vidaXL Filtre à sable pour piscine avec vanne 4 positions  | 3.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-85ZW3 | vidaXL Tente de piscine Tissu 590x520x250 cm Bleu | 11.1 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 34,99 € |
 | SQ-8Q3R4 | vidaXL Arceau de tente de réception 450x450x265 cm Bleu cl | 10.13 kg | — | données fournisseur — poids + plancher mot-clé « tente de réception » (article pliable/enroulable) | **L** | Point relais | 34,99 € |
-| SQ-WLZTG | vidaXL Coussin de canapé d'extérieur Polyester Gris 60 x 5 | 0.96 kg | 60 x 50.5 x 8 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **M** | Point relais | 29,99 € |
+| SQ-WLZTG | vidaXL Coussin de canapé d'extérieur Polyester Gris 60 x 5 | 0.96 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-KCFG8 | vidaXL Pouf d'Extérieur Bois d'Acacia Massif Naturel | 6.72 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-LW3KF | vidaXL Cabinet de chevet mural 2 pc Chêne artisanal 49 x 3 | 15 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-F9979 | vidaXL Tête de lit Noir Bois d'ingénierie | 14.9 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
@@ -129,7 +129,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-AM42Z | vidaXL Coffee Table Brown Oak 90x50x35 cm Engineered Wood | 7.3 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-TQ77T | vidaXL Support de moniteur chêne fumé 105x23x15,5 cm bois  | 4.02 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-Q9722 | vidaXL Meuble TV blanc 152x22x113 cm bois d'ingénierie | 25.5 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 54,99 € |
-| SQ-64NKT | vidaXL Canapé central de jardin avec coussins gris Bois de | 7.9 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **M** | Point relais | 29,99 € |
+| SQ-64NKT | vidaXL Canapé central de jardin avec coussins gris Bois de | 7.9 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
 | SQ-A47RC | vidaXL Support d'aquarium chêne sonoma 101x41x58 cm bois d | 28 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 54,99 € |
 | SQ-CK2HM | vidaXL Support pour aquarium blanc 101x41x58 cm bois d'ing | 25 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 54,99 € |
 | SQ-75XXA | vidaXL Support pour aquarium blanc 60x30x60 cm bois d'ingé | 7.2 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
@@ -151,10 +151,10 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-PKC2K | vidaXL Meuble TV Marron miel 60x35x37 cm Bois de pin massi | 7.4 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-NSQW3 | vidaXL Cadre de lit sans matelas noir bois massif 200x200  | 24.9 kg | 200 x 200 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 54,99 € |
 | SQ-RWYCH | vidaXL Bibliothèque/Séparateur de pièce Blanc 80x24x94 cm | 14.6 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
-| SQ-5VKVG | vidaXL Canapé d'angle de jardin coussins anthracite Bois d | 15.94 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 44,99 € |
+| SQ-5VKVG | vidaXL Canapé d'angle de jardin coussins anthracite Bois d | 15.94 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 44,99 € |
 | SQ-ZLNUH | vidaXL Table d'appoint Blanc 40x40x40 cm Aggloméré | 6.3 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-6P6H6 | vidaXL Canapés d'angle de jardin 2 pcs blanc bois de pin m | 19.58 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 44,99 € |
-| SQ-X4H7G | vidaXL Âne à bascule avec dossier Peluche 60x32x55 cm Gris | 3 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-X4H7G | vidaXL Âne à bascule avec dossier Peluche 60x32x55 cm Gris | 3 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-9NWDM | vidaXL Tapis en peluche en forme de léopard 139 cm Marron | 0.29 kg | — | données fournisseur — poids + plancher mot-clé « tapis » (article pliable/enroulable) | **M** | Point relais | 29,99 € |
 | SQ-GUCDD | vidaXL Armoire murale de bain blanc 100x25x30 cm bois d'in | 11.2 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-QUKWN | vidaXL Meuble bas de cuisine "Lyon" Bois d'ingénierie anci | 23.9 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 54,99 € |
@@ -179,7 +179,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-T7G6P | vidaXL Paravent 5 panneaux Tissu 600 x 80 cm Anthracite | 2.82 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-N6EW2 | vidaXL Abri de jardin 257x489x181 cm Métal Anthracite | 91.56 kg | 257 x 489 x 181 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 149,99 € |
 | SQ-QC6H8 | vidaXL Abri de stockage pour jardin Anthracite Métal 257x2 | 50.76 kg | 257 x 205 x 178 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 129,99 € |
-| SQ-W8M5S | vidaXL Siège central sectionnel 1 pc et coussins Résine tr | 8.31 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
+| SQ-W8M5S | vidaXL Siège central sectionnel 1 pc et coussins Résine tr | 8.31 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 34,99 € |
 | SQ-6LM5G | vidaXL Toile supérieure double de belvédère 310 g/m² 3x3 m | 3.54 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-ETPAK | vidaXL Chaises pliables d'extérieur lot de 4 Bois d'acacia | 19.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 44,99 € |
 | SQ-YK8N6 | vidaXL Abri de jardin Gris 116x45x175 cm Acier galvanisé | 20.78 kg | 116 x 45 x 175 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 44,99 € |
@@ -198,9 +198,9 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-VN8BY | vidaXL Rideau de porte contre insectes Bambou 120 x 220 cm | 3.4 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-7BMEN | vidaXL Rideau de porte contre insectes Bambou 100 x 220 cm | 3.6 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-GSQD7 | vidaXL Rideau de porte contre insectes Bambou 56 x 185 cm | 1.6 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
-| SQ-UNQ8P | vidaXL Salon de jardin 6 pcs avec coussins résine tressée  | 51.3 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **XL** | Domicile (Cocolis) | 129,99 € |
+| SQ-UNQ8P | vidaXL Salon de jardin 6 pcs avec coussins résine tressée  | 51.3 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **XL** | Domicile (Cocolis) | 129,99 € |
 | SQ-YJL4G | vidaXL Tente pliable 3 x 4,5 m Blanc crème | 19.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 44,99 € |
-| SQ-A69JL | vidaXL Chaise longue avec coussin et roues Résine tressée  | 14.2 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **M** | Point relais | 34,99 € |
+| SQ-A69JL | vidaXL Chaise longue avec coussin et roues Résine tressée  | 14.2 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 34,99 € |
 | SQ-BVX8V | vidaXL Jardinière 100 x 50 x 71 cm Bois | 9.25 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-HFBB6 | vidaXL Store roulant extérieur protection UV Gris clair Po | 0.773 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-6KHZA | vidaXL Store roulant extérieur protection UV Gris clair Po | 0.47 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
@@ -302,7 +302,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-UE6KY | vidaXL Voile d'ombrage gris clair 6x3 m 100% polyester oxf | 2.757 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-4GPZ6 | vidaXL Voile d'ombrage sable 3x3 m 100 % polyester oxford | 1.5 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-LQ2N3 | vidaXL Écran de balcon anthracite 90x800 cm 100% polyester | 1.6 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
-| SQ-FVBF9 | vidaXL banc avec coussin Gris clair 113 x 57 x 39 cm Velou | 8.55 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
+| SQ-FVBF9 | vidaXL banc avec coussin Gris clair 113 x 57 x 39 cm Velou | 8.55 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 34,99 € |
 | SQ-3RW96 | vidaXL Table de bistro 55x54x71 cm Bois d'acacia massif | 5.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-ATKR3 | vidaXL Coussin Gris 100 x 40 x 8 cm Tissu Oxford | 1.2 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-ES5LS | vidaXL Coussin 2 pc Tissu Oxford Beige 40 x 40 x 8 cm | 0.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
@@ -326,7 +326,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-7SM5V | vidaXL Tissu de remplacement pour auvent couleur crème 400 | 3.35 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-ZVQVE | vidaXL Tissu de remplacement pour auvent bleu et blanc 600 | 4.97 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-3LQFD | VidaXL Lit superposé sans matelas blanc 90x200 cm acier | 27.25 kg | 90 x 200 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 54,99 € |
-| SQ-5DDAY | vidaXL Mobilier de bistro 3 pcs avec coussins Bambou | 16 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 44,99 € |
+| SQ-5DDAY | vidaXL Mobilier de bistro 3 pcs avec coussins Bambou | 16 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 44,99 € |
 | SQ-SKWX7 | vidaXL Fontaine rectangulaire de piscine avec LED Inox 30  | 1.2 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-6Q5BH | vidaXL Lame d'eau rectangulaire 45 cm Acier inoxydable pou | 1.2 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-YTFQH | vidaXL Ensemble de 2 lits surélevés Bois 30x30x30 cm | 3.3 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
@@ -335,8 +335,8 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-Q9Q48 | vidaXL Rideaux en velours 2 pc Champagne 245 x 140 cm Velo | 0.76 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-82RKZ | vidaXL Rideaux occultants avec anneaux 2 pc Blanc pur 245  | 0.72 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-8PJR5 | vidaXL Étagère Murale avec étagère Marron 75 x 26 x 60 cm  | 4.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
-| SQ-VVX6V | vidaXL Canapé central sectionnel et coussins gris foncé Bo | 9.5 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **M** | Point relais | 34,99 € |
-| SQ-5K452 | vidaXL Salon de jardin 3 pcs avec coussins gris foncé Bois | 24 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 54,99 € |
+| SQ-VVX6V | vidaXL Canapé central sectionnel et coussins gris foncé Bo | 9.5 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 34,99 € |
+| SQ-5K452 | vidaXL Salon de jardin 3 pcs avec coussins gris foncé Bois | 24 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 54,99 € |
 | SQ-2Z45X | vidaXL 2 pc Ensemble bistrot Bois d'Acacia Massif Huile Na | 20.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 44,99 € |
 | SQ-CBEUR | vidaXL Housse pour meubles Uni Noir 400 x 300 x 70 cm 210D | 1.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-ZLVYR | vidaXL Housse pour meubles Noir 250 x 180 x 80 cm Tissu Ox | 0.9 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
@@ -406,7 +406,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-67CJB | vidaXL Chaise longue crème bois d'acacia solide et textilè | 11.6 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **M** | Point relais | 34,99 € |
 | SQ-SUMRK | vidaXL Filet de camouflage avec sac de rangement 6 x 8 m | 2.95 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-S4A3P | vidaXL Cadre de lit en métal sans matelas chêne fumé 120x2 | 22.65 kg | 120 x 200 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 54,99 € |
-| SQ-SB4MQ | Coussin de sécurité pour trampoline rond 14 pieds/4,26 m | 1.6 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-SB4MQ | Coussin de sécurité pour trampoline rond 14 pieds/4,26 m | 1.6 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-JV245 | vidaXL Rangement à roulettes pour poubelles pour trois bac | 28.6 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 54,99 € |
 | SQ-ZM6LA | vidaXL Support de vélo au sol autoportant pour 6 vélos aci | 11.16 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-TE2JE | vidaXL Tableau blanc magnétique 100x60x1,7 cm aluminium | 1.9 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
@@ -419,7 +419,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-GE45L | vidaXL Voûte de jardin de décoration pour rosiers | 19.84 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 44,99 € |
 | SQ-82NR7 | vidaXL Recouvrement de remplacement d'auvent 310 g/m² 3x3  | 4 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-S7HME | vidaXL Écran de balcon Blanc 75 x 700 cm HDPE et Aluminium | 0.788 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
-| SQ-QZ8CJ | vidaXL Coussins de chaise à dossier bas lot de 4 gris clai | 2.35 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-QZ8CJ | vidaXL Coussins de chaise à dossier bas lot de 4 gris clai | 2.35 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-DKF5M | vidaXL Tapis de tente sable 400x400 cm PEHD | 2.4 kg | — | données fournisseur — poids + plancher mot-clé « tapis » (article pliable/enroulable) | **M** | Point relais | 29,99 € |
 | SQ-KHZWK | vidaXL Voile d'ombrage 160 g/m² rectangulaire gris clair 3 | 2.78 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-XBGNQ | vidaXL Voile d'ombrage 160 g/m² rectangulaire orange 4x5 m | 2.76 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
@@ -432,9 +432,9 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-P25QZ | vidaXL Voile d'ombrage 160 g/m² Anthracite 2,5x2,5x3,5 m P | 0.55 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-US2UH | vidaXL Voile de parasol tissu oxford triangulaire 3x4x5 m  | 1.05 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-8JALN | vidaXL Cadre de lit sans matelas blanc 120x190 cm similicu | 20.1 kg | 120 x 190 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 44,99 € |
-| SQ-F37GH | vidaXL Coussins de chaise à dossier haut lot de 4 rouge bo | 2.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-F37GH | vidaXL Coussins de chaise à dossier haut lot de 4 rouge bo | 2.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-3ENU6 | vidaXL Coussins de chaise à dossier haut lot de 4 gris tis | 2.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
-| SQ-SHWWF | vidaXL Coussins de chaise à dossier haut lot de 6 anthraci | 4.3 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-SHWWF | vidaXL Coussins de chaise à dossier haut lot de 6 anthraci | 4.3 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-62HYG | vidaXL Coussins de chaise adirondack lot de 2 beige tissu  | 2.2 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-PGZTG | vidaXL Coussins de chaise adirondack lot de 2 crème tissu  | 4.2 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-K3N3T | vidaXL Coussins de palette lot de 3 beige tissu oxford | 2.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
@@ -455,13 +455,13 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-U23FY | vidaXL Coussin de palette beige 120x40x12 cm tissu | 1.9 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-7VHVD | vidaXL Coussin de palette beige 80x40x12 cm tissu | 1.1 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-ZMCME | vidaXL Coussin de palette beige 70x40x12 cm tissu | 1 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
-| SQ-XEY9K | vidaXL Coussin de canapé palette beige 70x70x12 cm | 1.8 kg | 70 x 70 x 12 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 29,99 € |
+| SQ-XEY9K | vidaXL Coussin de canapé palette beige 70x70x12 cm | 1.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-J4529 | vidaXL Coussins de chaise à dossier bas lot de 4 gris tiss | 5.45 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
-| SQ-FHGXP | vidaXL Coussins de chaise à dossier haut lot de 2 vert vif | 3.3 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-FHGXP | vidaXL Coussins de chaise à dossier haut lot de 2 vert vif | 3.3 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-5LLGL | vidaXL Tapis carré marron foncé 100x100 cm bambou | 1.45 kg | — | données fournisseur — poids + plancher mot-clé « tapis » (article pliable/enroulable) | **M** | Point relais | 29,99 € |
 | SQ-YZBZS | vidaXL Tapis HUARTE à poils courts doux et lavable crème 8 | 2.7 kg | — | données fournisseur — poids + plancher mot-clé « tapis » (article pliable/enroulable) | **M** | Point relais | 29,99 € |
-| SQ-UFYZ5 | vidaXL Coussin de tête de lit Hanko gris foncé 180 cm velo | 1.3 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
-| SQ-YGEB9 | vidaXL Coussin de tête de lit Hanko gris clair 140 cm velo | 1 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-UFYZ5 | vidaXL Coussin de tête de lit Hanko gris foncé 180 cm velo | 1.3 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
+| SQ-YGEB9 | vidaXL Coussin de tête de lit Hanko gris clair 140 cm velo | 1 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-2TAW8 | vidaXL Fauteuil de massage inclinable Cappuccino Similicui | 18.5 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 44,99 € |
 | SQ-GUUUA | vidaXL Tapis pour stratifié ou moquette 150x115 cm PVC | 2.54 kg | — | données fournisseur — poids + plancher mot-clé « tapis » (article pliable/enroulable) | **M** | Point relais | 29,99 € |
 | SQ-BKJC4 | vidaXL Fauteuil inclinable bleu velours | 17.9 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 44,99 € |
@@ -475,16 +475,16 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-JKXKX | vidaXL Dessus de table Ø 70x3,8 cm rond bois massif de man | 9.87 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-QYFEX | vidaXL Store roulant d'extérieur orange et blanc 150x270cm | 4.5 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-CBPHK | vidaXL Auvent rétractable crème 400x150 m tissu et acier | 7.5 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
-| SQ-942NE | vidaXL Base de parasol pour mâts Ø32/35/38 mm 25 kg rond | 25.25 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 54,99 € |
+| SQ-942NE | vidaXL Base de parasol pour mâts Ø32/35/38 mm 25 kg rond | 25.25 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 54,99 € |
 | SQ-A4QTJ | vidaXL Table de jardin gris 80x80x71 cm résine tressée et  | 13.6 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-GHGTP | vidaXL Écran de balcon avec feuilles vert 600x75 cm | 2.05 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-LS6D4 | vidaXL Chaises de jardin lot de 2 noir bois d'acacia et po | 11 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-L84WH | vidaXL Table d'appoint de jardin dessus en bois noir 100x4 | 10.6 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
-| SQ-FPJNH | vidaXL Canapé de jardin sans accoudoirs coussins gris clai | 6.6 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **M** | Point relais | 29,99 € |
-| SQ-FS3HR | vidaXL Canapé de jardin avec coussins 3 places gris résine | 21.6 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 44,99 € |
-| SQ-53PD3 | vidaXL Chaise de jardin sans accoudoirs avec coussins en p | 7 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
+| SQ-FPJNH | vidaXL Canapé de jardin sans accoudoirs coussins gris clai | 6.6 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
+| SQ-FS3HR | vidaXL Canapé de jardin avec coussins 3 places gris résine | 21.6 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 44,99 € |
+| SQ-53PD3 | vidaXL Chaise de jardin sans accoudoirs avec coussins en p | 7 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
 | SQ-R7EH8 | vidaXL Table d'appoint de jardin avec plateau en bois noir | 4.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
-| SQ-VEZXQ | vidaXL Tabouret de jardin avec coussin gris 58x46x46 cm ré | 5 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-VEZXQ | vidaXL Tabouret de jardin avec coussin gris 58x46x46 cm ré | 5 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-RBEM2 | vidaXL Armoire de rangement de jardin noir 83x45x76 cm rés | 8.6 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-C4E24 | vidaXL Table pliable de jardin 90x52,5x65 cm bois d'acacia | 7.4 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-5BLR9 | vidaXL Abri de jardin 257x392x181 cm Métal Gris | 83.72 kg | 257 x 392 x 181 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 149,99 € |
@@ -494,8 +494,8 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-UK33L | vidaXL Auvent latéral rétractable de patio 180x600 cm Crèm | 8.25 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-F7UL7 | vidaXL Porte-bûches Anthracite 40x45x170 cm Acier galvanis | 7.96 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-39PCP | vidaXL Armoire de rangement d'extérieur noir 97x37x165 cm  | 14.6 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
-| SQ-KKNC3 | vidaXL Chaises de jardin et coussins lot de 2 noir 54x60,5 | 11.2 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
-| SQ-LQ9FM | vidaXL Chaises de jardin et coussins lot de 2 noir 56,5x57 | 11.2 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
+| SQ-KKNC3 | vidaXL Chaises de jardin et coussins lot de 2 noir 54x60,5 | 11.2 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 34,99 € |
+| SQ-LQ9FM | vidaXL Chaises de jardin et coussins lot de 2 noir 56,5x57 | 11.2 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 34,99 € |
 | SQ-WS32G | vidaXL Transats Bois d'Acacia Massif Marron | 11.4 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **M** | Point relais | 34,99 € |
 | SQ-9P98H | vidaXL Housse de parasol avec fermeture éclair PE 250 cm | 0.26 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-JB6UZ | vidaXL Parasol de jardin avec mât en bois sable 300x300x27 | 10.6 kg | 300 x 300 x 273 cm | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) | **XL** | Domicile (Cocolis) | 34,99 € |
@@ -517,8 +517,8 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-Y38FF | vidaXL Lit surélevé 150x30x25 cm bois massif de teck | 11.58 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-FNU4C | vidaXL Tente à auvent beige 3x3 m acier et tissu | 15 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 34,99 € |
 | SQ-B2E2P | vidaXL Tonnelle avec toit à persienne 3x4 m Anthracite Tis | 54.05 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **XL** | Domicile (Cocolis) | 129,99 € |
-| SQ-SDYHF | vidaXL Salon de jardin 2 pcs avec coussins Gris Résine tre | 33.26 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **XL** | Domicile (Cocolis) | 109,99 € |
-| SQ-YZ3MZ | vidaXL Banc de jardin avec coussins noir 106 cm résine tre | 6.7 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
+| SQ-SDYHF | vidaXL Salon de jardin 2 pcs avec coussins Gris Résine tre | 33.26 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **XL** | Domicile (Cocolis) | 109,99 € |
+| SQ-YZ3MZ | vidaXL Banc de jardin avec coussins noir 106 cm résine tre | 6.7 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
 | SQ-BHVLS | vidaXL Store roulant d'extérieur 160x250 cm Orange et marr | 3.9 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-ETUQY | vidaXL Cloison de séparation 6 panneaux marron bois paulow | 10.55 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-XZGDG | vidaXL Cloison de séparation 3 panneaux blanc bois de paul | 5.25 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
@@ -579,17 +579,17 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-ZEYCY | vidaXL Plateau pour barbecue Argenté 118x42x30,5 cm Acier  | 5.32 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-S4ZLH | vidaXL Parasol de jardin en porte-à-faux avec double toit  | 22 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 44,99 € |
 | SQ-HXDBT | vidaXL Armoire de rangement de jardin Noir 100x55,5x80 cm  | 10 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
-| SQ-XJ3ZC | vidaXL Salon de jardin 4 pcs avec coussins Noir Résine tre | 24.03 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 54,99 € |
-| SQ-FXQJ3 | vidaXL Canapé central de jardin avec coussins gris résine  | 6.09 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **M** | Point relais | 29,99 € |
-| SQ-S3TKN | vidaXL Salon de jardin 3 pcs avec coussins Noir Résine tre | 20.7 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 44,99 € |
+| SQ-XJ3ZC | vidaXL Salon de jardin 4 pcs avec coussins Noir Résine tre | 24.03 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 54,99 € |
+| SQ-FXQJ3 | vidaXL Canapé central de jardin avec coussins gris résine  | 6.09 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
+| SQ-S3TKN | vidaXL Salon de jardin 3 pcs avec coussins Noir Résine tre | 20.7 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 44,99 € |
 | SQ-P8E3J | vidaXL Étagère à fleurs Noir 56x30x96 cm Acier | 3.46 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-P7EZK | vidaXL Housse de chaise longue 12 œillets 205x75x40 cm pol | 0.5 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-EMXYJ | vidaXL Tente de fête avec 4 parois latérales en maille Ant | 6.75 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
-| SQ-6AZAC | vidaXL Coussin de plancher de palette Coton 120x80x10 cm A | 4.2 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-6AZAC | vidaXL Coussin de plancher de palette Coton 120x80x10 cm A | 4.2 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-9X8W8 | vidaXL Lit surélevé de jardin Acier galvanisé 260x40x68 cm | 13.93 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-JK5WN | vidaXL Lit surélevé de jardin Acier galvanisé Anthracite | 6.25 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-92DG6 | vidaXL Lit surélevé de jardin Acier galvanisé Anthracite | 3.25 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
-| SQ-L6B43 | vidaXL Chaise longue à 2 places avec coussins Résine tress | 23.26 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 54,99 € |
+| SQ-L6B43 | vidaXL Chaise longue à 2 places avec coussins Résine tress | 23.26 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 54,99 € |
 | SQ-PHGJL | vidaXL Paravent 9 panneaux Tissu 1200 x 120 cm Bleu azuré | 7.24 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
 | SQ-F6J2Y | vidaXL Paravent 5 panneaux Tissu 600 x 120 cm Bleu azuré | 4.14 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-7XCM3 | vidaXL Bordures de pelouse 36 pcs Marron 10 m PP | 3.1 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
@@ -628,7 +628,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-Z4D7T | vidaXL Boules de buis artificielles 2 pcs 45 cm | 2.45 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-RGHSR | vidaXL Barbecue au charbon de bois avec roulettes | 5.68 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 29,99 € |
 | SQ-XSLQK | vidaXL Toit de tente de réception 6x3 m Bordeaux 270 g/m² | 5.29 kg | — | données fournisseur — poids + plancher mot-clé « tente de réception » (article pliable/enroulable) | **L** | Point relais | 29,99 € |
-| SQ-38E3E | vidaXL Mâts de parasol 2 pcs 200 cm Acier galvanisé | 1.9 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **S** | Point relais | 29,99 € |
+| SQ-38E3E | vidaXL Mâts de parasol 2 pcs 200 cm Acier galvanisé | 1.9 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-3GMNC | vidaXL Coussins de palette lot de 3 beige tissu oxford | 1.9 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-DEX5A | vidaXL Jardinière à treillis de jardin Gris 50x25x90 cm Bo | 2.35 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-59JPY | vidaXL Tissu de remplacement pour auvent couleur crème 450 | 4.84 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
@@ -636,7 +636,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-LL6JP | vidaXL Tissu de remplacement pour parasol d'extérieur Taup | 3.99 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-WM994 | vidaXL Tissu de remplacement pour parasol d'extérieur Vert | 3.99 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-ETBU9 | vidaXL Table de jardin Anthracite 81,5x81,5x72 cm Acier | 11.38 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
-| SQ-TLA8P | vidaXL Canapés d'angle sectionnels 2 pcs avec coussins Bla | 19.8 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **L** | Point relais | 44,99 € |
+| SQ-TLA8P | vidaXL Canapés d'angle sectionnels 2 pcs avec coussins Bla | 19.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **L** | Point relais | 44,99 € |
 | SQ-EATBA | vidaXL Voile d'ombrage 160 g/m² Blanc 4/5x3 m PEHD | 2 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-HHDKG | vidaXL Voile d'ombrage 160 g/m² Crème 3/4x3 m PEHD | 1.65 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-7PMGN | vidaXL Chaises à manger de jardin lot de 4 Résine tressée  | 23.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **L** | Point relais | 54,99 € |
@@ -673,12 +673,12 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-K6SBB | vidaXL Clapier d'extérieur 4 portes Rouge Bois | 8.68 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-YCYR4 | vidaXL Clapier d'extérieur 4 portes Gris Bois | 8.92 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
 | SQ-XQ89M | vidaXL Clapier d'extérieur 1 porte Marron Bois | 8.04 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **M** | Point relais | 34,99 € |
-| SQ-KE3FF | vidaXL Coussin réversible lavable pour chien Gris et noir  | 1.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-KE3FF | vidaXL Coussin réversible lavable pour chien Gris et noir  | 1.8 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-YE5DP | vidaXL Chariot polyvalent pliable pour animaux de compagni | 1.95 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-SLUFL | vidaXL Parc pliable pour chien avec sac de transport Noir  | 2.05 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-HBZ9T | vidaXL Panier avant de vélo avec couvercle 50x45x35 cm Sau | 1.5 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-67MDP | vidaXL Matelas pour chiens Taille XL Beige | 1.03 kg | — | données fournisseur — poids seul (article rigide, aucune dimension dans le nom) | **S** | Point relais | 29,99 € |
-| SQ-MEABQ | vidaXL Lit pour chiens avec coussin rembourré Taille XL No | 1.77 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-MEABQ | vidaXL Lit pour chiens avec coussin rembourré Taille XL No | 1.77 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-J69RQ | vidaXL Boîte d'affichage transparente 19,5x8,5x8,5 cm acry | 0.22 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-YJ98J | vidaXL Portail de jardin Anthracite 400x150 cm Acier | 81.8 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **XL** | Domicile (Cocolis) | 149,99 € |
 | SQ-TZP3M | vidaXL Bâche de chariot de jardin Vert Tissu | 0.6 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
@@ -740,7 +740,7 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-JDPXB | vidaXL Voile de parasol Tissu Oxford rectangulaire 5x7 m A | 5.61 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **M** | Point relais | 29,99 € |
 | SQ-AV9GX | vidaXL Voile de parasol tissu oxford rectangulaire 3x4,5 m | 2.25 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-6Q7M4 | vidaXL Rideaux occultants avec crochets 2 pcs Beige 140x24 | 1.72 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
-| SQ-4NYDM | vidaXL Coussin de grossesse en forme de J 54x(36-43) cm Gr | 0.45 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
+| SQ-4NYDM | vidaXL Coussin de grossesse en forme de J 54x(36-43) cm Gr | 0.45 kg | — | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) | **S** | Point relais | 29,99 € |
 | SQ-2U8CM | vidaXL Oreiller d'extérieur lot de 4 60 x 40 cm Gris | 2.2 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 | SQ-EF3D8 | vidaXL Barrière de sécurité de lit d'enfant Gris 180x42 cm | 2.32 kg | — | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) | **S** | Point relais | 29,99 € |
 
@@ -748,253 +748,15 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 
 | Réf | Article | Ancienne classe | Nouvelle classe | Règle qui a décidé |
 |---|---|---|---|---|
-| SQ-TW2KJ | vidaXL Auvent bimini à 3 arceaux Anthracite 183x180x137 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-7NMLB | vidaXL Armoire Miroir de Salle de Bain Chêne Sonoma 70 x 1 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-R37J5 | vidaXL Armoire d'évier chêne artisanal 80x33x60 cm bois d' | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-KEY32 | vidaXL Cabinet de salle de bain Blanc brillant 61 x 35 x 6 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-CFXUS | vidaXL Buffet blanc 69,5x34x90 cm bois d'ingénierie | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-EDTGH | vidaXL Table d'appoint Chêne artisanal 40 x 30 x 75 cm | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-57JPW | vidaXL Écran de confidentialité de jardin Rouillé 50 x 32  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-GYLXK | vidaXL Écran de confidentialité de jardin Fretwork Noir 32 | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-MK2HE | vidaXL Table Console chêne artisanal 75 x 28 x 75 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-BR2E5 | vidaXL Cadre de lit Brun cire 75 x 190 cm Pin massif | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ZD7BH | vidaXL Cadre de lit Marron 80 x 200 cm Bois de pin massif | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-CNC4V | vidaXL Meuble TV avec lumières LED chêne sonoma 120x35x40  | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-L5QTY | vidaXL Armoire à tiroirs "Lyon" Gris béton 80 x 46 x 81,5  | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-VC249 | vidaXL Armoire à tiroirs inférieure "Lyon" Chêne Sonoma 80 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-S7BUU | vidaXL Buffet 70x35x80 cm bois massif de pin | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-2QHML | vidaXL Banc de rangement Chêne Sonoma 102x42x45 cm Bois d' | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-6P7YA | vidaXL Tête de lit Blanc 166x4x100 cm Bois massif de pin | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-4B8P5 | vidaXL Cache-pot de jardin Argent 100 x 100 x 60 cm Acier  | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-WZ4X2 | vidaXL Armoire d'angle basse "Lyon" Blanc 75,5 x 75,5 x 81 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-KJ3XH | vidaXL Meuble bas "Lyon" Chêne artisanal 60 x 46 x 81,5 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-47X34 | vidaXL Buffet avec tiroir gris béton 71x35x65 cm bois d'in | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-SYZJV | vidaXL Jardinière noir 200x40x80 cm acier laminé à froid | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-VXNML | vidaXL Jardinière rouillé 120x40x80 cm acier inoxydable | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-MCKRL | vidaXL Jardinière rouillé 280x40x40 cm acier inoxydable | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-JYQQT | vidaXL Jardinière noir 280x40x40 cm acier laminé à froid | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-B72CJ | vidaXL Jardinière Noir 200x40x40 cm Acier laminé à froid | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-9NF6Y | vidaXL Jardinière Anthracite 120x40x40 cm Acier laminé à f | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ZF78X | vidaXL Armoire de tête de lit chêne artisanal 180x18,5x102 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-WD9FT | vidaXL Bibliothèque vieux bois 50x25x80 cm bois d'ingénier | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3YK5K | vidaXL Jardinière 32x29x75 cm acier corten | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-XYN9R | vidaXL Étagère murale blanc 167,5x18x68 cm bois d'ingénier | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-DJ7AG | vidaXL Étagère d'angle murale vieux bois 45x45x147cm bois  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ACP5T | vidaXL Meuble TV avec LED blanc 100x34x50 cm bois d'ingéni | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-SGH78 | vidaXL Meuble TV avec LED sonoma gris 139,5x34x50 cm bois  | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3DC4Y | vidaXL Buffet noir 68x39x73,5 cm acier laminé à froid | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-NHMK6 | vidaXL Jardinière 30x26x75 cm acier corten | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3QF3N | vidaXL Jardinière Rouillé 60x60x45 cm Acier corten | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-6H5EF | vidaXL Jardinière noir hexagone 69x60x45 cm acier | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-39H55 | vidaXL Armoire de salle de bain Chêne sonoma 30x30x130 cm  | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-VWGQV | vidaXL Meuble TV blanc 100,5x39x43,5 cm acier | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-QL3TH | vidaXL Buffets 2 pcs jaune moutarde 36x39x79 cm acier | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-QY87Y | vidaXL Toboggan de jeu bleu 169x38,5 cm polypropylène | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-AM42Z | vidaXL Coffee Table Brown Oak 90x50x35 cm Engineered Wood | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-TQ77T | vidaXL Support de moniteur chêne fumé 105x23x15,5 cm bois  | L | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-Q9722 | vidaXL Meuble TV blanc 152x22x113 cm bois d'ingénierie | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-A47RC | vidaXL Support d'aquarium chêne sonoma 101x41x58 cm bois d | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-CK2HM | vidaXL Support pour aquarium blanc 101x41x58 cm bois d'ing | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-7GKEF | vidaXL Toboggan de jeu bleu 210x40 cm polypropylène | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ELB69 | vidaXL Lit surélevé de jardin gris 119,5x82,5x78 cm bois d | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-8N8JA | vidaXL Jardinière avec étagère Noir 82,5x34,5x81 cm Bois m | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-KW5QX | vidaXL Meuble TV avec lumières LED Blanc 140x36,5x40 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-JN2JC | vidaXL Table basse Gris 80x40x35 cm Bois massif de pin | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-WQH3N | vidaXL Table basse Blanc brillant 80x50x36 cm Bois d'ingén | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-859KU | vidaXL Buffet haut 74x35x117 cm Bois massif de pin | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-RWYCH | vidaXL Bibliothèque/Séparateur de pièce Blanc 80x24x94 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-X4H7G | vidaXL Âne à bascule avec dossier Peluche 60x32x55 cm Gris | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-GUCDD | vidaXL Armoire murale de bain blanc 100x25x30 cm bois d'in | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-GHKMZ | vidaXL Boîte de rangement blanc 100x42x46 cm bois d'ingéni | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-7UMZD | vidaXL Armoire de cuisine avec portes coulissantes 150x40x | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-DKJVE | vidaXL Chariot de cuisine à 3 niveaux 95x45x83,5 cm Acier  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-K9ZRL | vidaXL Auvent latéral rétractable de patio 100x500 cm Gris | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-8GYMG | vidaXL Auvent latéral rétractable de patio 60x300 cm Gris | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ZXB42 | vidaXL Boîte de rangement de jardin Vert 149x99x93 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-VMLYP | vidaXL Boîte de rangement de jardin Gris 109x67x65 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-W46E2 | vidaXL Rideau de porte contre insectes Bambou 90 x 200 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-SPNWW | vidaXL Lit surélevé de jardin Anthracite 100x40x45 cm Acie | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-EQWU8 | vidaXL Lit surélevé de jardin Acier galvanisé 100x40x45 cm | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-VN8BY | vidaXL Rideau de porte contre insectes Bambou 120 x 220 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-7BMEN | vidaXL Rideau de porte contre insectes Bambou 100 x 220 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-GSQD7 | vidaXL Rideau de porte contre insectes Bambou 56 x 185 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-BVX8V | vidaXL Jardinière 100 x 50 x 71 cm Bois | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-KVQCH | vidaXL Boîte de rangement de jardin Anthracite 171x99x93 c | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-76NBD | vidaXL Boîte de rangement de jardin Marron 149x99x93 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ZH8KA | vidaXL Boîte de rangement de jardin Gris 149x99x93 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-V7KUS | vidaXL Coffre de rangement de jardin Marron 129x67x65 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-LPA9H | vidaXL Boîte de rangement de jardin Anthracite 129x67x65 c | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-25AF8 | vidaXL Boîte de rangement de jardin Gris 129x67x65 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-N8GH9 | vidaXL Écran de porte insectes avec rideau en maille Noir  | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-AAVV6 | vidaXL Store latéral rétractable Gris 600 x 220 cm Polyest | XL | M | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-TNRTE | vidaXL Auvent latéral rétractable anthracite 180x600 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-FFEPU | vidaXL Auvent latéral rétractable anthracite 200x500 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-F6J6S | vidaXL Store latéral rétractable Gris 500 x 140 cm Polyest | XL | M | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-U232J | vidaXL Auvent latéral rétractable noir 220x300 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-JNHBM | vidaXL Auvent latéral rétractable noir 180x300 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3LVC2 | vidaXL Clôture de jardin Carbonisé 300 x 80 cm Roseau | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-XH2MU | vidaXL Clôture de jardin 300x90 cm roseau | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-PGZVW | vidaXL Clôture à pointe BAARLO 200 x 200 cm Acier enduit d | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-A4VWT | vidaXL Sofa 2 places Rose 115 x 61 x 87 cm Velours | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-59RWD | vidaXL Cadre de lit avec tête de lit Gris foncé 180 x 200  | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-5JJDN | vidaXL Chaise de jardin inclinable Noir 56 x 60 x 112 cm p | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-534DV | vidaXL Banc extérieur Noir et blanc crème 107 x 61 x 80 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-DF7UL | vidaXL Boîte aux Lettres Debout avec porte Bronze 42,5 x 2 | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-PU9K4 | vidaXL Armoire à tiroirs Blanc 50x30x80 cm Bois | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-7AKMB | vidaXL Arche de mariage Blanc 223 x 45 x 201 cm Acier | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-7K9MJ | vidaXL Cadre de lit superposé pour enfants Noir et Bleu 90 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-A5JTU | vidaXL Dessus de table 180x40x2,5 cm rectangulaire bois ma | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-Y7GS5 | vidaXL Jardinière Vert Pastel 100 x 100 x 45 cm Acier | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-BHV2X | vidaXL Jardinière Anthracite 320 x 40 x 75 cm Acier | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-BJG52 | vidaXL Jardinière Anthracite 100 x 40 x 75 cm Acier | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-EYG7U | vidaXL Jardinière surélevée Marron Clair 400 x 80 x 45 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-9HAFT | vidaXL Jardinière surélevée Marron Clair 160 x 40 x 77 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3DUAB | vidaXL Porte de Jardin Noir 85 x 200 cm Acier peint par po | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-JFLAM | vidaXL Dessus de table carré 60x60x2 cm bois massif d'acac | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-7FU7Z | vidaXL table Naturel 50,5 x 50 x 46 cm Pinède imprégnée | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-RJ3F7 | vidaXL Garage tondeuse à gazon lit surélevé 110x80x60 cm F | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-RGS8V | vidaXL Cadre de lit pour enfants avec tête de lit Rose 90  | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-6YGVP | vidaXL Table à dîner de jardin 80x80x80 cm Bois de teck so | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ZHCRW | vidaXL Jardinière noir 80x40x80 cm résine tressée | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-GDKQN | vidaXL Mobilier de jardin Noir 70 x 70 x 32 cm Métal | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-WTUR7 | vidaXL Remplacement du plateau de brouette Argenté 80 x 60 | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-C2MB9 | vidaXL Clôture de jardin WOERDEN 240 x 115 cm Acier peint  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-EAGBV | vidaXL Panneau de clôture Woerden en acier thermolaqué bla | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-XH2LH | vidaXL Cache-pot de jardin 3 pc Gris 120 x 40 x 126 cm PP | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-LQ2N3 | vidaXL Écran de balcon anthracite 90x800 cm 100% polyester | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-FVBF9 | vidaXL banc avec coussin Gris clair 113 x 57 x 39 cm Velou | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3RW96 | vidaXL Table de bistro 55x54x71 cm Bois d'acacia massif | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ENU6V | vidaXL Écran de confidentialité pour balcon 140 x 140 cm P | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-U5UQV | vidaXL Auvent latéral pliable de balcon Terre cuite 140x14 | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-2P7DK | vidaXL Table d'appoint de jardin ronde Ø55x60 cm en bois d | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-Q9Q48 | vidaXL Rideaux en velours 2 pc Champagne 245 x 140 cm Velo | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-82RKZ | vidaXL Rideaux occultants avec anneaux 2 pc Blanc pur 245  | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-8PJR5 | vidaXL Étagère Murale avec étagère Marron 75 x 26 x 60 cm  | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-E76TD | vidaXL Rideau en fils 2 pcs 100 x 250 cm Beige | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-BTZPG | vidaXL Hamac avec barre 210x150 cm Marron | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-SWHPV | vidaXL Armoires de rangement avec porte Multicolore 60 x 3 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3T2BF | vidaXL Meuble TV 100x33,5x46 cm bois massif de manguier | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-JBU2X | VidaXL Rideau anti-insectes imprimé palmier 100x220 cm bam | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-N9JB5 | VidaXL Rideau anti-insectes imprimé palmier 100x200 cm bam | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-T7YW3 | VidaXL Rideau anti-insectes imprimé palmier 90x220 cm bamb | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-ZF4PT | VidaXL Rideau anti-insectes imprimé bambou 100x200 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-HCW7A | vidaXL Store plissé 70x125 cm Crème | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-CVQ2K | vidaXL Moustiquaire mongole avec portes 220 maille noir 20 | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-SKHNJ | vidaXL Buffet Marron 110x35x70 cm Bois de pin massif | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-SF3X6 | vidaXL Jardinière de jardin 100 x 45 x 90 cm Acier patiné | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-BXRLB | vidaXL Jardinière 100,5x40,5x90 cm acier résistant aux int | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-TE2JE | vidaXL Tableau blanc magnétique 100x60x1,7 cm aluminium | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-LY3GU | vidaXL Auvent latéral rétractable blanc 160x600 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-P4PFF | vidaXL Store latéral rétractable Anthracite 100 x 500 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-S94Z9 | vidaXL Store latéral rétractable Anthracite 140 x 300 cm | XL | M | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-S7HME | vidaXL Écran de balcon Blanc 75 x 700 cm HDPE et Aluminium | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-R3P3V | vidaXL Dessus de table à bord vivant 140x40x3,8cm bois mas | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-NPYTA | vidaXL Dessus de table Ø 60x1,5 cm rond bois massif de réc | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-A4QTJ | vidaXL Table de jardin gris 80x80x71 cm résine tressée et  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-GHGTP | vidaXL Écran de balcon avec feuilles vert 600x75 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-L84WH | vidaXL Table d'appoint de jardin dessus en bois noir 100x4 | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-R7EH8 | vidaXL Table d'appoint de jardin avec plateau en bois noir | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-VEZXQ | vidaXL Tabouret de jardin avec coussin gris 58x46x46 cm ré | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-RBEM2 | vidaXL Armoire de rangement de jardin noir 83x45x76 cm rés | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-C4E24 | vidaXL Table pliable de jardin 90x52,5x65 cm bois d'acacia | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-WXHGZ | vidaXL Auvent latéral rétractable Anthracite 180x1000 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-QWPR5 | vidaXL Auvent latéral rétractable de patio 200x600 cm Marr | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-UK33L | vidaXL Auvent latéral rétractable de patio 180x600 cm Crèm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-F7UL7 | vidaXL Porte-bûches Anthracite 40x45x170 cm Acier galvanis | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-39PCP | vidaXL Armoire de rangement d'extérieur noir 97x37x165 cm  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-KKNC3 | vidaXL Chaises de jardin et coussins lot de 2 noir 54x60,5 | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-LQ9FM | vidaXL Chaises de jardin et coussins lot de 2 noir 56,5x57 | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-Y38FF | vidaXL Lit surélevé 150x30x25 cm bois massif de teck | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-BHVLS | vidaXL Store roulant d'extérieur 160x250 cm Orange et marr | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-7XRJS | vidaXL Buffet 60x33x100 cm bois de manguier massif | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-8QARX | vidaXL Buffet avec 2 portes 80x33x75 cm bois massif de man | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-269XB | vidaXL Portant de bois de chauffage Noir mat 110x28x116 cm | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-JBFLV | vidaXL Commode OTTA 76,5x39,5x90 cm Bois de pin massif | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-F69R9 | vidaXL Bibliothèque 4 niveaux 80x30x110 cm Bois solide d'a | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-SMLYT | vidaXL Table de balcon Jaune 60x40 cm Acier | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-JUDVA | vidaXL Étagères murales 2 pcs 110x20x18 cm bois massif d'a | L | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-R95PH | vidaXL Étagère d'angle à 4 niveaux Marron foncé et noir 45 | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-F83SE | vidaXL Bibliothèque à 3 étagères 70 x 22,5 x 82cm Bois de  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-X5P4T | vidaXL Étagère à tiroir murale Blanc 60x23,5x10 cm MDF | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-W3GG5 | vidaXL Étagères murales flottantes 2 pcs Gris 60x23,5x3,8  | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-DJ9W5 | vidaXL Rideaux occultants Aspect lin avec œillets 2 pcs Ve | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-4CTVS | vidaXL Cloison de séparation 6 panneaux Anthracite 300x180 | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ZEYCY | vidaXL Plateau pour barbecue Argenté 118x42x30,5 cm Acier  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-HXDBT | vidaXL Armoire de rangement de jardin Noir 100x55,5x80 cm  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-P8E3J | vidaXL Étagère à fleurs Noir 56x30x96 cm Acier | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-6AZAC | vidaXL Coussin de plancher de palette Coton 120x80x10 cm A | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-9X8W8 | vidaXL Lit surélevé de jardin Acier galvanisé 260x40x68 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3CBUJ | vidaXL Jardinière avec treillis Marron 120 x 40 x 136 cm P | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-EKVMU | vidaXL Jardinière avec treillis Marron 120 x 40 x 121,5 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-223H3 | vidaXL Auvent latéral rétractable Crème 180x1200 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-LD9HG | vidaXL Auvent latéral rétractable de patio 117x600 cm Gris | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-P62K3 | vidaXL Auvent latéral de patio 160x300 cm Couleur crème | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-UD5D2 | vidaXL Auvent latéral rétractable de patio 120x300 cm Marr | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-4NBPM | vidaXL Store roulant d'extérieur 150 x 270 cm Crème | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-9R7J8 | vidaXL Store roulant d'extérieur 200 x 270 cm Anthracite | XL | M | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-3MSPU | vidaXL Auvent rétractable 400x150 cm Anthracite | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-RWLQT | vidaXL Lit surélevé de jardin Acier galvanisé 400x80x77 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-4WKKG | vidaXL Lit surélevé de jardin Anthracite 160x40x45 cm Acie | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-9T85U | vidaXL Lit surélevé de jardin Anthracite 320x80x45 cm Acie | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-W3XLA | vidaXL Lit surélevé de jardin Acier galvanisé 240x40x45 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-AY568 | vidaXL Lit surélevé de jardin Acier galvanisé 240x40x77 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-K2RFW | vidaXL Lit surélevé de jardin Acier galvanisé 240x40x77 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-P53WH | vidaXL Lit surélevé de jardin Acier galvanisé 240x80x77 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-PWTY6 | vidaXL Lit surélevé de jardin Acier galvanisé 240x80x77 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-5NLQA | vidaXL Jardinière surélevée Anthracite 160x80x77 cm Acier  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-P3N2B | vidaXL Lit surélevé de jardin 160x40x45 cm Acier galvanisé | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-YYSXA | vidaXL Lit surélevé de jardin 320x40x77 cm Acier galvanisé | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-DQ8SX | vidaXL Lit surélevé de jardin 240x80x45 cm Acier galvanisé | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-SU4UV | vidaXL Lit surélevé 120x40x23 cm Polypropylène | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3NPMZ | vidaXL Pergola avec portail 116x40x204 cm Bois de sapin ma | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-DEX5A | vidaXL Jardinière à treillis de jardin Gris 50x25x90 cm Bo | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ETBU9 | vidaXL Table de jardin Anthracite 81,5x81,5x72 cm Acier | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-EUYMF | vidaXL Lit surélevé 120x40x38 cm Polypropylène | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-7FEW5 | vidaXL Table de jardin 200x100x75 cm Bois d'acacia solide | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-7ZUYM | vidaXL Chevalet noir 53,5x95x127 cm bois de pin massif | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-Q24BG | vidaXL Panier à bois de chauffage poignées de transport 56 | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-996M4 | vidaXL Rideau de porte Bambou 90 x 200 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-4EQ8A | vidaXL Store roulant Bambou Marron 100x160 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-ZKLH9 | vidaXL Moustiquaire Gris et blanc 90x220 cm Chenille | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-QLR23 | vidaXL Lampes de studio professionnelles 2 pcs 40x60 cm Ac | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-H3X34 | vidaXL Maison à oiseaux marron 60x58,5x160 cm bois massif  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-RLWMY | vidaXL Poulailler 268x100x190 cm métal | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-8Y5MC | vidaXL Cage pour poules Gris 200x91x100 cm Acier galvanisé | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-65WLZ | vidaXL Chenil extérieur avec toit 400x200x150 cm | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3DFHU | vidaXL Clapier large d'extérieur Gris et blanc 145x45x84 c | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-KE3FF | vidaXL Coussin réversible lavable pour chien Gris et noir  | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-SLUFL | vidaXL Parc pliable pour chien avec sac de transport Noir  | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-D2E4F | vidaXL Moustiquaire pour fenêtres Anthracite 90x120 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-7GY2A | vidaXL Jardinière avec treillis Blanc 80x40x136 cm PP | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-2K6GP | vidaXL Portail de jardin 100x175 cm en acier Corten, desig | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ZCGUV | vidaXL Portail de jardin 100x175 cm acier corten conceptio | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-8DEPK | vidaXL Portail de jardin 100x100 cm en acier Corten avec m | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-DYKHZ | vidaXL Portail de jardin Anthracite 100x100 cm Acier Desig | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-ARAH8 | vidaXL Portail de jardin Anthracite 100x200 cm Acier Desig | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-DNAZH | vidaXL Volière argenté 179x100x185 cm aluminium | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-MDX32 | vidaXL Panier de gabion avec couvercle Fil galvanisé 150x1 | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-5DGMJ | vidaXL Lit surélevé de jardin rouillé 480x80x45 cm acier c | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-Z894K | vidaXL Lit surélevé de jardin rouillé 320x40x45 cm acier c | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-K35FV | vidaXL Lit surélevé de jardin rouillé 160x40x77 cm acier c | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-BD66H | vidaXL Lit surélevé de jardin rouillé 100x100x45 cm acier  | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-W998D | vidaXL Mur en gabion avec couvercles Acier galvanisé 300x3 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-3YE3H | vidaXL Paroi de douche pliable Verre ESG demi-dépoli 80x19 | XL | L | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-YQ3W2 | vidaXL Receveur de douche SMC Marron 120x70 cm | XL | M | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-AKRE8 | vidaXL Moustiquaire plissée pour fenêtre Aluminium 80x120  | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-BL2SU | vidaXL Clôture Bambou 1000 x 30 cm | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-MT5UQ | vidaXL Moustiquaire plissée pour fenêtre et store Aluminiu | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-HUXT5 | vidaXL Moustiquaire plissée pour fenêtre et store Aluminiu | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-CUHR4 | vidaXL Moustiquaire plissée pour fenêtre 160 x 80 cm avec  | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-6Q7M4 | vidaXL Rideaux occultants avec crochets 2 pcs Beige 140x24 | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
-| SQ-2U8CM | vidaXL Oreiller d'extérieur lot de 4 60 x 40 cm Gris | M | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-EF3D8 | vidaXL Barrière de sécurité de lit d'enfant Gris 180x42 cm | XL | S | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
+| SQ-WLZTG | vidaXL Coussin de canapé d'extérieur Polyester Gris 60 x 5 | M | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
+| SQ-XEY9K | vidaXL Coussin de canapé palette beige 70x70x12 cm | XL | S | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
 
 ## 20 articles S les plus lourds (à vérifier les bornes)
 
 | Réf | Article | Poids | Règle |
 |---|---|---:|---|
 | SQ-2P7DK | vidaXL Table d'appoint de jardin ronde Ø55x60 cm en bois d | 5 kg | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
-| SQ-VEZXQ | vidaXL Tabouret de jardin avec coussin gris 58x46x46 cm ré | 5 kg | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
+| SQ-VEZXQ | vidaXL Tabouret de jardin avec coussin gris 58x46x46 cm ré | 5 kg | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
 | SQ-R95PH | vidaXL Étagère d'angle à 4 niveaux Marron foncé et noir 45 | 5 kg | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
 | SQ-ZVQVE | vidaXL Tissu de remplacement pour auvent bleu et blanc 600 | 4.97 kg | données fournisseur — poids seul (article pliable/enroulable, dimensions du nom ignorées) |
 | SQ-N79BS | vidaXL Étagères murales 2 pcs 40x24x35 cm Bois d'acacia et | 4.95 kg | données fournisseur — poids seul (dimensions du nom non fiables pour cette catégorie, ex. meuble en kit) |
@@ -1019,7 +781,6 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | Réf | Article | Poids | Classe | Règle |
 |---|---|---:|---|---|
 | SQ-M52NV | vidaXL Paroi de tente de réception 2 pcs avec fenêtre PE B | 0.9 kg | L | données fournisseur — poids + plancher mot-clé « tente de réception » (article pliable/enroulable) |
-| SQ-XEY9K | vidaXL Coussin de canapé palette beige 70x70x12 cm | 1.8 kg | XL | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) |
 | SQ-E93N5 | vidaXL Toit de tente de réception 3 x 3 m Anthracite | 2.34 kg | L | données fournisseur — poids + plancher mot-clé « tente de réception » (article pliable/enroulable) |
 | SQ-5EBMA | vidaXL Toit de tente de réception 3 x 3 m Crème | 2.56 kg | L | données fournisseur — poids + plancher mot-clé « tente de réception » (article pliable/enroulable) |
 | SQ-V6EEA | vidaXL Parasol de jardin Taupe 294 x 150 x 224 cm Polyeste | 3.75 kg | XL | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) |
@@ -1038,4 +799,5 @@ Poids max 30 kg, plus grande dimension ≤ 120 cm, somme des trois dimensions �
 | SQ-JKCW5 | vidaXL Tente de réception avec parois latérales 2,5x2,5 m  | 6.66 kg | L | données fournisseur — poids + plancher mot-clé « tente de réception » (article pliable/enroulable) |
 | SQ-VBBCR | vidaXL Abri pour robot de jardin 92x97x63cm Acier galvanis | 7.51 kg | XL | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) |
 | SQ-5EKMP | vidaXL Parasol de jardin avec lumières LED et base 300 x 3 | 7.7 kg | XL | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) |
+| SQ-QN86U | vidaXL Fauteuil Gris clair 62x79x79 cm Velours | 7.75 kg | XL | données fournisseur — poids + dimensions du nom (article rigide proche de sa taille réelle) |
 
