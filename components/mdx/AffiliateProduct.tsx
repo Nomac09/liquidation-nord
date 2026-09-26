@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { ExternalLink, Check, Minus } from 'lucide-react'
 import AffiliateDisclosure from '@/components/mdx/AffiliateDisclosure'
 import { trackAffiliateClick } from '@/lib/analytics'
-import { AMAZON_ASSOCIATE_TAG } from '@/lib/company'
+import { withAssociateTag } from '@/lib/affiliate'
 
 export interface AffiliateProductProps {
   /** Internal id, e.g. "amz-toile-auvent-3x4". Stable across edits. */
@@ -49,18 +49,6 @@ export interface AffiliateProductProps {
  * own cards, no cart affordance, no strikethrough, no discount badge, and
  * the seller named on the card itself.
  */
-/**
- * Appends the Amazon Associates tag from the single source of truth,
- * discarding any tag= a guide's MDX might carry (a stale one there could
- * otherwise silently override the current tag and misattribute commission).
- */
-function withAssociateTag(url: string): string {
-  const parsed = new URL(url)
-  parsed.searchParams.delete('tag')
-  parsed.searchParams.set('tag', AMAZON_ASSOCIATE_TAG)
-  return parsed.toString()
-}
-
 export default function AffiliateProduct({
   id,
   merchant,
