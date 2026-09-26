@@ -57,6 +57,15 @@ const RETIRED_PATTERNS = [
 // The CGV draft banner. Task 4 removes it; this keeps it from coming back.
 const DRAFT_PATTERN = { re: /Brouillon de travail/i, label: '"Brouillon de travail" banner' }
 
+// Amazon Associates tag placeholders. A guide shipped with one of these
+// still in it either sends no commission anywhere, or — if a reader's
+// browser extension or a cached copy fills in someone else's tag — sends
+// it to the wrong account. Neither is a "fix it later" typo.
+const AFFILIATE_TAG_PLACEHOLDERS = [
+  { re: /AMAZON_TAG_TODO/, label: 'AMAZON_TAG_TODO placeholder' },
+  { re: /VOTRE-TAG-ICI/, label: 'VOTRE-TAG-ICI placeholder' },
+]
+
 function walk(dir, out = []) {
   let entries
   try {
@@ -187,6 +196,10 @@ for (const file of files) {
     }
     if (DRAFT_PATTERN.re.test(line)) {
       problems.push({ at, why: `retired ${DRAFT_PATTERN.label}` })
+    }
+
+    for (const { re, label } of AFFILIATE_TAG_PLACEHOLDERS) {
+      if (re.test(line)) problems.push({ at, why: `unfilled ${label}` })
     }
 
     // An unfilled COMPANY.* field being rendered.
