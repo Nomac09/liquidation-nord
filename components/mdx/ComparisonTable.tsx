@@ -1,5 +1,18 @@
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
+import { withAssociateTag } from '@/lib/affiliate'
+
+const AMAZON_HOSTS = new Set(['amazon.fr', 'www.amazon.fr'])
+
+/** Only an Amazon host gets the Associates tag; any other affiliate href passes through untouched. */
+function resolveHref(href: string): string {
+  try {
+    if (AMAZON_HOSTS.has(new URL(href).host)) return withAssociateTag(href)
+  } catch {
+    // Malformed or relative href: render it as given.
+  }
+  return href
+}
 
 export interface ComparisonRow {
   product: string
@@ -50,7 +63,7 @@ export default function ComparisonTable({ rows }: { rows: ComparisonRow[] }) {
               <td className="px-4 py-3">
                 {row.affiliate ? (
                   <a
-                    href={row.href}
+                    href={resolveHref(row.href)}
                     target="_blank"
                     rel="sponsored nofollow noopener"
                     className="inline-flex items-center gap-1.5 font-semibold text-verdigris-deep underline underline-offset-2 hover:text-ink"

@@ -151,3 +151,10 @@ export const PRICE_NOTICE = `Prix TTC, TVA ${VAT_RATE_LABEL} incluse · Paiement
 /** Non-affiliation notice, required wherever the vidaXL name is used. */
 export const VIDAXL_DISCLAIMER =
   "Souqify n’est pas affilié à vidaXL. Les marques citées appartiennent à leurs propriétaires."
+
+/**
+ * Amazon Associates tracking id. The single source of truth: nothing else
+ * in the codebase or in an MDX guide should hardcode a tag= value, since a
+ * stale one would misattribute commission on every link that carries it.
+ */
+export const AMAZON_ASSOCIATE_TAG = "souqify-21"

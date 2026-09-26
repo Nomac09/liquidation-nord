@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { ExternalLink, Check, Minus } from 'lucide-react'
 import AffiliateDisclosure from '@/components/mdx/AffiliateDisclosure'
 import { trackAffiliateClick } from '@/lib/analytics'
+import { withAssociateTag } from '@/lib/affiliate'
 
 export interface AffiliateProductProps {
   /** Internal id, e.g. "amz-toile-auvent-3x4". Stable across edits. */
@@ -11,7 +12,12 @@ export interface AffiliateProductProps {
   merchant: 'amazon' | 'awin' | 'affilae'
   merchantName: string
   name: string
-  /** Full tagged URL. Points straight at the merchant, never via a redirect. */
+  /**
+   * Merchant URL, untagged. Points straight at the merchant, never via a
+   * redirect. For merchant="amazon" the Associates tag is appended by this
+   * component from AMAZON_ASSOCIATE_TAG; any tag= already on the URL is
+   * discarded first, so a stale one in the MDX can't override it.
+   */
   url: string
   reason: string
   pros: string[]
@@ -68,6 +74,8 @@ export default function AffiliateProduct({
     })
   }
 
+  const href = merchant === 'amazon' ? withAssociateTag(url) : url
+
   return (
     <div
       data-testid="affiliate-card"
@@ -119,7 +127,7 @@ export default function AffiliateProduct({
 
           <div className="mt-4">
             <a
-              href={url}
+              href={href}
               target="_blank"
               rel="sponsored nofollow noopener"
               onClick={onClick}
